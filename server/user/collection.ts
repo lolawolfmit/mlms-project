@@ -143,6 +143,36 @@ class UserCollection {
     
     return followingSet;
   }
+
+
+  /**
+   * 
+   * @param followerId - id of user who will follow followeeId
+   * @param followeeId - id of user who will be followed
+   */
+  static async follow(followerId: Types.ObjectId | string, followeeId: Types.ObjectId | string): Promise<void>{
+    const follower = await UserModel.findOne({_id: followerId});
+    const followee = await UserModel.findOne({_id: followeeId});
+
+    follower.following.add(followee);
+
+  }
+
+
+  /**
+   * 
+   * @param followerId - id of user who is user who is following followeeId
+   * @param followeeId - id of user who is being followed
+   */
+  static async unfollow(followerId: Types.ObjectId | string, followeeId: Types.ObjectId | string): Promise<void>{
+    const follower = await UserModel.findOne({_id: followerId});
+    const followee = await UserModel.findOne({_id: followeeId});
+
+    follower.following.delete(followee);
+
+  }
+
+
 }
 
 export default UserCollection;
