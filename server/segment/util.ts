@@ -6,6 +6,8 @@ type SegmentResponse = {
   _id: string;
   author: string;
   datePublished: string;
+  storyTitle: string;
+  segmentTitle: string;
   content: string;
   parent: string;
 };
@@ -38,6 +40,8 @@ const constructSegmentResponse = (segment: HydratedDocument<Segment>): SegmentRe
     _id: segmentCopy._id.toString(),
     author: username,
     datePublished: formatDate(segment.datePublished),
+    storyTitle: segment.storyTitle,
+    segmentTitle: segment.segmentTitle,
     parent: segmentCopy.parent.toString()
   };
 };
