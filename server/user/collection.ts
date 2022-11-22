@@ -19,9 +19,10 @@ class UserCollection {
    * @return {Promise<HydratedDocument<User>>} - The newly created user
    */
   static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
-    const dateJoined = new Date();
 
-    const user = new UserModel({username, password, dateJoined});
+    const following = new Set<User>;
+    const deletedStatus = false;
+    const user = new UserModel({username, password, following, deletedStatus});
     await user.save(); // Saves user to MongoDB
     return user;
   }
@@ -88,8 +89,59 @@ class UserCollection {
    * @return {Promise<Boolean>} - true if the user has been deleted, false otherwise
    */
   static async deleteOne(userId: Types.ObjectId | string): Promise<boolean> {
-    const user = await UserModel.deleteOne({_id: userId});
-    return user !== null;
+    const user = await UserModel.findOne({_id: userId});
+    user.deletedStatus = true;
+    return user.deletedStatus;
+  }
+
+
+
+
+  /**
+   * 
+   * Checks if userId follows followeeId
+   * 
+   * @param userId - The userId of the user who may be a follower of followeeId
+   * @param followeeId  - The id of the user userId may be following
+   * @returns - boolean for whether userId follows followeeId
+   */
+  static async isFollowing(userId: Types.ObjectId | string, followeeId: Types.ObjectId | string): Promise<boolean>{
+    const followee = await UserModel.findOne({_id: followeeId});
+    const user = await UserModel.findOne({_id: userId});
+    return user.following.has(followee);
+  }
+
+
+  /**
+   * 
+   * Gets the followers of userId
+   * 
+   * @param userId The userId of the user followers follow
+   * @return {Promise<Set<User>>} - the list of users that follow userId
+   */
+  static async findFollowers(userId: Types.ObjectId | string): Promise<Set<User>>{
+    const followers = new Set<User>;
+    const allUsers = await UserModel.find({});
+    for (const potentialFollower of allUsers){
+      const isFollowed = await this.isFollowing(userId, potentialFollower._id);
+      if (isFollowed){
+        followers.add(potentialFollower);
+      }
+    }
+    return followers; //having maping util
+  }
+
+
+  /**
+   * 
+   * @param userId - userId of the user whose following list will be retrieved
+   * @returns {Promise<Set<User>>} - the list of users userId follows
+   */
+  static async findFollowing(userId: Types.ObjectId | string): Promise<Set<User>>{
+    const user = await UserModel.findOne({_id: userId});
+    const followingSet = user.following; //have mapping util
+    
+    return followingSet;
   }
 }
 

@@ -11,7 +11,16 @@ export type User = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   username: string;
   password: string;
-  dateJoined: Date;
+  following: Set<User>;
+  deletedStatus: boolean;
+};
+
+export type PopulatedUser = {
+  _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
+  username: string;
+  password: string;
+  following: Set<User>;
+  deletedStatus: boolean;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -28,9 +37,14 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  // The date the user joined
-  dateJoined: {
-    type: Date,
+  // The set of users the user followers
+  following: {
+    type: Set,
+    required: true
+  },
+  // boolean noting whether user's account is deleting
+  deletedStatus: {
+    type: Boolean,
     required: true
   }
 });
