@@ -20,7 +20,7 @@ class UserCollection {
    */
   static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
 
-    const following = new Set<User>;
+    const following = new Array<User>;
     const deletedStatus = false;
     const user = new UserModel({username, password, following, deletedStatus});
     await user.save(); // Saves user to MongoDB
@@ -108,7 +108,15 @@ class UserCollection {
   static async isFollowing(userId: Types.ObjectId | string, followeeId: Types.ObjectId | string): Promise<boolean>{
     const followee = await UserModel.findOne({_id: followeeId});
     const user = await UserModel.findOne({_id: userId});
-    return user.following.has(followee);
+
+    for (const target in user.following){
+      const potentialFollowee = await UserModel.findOne({_id: target});
+      if (potentialFollowee._id === followee._id){
+        return true;
+      }
+    }
+
+    return false;
   }
 
 
@@ -117,15 +125,15 @@ class UserCollection {
    * Gets the followers of userId
    * 
    * @param userId The userId of the user followers follow
-   * @return {Promise<Set<User>>} - the list of users that follow userId
+   * @return {Promise<Array<User>>} - the list of users that follow userId
    */
-  static async findFollowers(userId: Types.ObjectId | string): Promise<Set<User>>{
-    const followers = new Set<User>;
+  static async findFollowers(userId: Types.ObjectId | string): Promise<Array<User>>{
+    const followers = new Array<User>;
     const allUsers = await UserModel.find({});
     for (const potentialFollower of allUsers){
       const isFollowed = await this.isFollowing(userId, potentialFollower._id);
       if (isFollowed){
-        followers.add(potentialFollower);
+        followers.push(potentialFollower);
       }
     }
     return followers; //having maping util
@@ -135,13 +143,13 @@ class UserCollection {
   /**
    * 
    * @param userId - userId of the user whose following list will be retrieved
-   * @returns {Promise<Set<User>>} - the list of users userId follows
+   * @returns {Promise<Array<User>>} - the list of users userId follows
    */
-  static async findFollowing(userId: Types.ObjectId | string): Promise<Set<User>>{
+  static async findFollowing(userId: Types.ObjectId | string): Promise<Array<User>>{
     const user = await UserModel.findOne({_id: userId});
-    const followingSet = user.following; //have mapping util
+    const followingArray = user.following; //have mapping util
     
-    return followingSet;
+    return followingArray;
   }
 
 
@@ -154,7 +162,7 @@ class UserCollection {
     const follower = await UserModel.findOne({_id: followerId});
     const followee = await UserModel.findOne({_id: followeeId});
 
-    follower.following.add(followee);
+    follower.following.push(followee);
 
   }
 
@@ -168,8 +176,9 @@ class UserCollection {
     const follower = await UserModel.findOne({_id: followerId});
     const followee = await UserModel.findOne({_id: followeeId});
 
-    follower.following.delete(followee);
-
+    const index = follower.following.indexOf(followee);
+    delete follower.following[index];
+    
   }
 
 

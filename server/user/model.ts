@@ -11,7 +11,7 @@ export type User = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   username: string;
   password: string;
-  following: Set<User>;
+  following: Array<User>;
   deletedStatus: boolean;
 };
 
@@ -19,7 +19,7 @@ export type PopulatedUser = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   username: string;
   password: string;
-  following: Set<User>;
+  following: Array<User>;
   deletedStatus: boolean;
 };
 
@@ -37,9 +37,9 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  // The set of users the user followers
+  // The array of users the user followers
   following: {
-    type: Set,
+    type: Array,
     required: true
   },
   // boolean noting whether user's account is deleting
