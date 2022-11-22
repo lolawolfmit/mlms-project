@@ -2,32 +2,28 @@ import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
 import type {User} from '../user/model';
 
-/**
- * This file defines the properties stored in a Freet
- * DO NOT implement operations here ---> use collection file
- */
 
-// Type definition for Freet on the backend
-export type Freet = {
+// Type definition for storySegment on the backend
+export type Segment = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  authorId: Types.ObjectId;
-  dateCreated: Date;
+  authorId: Types.ObjectId; // username of the author
+  datePublished: Date;
   content: string;
-  dateModified: Date;
+  parent: Types.ObjectId;
 };
 
-export type PopulatedFreet = {
+export type PopulatedSegment = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  authorId: User;
-  dateCreated: Date;
+  authorId: User; // username of the author
+  datePublished: Date;
   content: string;
-  dateModified: Date;
+  parent: Types.ObjectId;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
 // Freets stored in this table will have these fields, with the
 // type given by the type property, inside MongoDB
-const FreetSchema = new Schema<Freet>({
+const SegmentSchema = new Schema<Segment>({
   // The author userId
   authorId: {
     // Use Types.ObjectId outside of the schema
@@ -35,22 +31,22 @@ const FreetSchema = new Schema<Freet>({
     required: true,
     ref: 'User'
   },
-  // The date the freet was created
-  dateCreated: {
+  // The date the storySegment was published
+  datePublished: {
     type: Date,
     required: true
   },
-  // The content of the freet
+  // The content of the story segment
   content: {
     type: String,
     required: true
   },
-  // The date the freet was modified
-  dateModified: {
-    type: Date,
+  // The parent of the segment
+  parent: {
+    type: Schema.Types.ObjectId,
     required: true
   }
 });
 
-const FreetModel = model<Freet>('Freet', FreetSchema);
-export default FreetModel;
+const SegmentModel = model<Segment>('Segment', SegmentSchema);
+export default SegmentModel;
