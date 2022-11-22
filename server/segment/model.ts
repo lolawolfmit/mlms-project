@@ -8,6 +8,8 @@ export type Segment = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: Types.ObjectId; // username of the author
   datePublished: Date;
+  storyTitle: string;
+  segmentTitle: string;
   content: string;
   parent: Types.ObjectId;
 };
@@ -20,9 +22,7 @@ export type PopulatedSegment = {
   parent: Types.ObjectId;
 };
 
-// Mongoose schema definition for interfacing with a MongoDB table
-// Freets stored in this table will have these fields, with the
-// type given by the type property, inside MongoDB
+
 const SegmentSchema = new Schema<Segment>({
   // The author userId
   authorId: {
@@ -34,6 +34,16 @@ const SegmentSchema = new Schema<Segment>({
   // The date the storySegment was published
   datePublished: {
     type: Date,
+    required: true
+  },
+  // The title of the story
+  storyTitle: {
+    type: String,
+    required: true
+  },
+  // The title of the segment
+  segmentTitle: {
+    type: String,
     required: true
   },
   // The content of the story segment
