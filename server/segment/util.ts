@@ -42,7 +42,7 @@ const constructSegmentResponse = (segment: HydratedDocument<Segment>): SegmentRe
     datePublished: formatDate(segment.datePublished),
     storyTitle: segment.storyTitle,
     segmentTitle: segment.segmentTitle,
-    parent: segmentCopy.parent.toString()
+    parent: segmentCopy.parent? segmentCopy.parent.toString() : "none"
   };
 };
 

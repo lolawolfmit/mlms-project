@@ -65,7 +65,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
-    const segment = await SegmentCollection.addSegment(userId, req.body.content, req.body.storyTitle, req.body.segmentTitle, req.body.parent);
+    const segment = await SegmentCollection.addSegment(userId, req.body.content, req.body.storyTitle, req.body.segmentTitle, null);
 
     res.status(201).json({
       message: "Your segment has been created successfully.",

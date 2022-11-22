@@ -5,34 +5,20 @@
   <main>
     <section>
       <header>
-        <h2>Account settings for @{{ $store.state.username }}</h2>
+        <h2>Begin your story</h2>
       </header>
-      <ChangeUsernameForm />
-      <ChangePasswordForm />
-    </section>
-    <section>
-      <header>
-        <h2>Account management</h2>
-      </header>
-      <LogoutForm />
-      <DeleteAccountForm />
+      <CreateStoryForm />
     </section>
   </main>
 </template>
 
 <script>
-import ChangeUsernameForm from '@/components/Account/ChangeUsernameForm.vue';
-import ChangePasswordForm from '@/components/Account/ChangePasswordForm.vue';
-import DeleteAccountForm from '@/components/Account/DeleteAccountForm.vue';
-import LogoutForm from '@/components/Account/LogoutForm.vue';
+import CreateStoryForm from '@/components/NewStory/CreateStoryForm.vue';
 
 export default {
   name: 'NewStoryPage',
   components: {
-    ChangeUsernameForm,
-    ChangePasswordForm,
-    DeleteAccountForm,
-    LogoutForm
+    CreateStoryForm
   }
 };
 </script>

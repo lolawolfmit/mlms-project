@@ -11,7 +11,7 @@ class SegmentCollection {
    * @param {string} parent - The parent of the segment
    * @returns {Promise<HydratedDocument<Segment>>} - The newly created segment
    */
-  static async addSegment(authorId: Types.ObjectId | string, content: string, storyTitle: string, segmentTitle: string, parent: Types.ObjectId | string): Promise<HydratedDocument<Segment>> {
+  static async addSegment(authorId: Types.ObjectId | string, content: string, storyTitle: string, segmentTitle: string, parent: Types.ObjectId | null): Promise<HydratedDocument<Segment>> {
     const segment = new SegmentModel({
       authorId,
       datePublished: new Date(),

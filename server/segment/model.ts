@@ -56,7 +56,7 @@ const SegmentSchema = new Schema<Segment>({
   // The parent of the segment
   parent: {
     type: Schema.Types.ObjectId,
-    required: true
+    required: false
   }
 });
 
