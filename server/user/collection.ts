@@ -91,6 +91,7 @@ class UserCollection {
   static async deleteOne(userId: Types.ObjectId | string): Promise<boolean> {
     const user = await UserModel.findOne({_id: userId});
     user.deletedStatus = true;
+    await user.save();
     return user.deletedStatus;
   }
 
@@ -163,7 +164,7 @@ class UserCollection {
     const followee = await UserModel.findOne({_id: followeeId});
 
     follower.following.push(followee);
-
+    await follower.save();
   }
 
 
@@ -178,7 +179,9 @@ class UserCollection {
 
     const index = follower.following.indexOf(followee);
     delete follower.following[index];
-    
+
+    await follower.save()
+
   }
 
 
