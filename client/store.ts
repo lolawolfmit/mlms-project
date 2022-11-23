@@ -12,6 +12,8 @@ const store = new Vuex.Store({
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
+    currentlyReading: null, // id of the story segment currently being read (last one that was clicked)
+    storySegments: [],
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
@@ -37,6 +39,14 @@ const store = new Vuex.Store({
        * @param filter - Username of the user to fitler freets by
        */
       state.filter = filter;
+    },
+    async refreshSegments(state) {
+      /**
+       * Request the server for the currently available segments
+       */
+      const url = '/api/segment';
+      const res = await fetch(url).then(async r => r.json());
+      state.storySegments = res;
     },
     updateFreets(state, freets) {
       /**

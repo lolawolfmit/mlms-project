@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: 'SegmentPreviewComponent',
+  name: 'SegmentViewComponent',
   props: {
     // Data from the stored freet
     freet: {

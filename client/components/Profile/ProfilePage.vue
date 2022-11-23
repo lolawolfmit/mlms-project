@@ -10,69 +10,39 @@
         <h3>a followers, b following</h3>
       </header>
       <button @click="newStoryPage">Create New Story</button>
-      <CreateFreetForm />
-    </section>
-    <section v-else>
-      <header>
-        <h2>Welcome to Fritter!</h2>
-      </header>
-      <article>
-        <h3>
-          <router-link to="/login">
-            Sign in
-          </router-link>
-          to create, edit, and delete freets.
-        </h3>
-      </article>
     </section>
     <section>
       <header>
         <div class="left">
           <h2>
-            Viewing all freets
-            <span v-if="$store.state.filter">
-              by @{{ $store.state.filter }}
-            </span>
+            Your stories
           </h2>
-        </div>
-        <div class="right">
-          <GetFreetsForm
-            ref="getFreetsForm"
-            value="author"
-            placeholder="🔍 Filter by author (optional)"
-            button="🔄 Get freets"
-          />
         </div>
       </header>
       <section
-        v-if="$store.state.freets.length"
+        v-if="$store.state.storySegments.length"
       >
-        <FreetComponent
-          v-for="freet in $store.state.freets"
-          :key="freet.id"
-          :freet="freet"
+        <SegmentPreviewComponent
+          v-for="segment in $store.state.storySegments"
+          :key="segment.id"
+          :segment="segment"
         />
       </section>
       <article
         v-else
       >
-        <h3>No freets found.</h3>
+        <h3>No stories found.</h3>
       </article>
     </section>
   </main>
 </template>
 
 <script>
-import FreetComponent from '@/components/Freet/FreetComponent.vue';
-import CreateFreetForm from '@/components/Freet/CreateFreetForm.vue';
-import GetFreetsForm from '@/components/Freet/GetFreetsForm.vue';
+import SegmentPreviewComponent from '@/components/Profile/SegmentPreviewComponent.vue';
 
 export default {
   name: 'ProfilePage',
-  components: {FreetComponent, GetFreetsForm, CreateFreetForm},
-  mounted() {
-    this.$refs.getFreetsForm.submit();
-  },
+  components: {SegmentPreviewComponent},
   methods: {
     newStoryPage() {
       /**

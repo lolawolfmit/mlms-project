@@ -35,8 +35,8 @@
 export default {
   name: 'SegmentPreviewComponent',
   props: {
-    // Data from the stored freet
-    freet: {
+    // Data from the stored segment
+    segment: {
       type: Object,
       required: true
     }
@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style scoped>
-.freet {
+.segment {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
