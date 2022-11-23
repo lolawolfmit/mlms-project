@@ -7,13 +7,13 @@
     <div class="left">
       <img src="../../public/logo.svg">
       <h1 class="title">
-        Fritter
+        Story Tree
       </h1>
     </div>
     <div class="right">
-      <router-link to="/">
-        Home
-      </router-link>
+      <!--<router-link to="/">-->
+        <!--Home-->
+      <!--</router-link>-->
       <router-link
         v-if="$store.state.username"
         to="/account"
