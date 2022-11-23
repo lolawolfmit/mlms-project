@@ -147,23 +147,36 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
 
 
 /**
- * Checks if a user with followeeId in the params exists
+ * Checks if a user with username followee in the params exists
  */
- const isFolloweeExists = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.params.followeeId) {
+ const isValidFollowee = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.params.followee) {
     res.status(400).json({
       error: 'Provided userId must be nonempty.'
     });
     return;
   }
 
-  const user = await UserCollection.findOneByUserId(req.params.followeeId as string);
-  if (!user || !user.deletedStatus) {
+  const user = await UserCollection.findOneByUsername(req.params.followee as string);
+  const follower = await UserCollection.findOneByUserId(req.session.userId as string);
+  // console.log(req.params);
+  // console.log(user);
+  // console.log("user");
+  // console.log(!user.deletedStatus);
+  if (!user || user.deletedStatus) {
     res.status(404).json({
-      error: `A user with id ${req.params.followeeId as string} does not exist.`
+      error: `A user with id ${req.params.followee as string} does not exist.`
     });
     return;
   }
+
+  if (user._id.toString() === follower._id.toString()){
+    res.status(405).json({
+      error: `You cannot follow yourself.`
+    });
+    return;
+  }
+  
 
   next();
 };
@@ -173,17 +186,20 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
  * Checks if a user with userId in the params exists
  */
  const isUserExists = async (req: Request, res: Response, next: NextFunction) => {
-  if (!req.params.userId) {
+  if (!req.params.user) {
     res.status(400).json({
       error: 'Provided userId must be nonempty.'
     });
     return;
   }
 
-  const user = await UserCollection.findOneByUserId(req.params.userId as string);
-  if (!user || !user.deletedStatus) {
+  const user = await UserCollection.findOneByUsername(req.params.user as string);
+  //console.log("made it right before if statement");
+  if (!user || user.deletedStatus) {
+    //console.log("deteStatus");
+    //console.log(user.deletedStatus);
     res.status(404).json({
-      error: `A user with id ${req.params.userId as string} does not exist.`
+      error: `A user with username ${req.params.user as string} does not exist.`
     });
     return;
   }
@@ -200,6 +216,6 @@ export {
   isAuthorExists,
   isValidUsername,
   isValidPassword,
-  isFolloweeExists,
+  isValidFollowee,
   isUserExists
 };

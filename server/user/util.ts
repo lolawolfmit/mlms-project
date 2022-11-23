@@ -1,6 +1,6 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
-import type {User} from './model';
+import type {PopulatedUser, User} from './model';
 
 // Update this if you add a property to the User type!
 type UserResponse = {
@@ -30,6 +30,8 @@ const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
+  // console.log("util");
+  // console.log(user);
   delete userCopy.password;
   delete userCopy.deletedStatus;
   delete userCopy.following;

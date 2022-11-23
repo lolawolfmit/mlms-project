@@ -90,6 +90,13 @@ class UserCollection {
    */
   static async deleteOne(userId: Types.ObjectId | string): Promise<boolean> {
     const user = await UserModel.findOne({_id: userId});
+    user.following = new Array<User>;
+    const followers = await this.findFollowers(userId);
+
+    for (const follower of followers){
+      await this.unfollow(follower._id, user._id);
+    }
+
     user.deletedStatus = true;
     await user.save();
     return user.deletedStatus;
@@ -109,14 +116,18 @@ class UserCollection {
   static async isFollowing(userId: Types.ObjectId | string, followeeId: Types.ObjectId | string): Promise<boolean>{
     const followee = await UserModel.findOne({_id: followeeId});
     const user = await UserModel.findOne({_id: userId});
-
-    for (const target in user.following){
-      const potentialFollowee = await UserModel.findOne({_id: target});
-      if (potentialFollowee._id === followee._id){
+    ;
+    for (const target of user.following){
+      
+      const potentialFollowee = await UserModel.findOne({_id: target._id});
+    
+      if (potentialFollowee._id.toString() === followee._id.toString()){
+        //console.log("user is following...............")
         return true;
       }
     }
 
+    //console.log("user is not following followee!!!!!!!!!!!!!!!")
     return false;
   }
 
@@ -132,11 +143,12 @@ class UserCollection {
     const followers = new Array<User>;
     const allUsers = await UserModel.find({});
     for (const potentialFollower of allUsers){
-      const isFollowed = await this.isFollowing(userId, potentialFollower._id);
-      if (isFollowed){
+      const isFollowed = await this.isFollowing(potentialFollower._id, userId);
+      if (isFollowed && !potentialFollower.deletedStatus){
         followers.push(potentialFollower);
       }
     }
+    console.log(followers);
     return followers; //having maping util
   }
 
@@ -148,7 +160,11 @@ class UserCollection {
    */
   static async findFollowing(userId: Types.ObjectId | string): Promise<Array<User>>{
     const user = await UserModel.findOne({_id: userId});
-    const followingArray = user.following; //have mapping util
+    const followingArray = new Array<User>;
+
+    for (const followedUser of user.following){
+      followingArray.push(followedUser);
+    }
     
     return followingArray;
   }
@@ -176,11 +192,20 @@ class UserCollection {
   static async unfollow(followerId: Types.ObjectId | string, followeeId: Types.ObjectId | string): Promise<void>{
     const follower = await UserModel.findOne({_id: followerId});
     const followee = await UserModel.findOne({_id: followeeId});
+    const followingList = new Array<User>;
 
-    const index = follower.following.indexOf(followee);
-    delete follower.following[index];
 
-    await follower.save()
+    for (const target of follower.following){
+      const potentialFollowee = await UserModel.findOne({_id: target._id});
+      
+      if (potentialFollowee._id.toString() !== followee._id.toString()){
+        //console.log("non problematic user.......!!!!.....")
+        followingList.push(potentialFollowee);
+      }
+    }
+
+    follower.following = followingList;
+    await follower.save();
 
   }
 
