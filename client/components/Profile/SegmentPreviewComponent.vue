@@ -50,6 +50,8 @@ export default {
     expandSegment() {
       // set global variable
       // push storyreader page into router
+      this.$store.currentlyReading = this.segment;
+      this.$router.push('/reader');
     },
     submitEdit() {
       /**

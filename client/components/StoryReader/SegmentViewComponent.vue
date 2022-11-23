@@ -7,16 +7,16 @@
   >
     <header>
       <h3 class="author">
-        {{ segment.segmentTitle}}, the first chapter of {{ segment.storyTitle }} by {{ segment.author }}
+        {{ this.$store.currentlyReading.segmentTitle }}, the first chapter of {{ this.$store.currentlyReading.storyTitle }} by {{ this.$store.currentlyReading.author }}
       </h3>
     </header>
     <p
       class="content"
     >
-      {{ segment.content }}
+      {{ this.$store.currentlyReading.content }}
     </p>
     <p class="info">
-      Posted at {{ segment.datePublished }}
+      Posted at {{ this.$store.currentlyReading.datePublished }}
     </p>
     <section class="alerts">
       <article
@@ -33,13 +33,6 @@
 <script>
 export default {
   name: 'SegmentViewComponent',
-  props: {
-    // Data from the stored freet
-    freet: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       alerts: {} // Displays success/error messages encountered during freet modification
@@ -131,7 +124,7 @@ export default {
 </script>
 
 <style scoped>
-.freet {
+.segment {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
