@@ -12,6 +12,13 @@
     </header>
     <p
       class="content"
+      v-if="segment.content.length > 20"
+    >
+      {{ segment.content.slice(0, 20) }}...
+    </p>
+    <p
+      class="content"
+      v-else
     >
       {{ segment.content }}
     </p>
