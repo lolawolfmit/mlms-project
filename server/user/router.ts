@@ -1,9 +1,10 @@
-import type {Request, Response} from 'express';
+import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import SegmentCollection from '../segment/collection';
 import UserCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as util from './util';
+import UserModel from './model';
 
 const router = express.Router();
 
@@ -146,7 +147,7 @@ router.patch(
 );
 
 /**
- * Delete a user.
+ * Delete a user. in this case, set user.deletedStatus = true
  *
  * @name DELETE /api/users
  *
@@ -167,5 +168,76 @@ router.delete(
     });
   }
 );
+
+
+router.patch(
+  '/follow/:followeeId?',
+  [
+    userValidator.isUserLoggedIn,
+    userValidator.isFolloweeExists
+  ],
+  async (req: Request, res: Response) => {
+    const isFollowed = await UserCollection.isFollowing(req.session.userId as string, req.params.followeeId as string);
+    //case for unfollowing
+    let messageStatus = '';
+    if (isFollowed){
+      await UserCollection.unfollow(req.session.userId as string, req.params.followeeId as string);
+      messageStatus = 'unfollowed';
+    }
+    else{
+      await UserCollection.unfollow(req.session.userId as string, req.params.followeeId as string);
+      messageStatus = 'followed';
+    }
+
+    const following = await UserCollection.findFollowing(req.session.userId as string);
+    const response = following.map(util.constructUserResponse);
+    res.status(200).json({
+      message: messageStatus,
+      followingList: response
+    });
+  }
+);
+
+
+
+
+/**
+ *
+ * @name GET /api/users/following/:id
+ *
+ * @return - list of users that follow the user specfied by params
+ */
+router.get(
+  '/following/:userId?',
+  [
+    userValidator.isUserExists
+  ],
+  async (req: Request, res: Response) => {
+    const following = await UserCollection.findFollowing(req.params.userId);
+    const response = following.map(util.constructUserResponse);
+    res.status(200).json(response);
+  }
+);
+
+
+
+/**
+ *
+ * @name GET /api/users/followers/:id
+ *
+ * @return - list of users followed by the user in params
+ */
+router.get(
+  '/followers/:userId?',
+  [
+    userValidator.isUserExists
+  ],
+  async (req: Request, res: Response) => {
+    const followers = await UserCollection.findFollowers(req.params.userId);
+    const response = followers.map(util.constructUserResponse);
+    res.status(200).json(response);
+  }
+);
+
 
 export {router as userRouter};

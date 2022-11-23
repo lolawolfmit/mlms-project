@@ -67,10 +67,10 @@ const isAccountExists = async (req: Request, res: Response, next: NextFunction) 
     username, password
   );
 
-  if (user) {
+  if (user && !user.deletedStatus) {
     next();
   } else {
-    res.status(401).json({error: 'Invalid user login credentials provided.'});
+    res.status(401).json({error: 'Invalid user login credentials provided or account has been deleted.'});
   }
 };
 
@@ -144,6 +144,52 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
   next();
 };
 
+
+/**
+ * Checks if a user with followeeId in the params exists
+ */
+ const isFolloweeExists = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.params.followeeId) {
+    res.status(400).json({
+      error: 'Provided userId must be nonempty.'
+    });
+    return;
+  }
+
+  const user = await UserCollection.findOneByUserId(req.params.followeeId as string);
+  if (!user || !user.deletedStatus) {
+    res.status(404).json({
+      error: `A user with id ${req.params.followeeId as string} does not exist.`
+    });
+    return;
+  }
+
+  next();
+};
+
+
+/**
+ * Checks if a user with userId in the params exists
+ */
+ const isUserExists = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.params.userId) {
+    res.status(400).json({
+      error: 'Provided userId must be nonempty.'
+    });
+    return;
+  }
+
+  const user = await UserCollection.findOneByUserId(req.params.userId as string);
+  if (!user || !user.deletedStatus) {
+    res.status(404).json({
+      error: `A user with id ${req.params.userId as string} does not exist.`
+    });
+    return;
+  }
+
+  next();
+};
+
 export {
   isCurrentSessionUserExists,
   isUserLoggedIn,
@@ -152,5 +198,7 @@ export {
   isAccountExists,
   isAuthorExists,
   isValidUsername,
-  isValidPassword
+  isValidPassword,
+  isFolloweeExists,
+  isUserExists
 };
