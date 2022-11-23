@@ -171,7 +171,14 @@ router.delete(
   }
 );
 
-
+/**
+ * @name PATCH /api/users/follow/:followee
+ * 
+ * @throws {403} if user is not logged in
+ * 
+ * @throws {405} if followee doesn't exist/was deleted or is the same as the logged in user
+ * 
+ */
 router.patch(
   '/follow/:followee?',
   [
@@ -197,7 +204,7 @@ router.patch(
       //console.log("follow");
     }
 
-    const following = await UserCollection.findFollowing(req.session.userId as string);
+    //const following = await UserCollection.findFollowing(req.session.userId as string);
     // console.log("following!");
     // console.log(following);
     //const response = following.map(util.constructUserResponse);
@@ -249,7 +256,7 @@ router.get(
     const user = await UserCollection.findOneByUsername(req.params.user);
     const followers = await UserCollection.findFollowers(user._id);
     const response = followers.map(util.constructUserResponse);
-    console.log("followers");
+    console.log("followers in /followers get request");
     console.log(response);
     res.status(200).json(response);
   }
