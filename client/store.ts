@@ -11,6 +11,7 @@ const store = new Vuex.Store({
   state: {
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
+    following: [], // All users that the user presently follows
     username: null, // Username of the logged in user
     currentlyReading: null, // id of the story segment currently being read (last one that was clicked)
     storySegments: [],
@@ -62,6 +63,14 @@ const store = new Vuex.Store({
       const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
+    },
+    async refreshFollowers(state) {
+      /**
+       * Request the server for the currently available freets.
+       */
+      const url = `/api/users/followers/${state.username}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.following = res;
     }
   },
   // Store data across page refreshes, only discard on browser close

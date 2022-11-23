@@ -8,6 +8,10 @@
     <header>
       <h3 class="author">
         {{ segment.segmentTitle}}, the first chapter of {{ segment.storyTitle }} by {{ segment.author }}
+        <button v-if="this.$store.state.following.includes(segment.author)"
+        @click="unfollowAuthor">Unfollow</button>
+        <button v-else
+        @click="followAuthor">Follow</button>
       </h3>
     </header>
     <p
@@ -59,6 +63,46 @@ export default {
       // push storyreader page into router
       this.$store.currentlyReading = this.segment;
       this.$router.push('/reader');
+    },
+
+    async followAuthor() {
+      // set global variable
+      // push storyreader page into router
+
+      const params = {
+        method: 'PATCH',
+        message: 'Following!',
+        body: JSON.stringify({}),
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+
+      try {
+
+        const options = {
+          method: params.method, headers: {'Content-Type': 'application/json'}
+        };
+        const r = await fetch(`/api/users/follow/${this.segment.author}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.editing = false;
+        this.$store.commit('refreshFollowers');
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+      this.request(params);
+    },
+    unfollowAuthor() {
+      // set global variable
+      // push storyreader page into router
     },
     submitEdit() {
       /**
