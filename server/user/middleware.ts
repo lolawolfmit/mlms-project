@@ -68,6 +68,7 @@ const isAccountExists = async (req: Request, res: Response, next: NextFunction) 
   );
 
   if (user && !user.deletedStatus) {
+    //console.log(user.deletedStatus)
     next();
   } else {
     res.status(401).json({error: 'Invalid user login credentials provided or account has been deleted.'});

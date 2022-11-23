@@ -178,7 +178,9 @@ class UserCollection {
 
     const index = follower.following.indexOf(followee);
     delete follower.following[index];
-    
+
+    await follower.save()
+
   }
 
 
