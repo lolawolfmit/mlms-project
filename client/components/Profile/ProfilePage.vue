@@ -7,7 +7,7 @@
         <h2>Welcome {{ $store.state.username }}</h2>
         <h3>x publicity</h3>
         <h3>y stories, z contributions</h3>
-        <h3>a followers, b following</h3>
+        <h3>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h3>
       </header>
       <button @click="newStoryPage">Create New Story</button>
     </section>

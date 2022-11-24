@@ -71,7 +71,11 @@ const store = new Vuex.Store({
        */
       const url = `/api/users/following/${state.username}`;
       const res = await fetch(url).then(async r => r.json());
-      state.following = res;
+      state.following = [];
+      for (let i = 0; i < res.length; ++i) {
+        state.following.push(res[i].username);
+      }
+      console.log(state.following);
     },
     async refreshFollowers(state) {
       /**
