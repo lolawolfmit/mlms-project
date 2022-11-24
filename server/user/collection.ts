@@ -148,7 +148,7 @@ class UserCollection {
         followers.push(potentialFollower);
       }
     }
-    console.log(followers);
+    //console.log(followers);
     return followers; //having maping util
   }
 
@@ -163,7 +163,8 @@ class UserCollection {
     const followingArray = new Array<User>;
 
     for (const followedUser of user.following){
-      followingArray.push(followedUser);
+      const author = await this.findOneByUserId(followedUser._id);
+      followingArray.push(author);
     }
     
     return followingArray;
