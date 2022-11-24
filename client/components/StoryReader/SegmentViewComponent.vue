@@ -70,14 +70,13 @@ export default {
         }
 
         this.editing = false;
-        this.$store.commit('refreshFollowers');
+        //this.$store.commit('refreshFollowing');
 
         params.callback();
       } catch (e) {
         this.$set(this.alerts, e, 'error');
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
-      this.request(params);
     },
     startEditing() {
       /**

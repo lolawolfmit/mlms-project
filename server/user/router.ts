@@ -232,7 +232,10 @@ router.get(
     userValidator.isUserExists
   ],
   async (req: Request, res: Response) => {
-    const following = await UserCollection.findFollowing(req.params.user);
+    console.log("Attempting request!");
+    const user = await UserCollection.findOneByUsername(req.params.user);
+    const following = await UserCollection.findFollowing(user._id);
+    console.log(following);
     const response = following.map(util.constructUserResponse);
     res.status(200).json(response);
   }
@@ -254,6 +257,8 @@ router.get(
   async (req: Request, res: Response) => {
     //console.log("made it right before findingFollowers");
     const user = await UserCollection.findOneByUsername(req.params.user);
+    console.log("Found one by username");
+    console.log(user);
     const followers = await UserCollection.findFollowers(user._id);
     const response = followers.map(util.constructUserResponse);
     console.log("followers in /followers get request");
