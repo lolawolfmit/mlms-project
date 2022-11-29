@@ -85,14 +85,16 @@ class SegmentCollection {
 
   /**
   * Like a segment
-  * @param {string} username - The userId of the user liking the segment
+  * @param {string} userId - The userId of the user liking the segment
   * @param {string} segmentId - The segmentId of the segment being liked
   * @returns Promise<Boolean> - Whether the segment was liked or not
   */
-  static async likeSegment(username: string, segmentId: Types.ObjectId | string): Promise<boolean> {
+  static async likeSegment(userId: string, segmentId: Types.ObjectId | string): Promise<boolean> {
     const segment = await SegmentModel.findOne({ _id: segmentId});
-    if (!segment.likes.includes(username)) {
-      segment.likes.push(username);
+    if (!segment.likes.includes(userId)) {
+      const author = segment.authorId;
+      UserCollection.incrementPublicity(author);
+      segment.likes.push(userId);
       await segment.save();
       return true;
     }
@@ -101,14 +103,16 @@ class SegmentCollection {
 
   /**
    * Unlike a segment
-   * @param {string} username - The userId of the user unliking the segment
+   * @param {string} userId - The userId of the user unliking the segment
    * @param {string} segmentId - The segmentId of the segment being unliked
    * @returns Promise<Boolean> - Whether the segment was unliked or not
    */
-  static async unlikeSegment(username: string, segmentId: Types.ObjectId | string): Promise<boolean> {
+  static async unlikeSegment(userId: string, segmentId: Types.ObjectId | string): Promise<boolean> {
     const segment = await SegmentModel.findOne({_id: segmentId});
-    if (segment.likes.includes(username)) {
-      segment.likes.splice(segment.likes.indexOf(username), 1);
+    if (segment.likes.includes(userId)) {
+      const author = segment.authorId;
+      UserCollection.decrementPublicity(author);
+      segment.likes.splice(segment.likes.indexOf(userId), 1);
       await segment.save();
       return true;
     }
@@ -123,7 +127,6 @@ class SegmentCollection {
   static async getLikes(segmentId: Types.ObjectId | string): Promise<Array<String>> {
     const segment = await SegmentModel.findOne({ _id: segmentId });
     const likes = segment.likes;
-    // return likes.map(async (id) => await UserCollection.findOneByUserId(id));
     return likes;
   }
 }
