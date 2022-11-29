@@ -9,9 +9,14 @@
       <h3 class="author">
         {{ segment.segmentTitle}}, the first chapter of {{ segment.storyTitle }} by {{ segment.author }}
         <button v-if="this.$store.state.following.includes(segment.author)"
-        @click="unfollowAuthor">Unfollow</button>
+        @click="followAuthor">Unfollow</button>
         <button v-else
         @click="followAuthor">Follow</button>
+        <button v-if="this.$store.state.likes.includes(segment._id)"
+        @click="likeStory">Unlike</button>
+        <button v-else
+        @click="likeStory">Like</button>
+        <button @click="forkStory">Fork</button>
       </h3>
     </header>
     <p
@@ -69,9 +74,11 @@ export default {
       // set global variable
       // push storyreader page into router
 
+      let message = this.$store.state.following.includes(this.segment.author) ? 'No longer following!' : 'Following!';
+
       const params = {
         method: 'PATCH',
-        message: 'Following!',
+        message: message,
         body: JSON.stringify({}),
         callback: () => {
           this.$set(this.alerts, params.message, 'success');
@@ -99,9 +106,44 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
-    unfollowAuthor() {
+    forkStory() {
+        this.$store.commit('updateForkingStory', this.segment._id);
+    },
+    async likeStory() {
       // set global variable
       // push storyreader page into router
+
+      let message = this.$store.state.likes.includes(this.segment._id) ? 'Unliked!' : 'Liked!';
+
+      const params = {
+        method: 'PATCH',
+        message: message,
+        body: JSON.stringify({}),
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+
+      try {
+
+        const options = {
+          method: params.method, headers: {'Content-Type': 'application/json'}
+        };
+        const r = await fetch(`/api/users/like/${this.segment._id}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.editing = false;
+        this.$store.commit('refreshLikes');
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
     },
     submitEdit() {
       /**
