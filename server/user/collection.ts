@@ -215,6 +215,9 @@ class UserCollection {
     const user = await UserModel.findOne({_id: userId});
     user.publicity += 1;
     const publicity = user.publicity;
+
+    await user.save();
+
     return publicity;
   }
 
@@ -222,6 +225,9 @@ class UserCollection {
     const user = await UserModel.findOne({_id: userId});
     user.publicity -= 1;
     const publicity = user.publicity;
+
+    await user.save();
+    
     return publicity;
   }
 
