@@ -6,12 +6,13 @@ import LoginPage from './components/Login/LoginPage.vue';
 import ProfilePage from './components/Profile/ProfilePage.vue';
 import NewStoryPage from './components/NewStory/NewStoryPage.vue';
 import ReaderPage from './components/StoryReader/ReaderPage.vue';
+import Homepage from './components/Homepage/Homepage.vue';
 import NotFound from './NotFound.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
-  {path: '/', name: 'Home', component: FreetsPage},
+  {path: '/', name: 'Homepage', component: Homepage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/profile', name: 'Profile', component: ProfilePage},
