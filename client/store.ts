@@ -82,13 +82,13 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available freets.
        */
-      const url = `/api/users/likes/${state.username}`;
+      /*const url = `/api/segment/likes/${state.username}`;
       const res = await fetch(url).then(async r => r.json());
       state.following = [];
       for (let i = 0; i < res.length; ++i) {
         state.following.push(res[i]);
       }
-      console.log(state.following);
+      console.log(state.following);*/
     },
     async refreshFollowers(state) {
       /**

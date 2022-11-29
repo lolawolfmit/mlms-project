@@ -95,7 +95,7 @@ export default {
       const params = {
         method: 'PATCH',
         message: message,
-        body: JSON.stringify({}),
+        body: JSON.stringify({segmentId: this.segment._id}),
         callback: () => {
           this.$set(this.alerts, params.message, 'success');
           setTimeout(() => this.$delete(this.alerts, params.message), 3000);
@@ -105,9 +105,9 @@ export default {
       try {
 
         const options = {
-          method: params.method, headers: {'Content-Type': 'application/json'}
+          method: params.method, headers: {'Content-Type': 'application/json'}, body: params.body
         };
-        const r = await fetch(`/api/users/like/${this.segment._id}`, options);
+        const r = await fetch(`/api/segment/like`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
