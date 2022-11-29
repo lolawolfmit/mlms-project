@@ -22,7 +22,8 @@ class UserCollection {
 
     const following = new Array<User>;
     const deletedStatus = false;
-    const user = new UserModel({username, password, following, deletedStatus});
+    const publicity = 0;
+    const user = new UserModel({username, password, publicity, following, deletedStatus});
     await user.save(); // Saves user to MongoDB
     return user;
   }
@@ -210,6 +211,25 @@ class UserCollection {
 
   }
 
+  static async incrementPublicity(userId: Types.ObjectId | string): Promise<number>{
+    const user = await UserModel.findOne({_id: userId});
+    user.publicity += 1;
+    const publicity = user.publicity;
+    return publicity;
+  }
+
+  static async decrementPublicity(userId: Types.ObjectId | string): Promise<number>{
+    const user = await UserModel.findOne({_id: userId});
+    user.publicity -= 1;
+    const publicity = user.publicity;
+    return publicity;
+  }
+
+  static async getPublicity(userId: Types.ObjectId | string): Promise<number>{
+    const user = await UserModel.findOne({_id: userId});
+    const publicity = user.publicity;
+    return publicity;
+  }
 
 }
 

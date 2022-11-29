@@ -256,8 +256,8 @@ router.get(
   async (req: Request, res: Response) => {
     //console.log("made it right before findingFollowers");
     const user = await UserCollection.findOneByUsername(req.params.user);
-    console.log("Found one by username");
-    console.log(user);
+    // console.log("Found one by username");
+    // console.log(user);
     const followers = await UserCollection.findFollowers(user._id);
     const response = followers.map(util.constructUserResponse);
     //console.log("followers in /followers get request");
@@ -265,6 +265,49 @@ router.get(
     res.status(200).json(response);
   }
 );
+
+
+
+router.get(
+  '/publicity/:user?',
+  [
+    userValidator.isUserExists
+  ],
+  async (req: Request, res: Response) => {
+    const user = await UserCollection.findOneByUsername(req.params.user);
+    const publicity = await UserCollection.getPublicity(user._id);
+    res.status(200).json(publicity.toString());
+  }
+);
+
+
+router.patch(
+  '/publicity/increment/:user?',
+  [
+    userValidator.isUserExists,
+    userValidator.isUserLoggedIn
+  ],
+  async (req: Request, res: Response) => {
+    const user = await UserCollection.findOneByUsername(req.params.user);
+    const publicity = await UserCollection.incrementPublicity(user._id);
+    res.status(200).json(publicity.toString());
+  }
+);
+
+
+router.patch(
+  '/publicity/decrement/:user?',
+  [
+    userValidator.isUserExists,
+    userValidator.isUserLoggedIn
+  ],
+  async (req: Request, res: Response) => {
+    const user = await UserCollection.findOneByUsername(req.params.user);
+    const publicity = await UserCollection.decrementPublicity(user._id);
+    res.status(200).json(publicity.toString());
+  }
+);
+
 
 
 export {router as userRouter};
