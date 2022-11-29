@@ -11,6 +11,7 @@ export type User = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   username: string;
   password: string;
+  publicity: number;
   following: Array<User>;
   deletedStatus: boolean;
 };
@@ -19,6 +20,7 @@ export type PopulatedUser = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   username: string;
   password: string;
+  publicity: number;
   following: Array<User>;
   deletedStatus: boolean;
 };
@@ -35,6 +37,10 @@ const UserSchema = new Schema({
   // The user's password
   password: {
     type: String,
+    required: true
+  },
+  publicity: {
+    type: Number,
     required: true
   },
   // The array of users the user followers

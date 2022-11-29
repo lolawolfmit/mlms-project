@@ -4,6 +4,7 @@ import SegmentCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as segmentValidator from './middleware';
 import * as util from './util';
+import SegmentModel from './model';
 
 const router = express.Router();
 
@@ -46,6 +47,41 @@ router.get(
   }
 );
 
+/**
+ * Get a user's homepage 
+ * 
+ * @name GET /api/segments/homepage?filter=keyword1,keyword2...
+ * 
+ * @returns {SegmentResponse[]} - A list of all the segments in the user's homepage sorted by date published in descending order
+ * @throws {401} - If the user is not logged in
+ * @throws {404} - If the user is not found
+ */
+
+router.get(
+  '/homepage',
+  [
+    userValidator.isUserLoggedIn
+  ],
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.filter !== undefined) {
+      next();
+      return;
+    }
+
+    const homepage = await SegmentCollection.getHomepage(req.session.userId, "");
+    const response = homepage.map(util.constructSegmentResponse);
+    res.status(200).json(response);
+  },
+  [
+    userValidator.isUserLoggedIn,
+  ],
+  async (req: Request, res: Response) => {
+    const homepage = await SegmentCollection.getHomepage(req.session.userId, req.query.filter as string);
+    const response = homepage.map(util.constructSegmentResponse);
+    res.status(200).json(response);
+  }
+);
+
 /** 
  * Create a new segment
  * 
@@ -73,5 +109,65 @@ router.post(
     });
   }
 );
+
+/**
+ * Like a segment
+ * 
+ * @name PATCH /api/segments/like
+ * 
+ * @param {string} segmentId - The ID of the segment to like
+ * @returns a success message
+ * @throws {400} - If the segmentId is not given
+ * @throws {403} - If the user is not logged in
+ * @throws {409} - If the user has already liked the segment
+ */
+router.patch(
+  '/like',
+  [
+    userValidator.isUserLoggedIn,
+  ],
+  async (req: Request, res: Response) => {
+    const userId = (req.session.userId as string) ?? "";
+    const segmentId = req.body.segmentId;
+    const segment = await SegmentModel.findById({ _id: segmentId });
+    const likes = segment.likes;
+    // if the user hasn't liked the segment yet, add the user to the likes array
+    if (!likes.includes(userId)) {
+      SegmentCollection.likeSegment(segmentId, userId);
+      res.status(200).json({
+        message: "You have liked this segment."
+      });
+    // if the user has already liked the segment, remove the user from the likes array
+    } else {
+      SegmentCollection.unlikeSegment(segmentId, userId);
+      res.status(200).json({
+        message: "You have unliked this segment."
+      });
+    }
+  }
+);
+
+/** 
+ * Get all likes for a segment
+ * 
+ * @name GET /api/segments/getlikes
+ * 
+ * @param {string} segmentId - The ID of the segment to get likes for
+ * @returns {string[]} - A list of all the users who have liked the segment
+ * @throws {400} - If the segmentId is not given
+ * @throws {404} - If the segment is not found 
+*/
+router.get(
+  '/likes',
+  [
+    userValidator.isUserLoggedIn,
+  ],
+  async (req: Request, res: Response) => {
+    const segmentId = req.body.segmentId;
+    const segment = await SegmentModel.findById({ _id: segmentId });
+    const likes = segment.likes;
+    res.status(200).json(likes);
+  }
+)
 
 export {router as segmentRouter};
