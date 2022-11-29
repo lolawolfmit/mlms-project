@@ -1,6 +1,7 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
 import type {Segment, PopulatedSegment} from './model';
+import type {User} from '../user/model';
 
 type SegmentResponse = {
   _id: string;
@@ -10,6 +11,7 @@ type SegmentResponse = {
   segmentTitle: string;
   content: string;
   parent: string;
+  likes: Array<String>;
 };
 
 /**
@@ -42,7 +44,8 @@ const constructSegmentResponse = (segment: HydratedDocument<Segment>): SegmentRe
     datePublished: formatDate(segment.datePublished),
     storyTitle: segment.storyTitle,
     segmentTitle: segment.segmentTitle,
-    parent: segmentCopy.parent? segmentCopy.parent.toString() : "none"
+    parent: segmentCopy.parent? segmentCopy.parent.toString() : "none",
+    likes: segmentCopy.likes
   };
 };
 

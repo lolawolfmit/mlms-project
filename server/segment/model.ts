@@ -1,4 +1,4 @@
-import type {Types} from 'mongoose';
+import {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
 import type {User} from '../user/model';
 
@@ -12,6 +12,7 @@ export type Segment = {
   segmentTitle: string;
   content: string;
   parent: Types.ObjectId;
+  likes: Array<String>;
 };
 
 export type PopulatedSegment = {
@@ -22,6 +23,7 @@ export type PopulatedSegment = {
   segmentTitle: string;
   content: string;
   parent: Types.ObjectId;
+  likes: Array<String>;
 };
 
 
@@ -57,6 +59,11 @@ const SegmentSchema = new Schema<Segment>({
   parent: {
     type: Schema.Types.ObjectId,
     required: false
+  },
+  // the usernames of users that liked the segment
+  likes: {
+    type: Array<String>(),
+    required: true
   }
 });
 
