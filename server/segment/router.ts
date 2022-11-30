@@ -153,18 +153,18 @@ router.patch(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
     const segmentId = req.body.segmentId;
-    console.log(req.body);
+    console.log(req.body.segmentId);
     const segment = await SegmentModel.findById({ _id: segmentId });
     const likes = segment.likes;
     // if the user hasn't liked the segment yet, add the user to the likes array
     if (!likes.includes(userId)) {
-      SegmentCollection.likeSegment(segmentId, userId);
+      SegmentCollection.likeSegment(userId, segmentId);
       res.status(200).json({
         message: "You have liked this segment."
       });
     // if the user has already liked the segment, remove the user from the likes array
     } else {
-      SegmentCollection.unlikeSegment(segmentId, userId);
+      SegmentCollection.unlikeSegment(userId, segmentId);
       res.status(200).json({
         message: "You have unliked this segment."
       });
