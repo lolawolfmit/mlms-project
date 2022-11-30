@@ -11,14 +11,14 @@ const router = express.Router();
 /** 
  * Get all the segments in the collection
  * 
- * @name GET /api/segments
+ * @name GET /api/segment
  * 
  * @returns {SegmentResponse[]} - A list of all the segments sorted by date published in descending order
 */
 /**
  * Get segments by a given author
  * 
- * @name GET /api/segments?authorId=id
+ * @name GET /api/segment?authorId=id
  * 
  * @return {SegmentResponse[]} - A list of all the segments by the author sorted by date published in descending order
  * @throws {400} - If the authorId is not given
@@ -50,7 +50,7 @@ router.get(
 /**
  * Get a segment's children
  * 
- * @name GET /api/segments
+ * @name GET /api/segment
  * 
  * @return {SegmentResponse[]} - A list of all the children of the parent sorted by date published in descending order
  * @throws {400} - If the parentId is not given
@@ -60,7 +60,8 @@ router.get(
 router.get(
   '/children/:parentId?',
   [
-    userValidator.isUserLoggedIn
+    userValidator.isUserLoggedIn,
+    segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const children = await SegmentCollection.getChildren(req.query.parentId as string);
@@ -72,7 +73,7 @@ router.get(
 /**
  * Get a user's homepage 
  * 
- * @name GET /api/segments/homepage?filter=keyword1,keyword2...
+ * @name GET /api/segment/homepage?filter=keyword1,keyword2...
  * 
  * @returns {SegmentResponse[]} - A list of all the segments in the user's homepage sorted by date published in descending order
  * @throws {401} - If the user is not logged in
@@ -107,7 +108,7 @@ router.get(
 /** 
  * Create a new segment
  * 
- * @name POST /api/segments
+ * @name POST /api/segment
  * 
  * @param {string} content - The content of the segment
  * @param {string} parent - The ID of the parent segment
@@ -135,7 +136,7 @@ router.post(
 /**
  * Like a segment
  * 
- * @name PATCH /api/segments/like
+ * @name PATCH /api/segment/like
  * 
  * @param {string} segmentId - The ID of the segment to like
  * @returns a success message
@@ -147,6 +148,7 @@ router.patch(
   '/like',
   [
     userValidator.isUserLoggedIn,
+    segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
@@ -173,7 +175,7 @@ router.patch(
 /** 
  * Get all likes for a segment
  * 
- * @name GET /api/segments/getlikes
+ * @name GET /api/segment/getlikes
  * 
  * @param {string} segmentId - The ID of the segment to get likes for
  * @returns {string[]} - A list of all the users who have liked the segment
@@ -184,6 +186,7 @@ router.get(
   '/likes',
   [
     userValidator.isUserLoggedIn,
+    segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const segmentId = req.body.segmentId;
