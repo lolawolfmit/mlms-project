@@ -58,13 +58,13 @@ router.get(
  * @throws {404} - If the parent is not a segment
  */
 router.get(
-  '/children?parentId=id',
+  '/children/:parentId?',
   [
     userValidator.isUserLoggedIn,
-    segmentValidator.segmentExists,
+    // segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
-    const children = await SegmentCollection.getChildren(req.params.parentId as string);
+    const children = await SegmentCollection.getChildren(req.query.parentId as string);
     const response = children.map(util.constructSegmentResponse);
     res.status(200).json(response);
   }
@@ -124,7 +124,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
-    const segment = await SegmentCollection.addSegment(userId, req.body.content, req.body.storyTitle, req.body.segmentTitle, null);
+    const segment = await SegmentCollection.addSegment(userId, req.body.content, req.body.storyTitle, req.body.segmentTitle, req.body.parent);
 
     res.status(201).json({
       message: "Your segment has been created successfully.",
@@ -148,7 +148,7 @@ router.patch(
   '/like',
   [
     userValidator.isUserLoggedIn,
-    segmentValidator.segmentExists,
+    // segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
@@ -186,7 +186,7 @@ router.get(
   '/likes',
   [
     userValidator.isUserLoggedIn,
-    segmentValidator.segmentExists,
+    // segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const segmentId = req.body.segmentId;

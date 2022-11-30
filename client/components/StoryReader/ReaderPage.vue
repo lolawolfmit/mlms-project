@@ -2,7 +2,9 @@
 
 <template>
   <main>
-    <SegmentViewComponent />
+    <section v-if="$store.state.currentlyReading">
+      <SegmentViewComponent />
+    </section>
     <section
         v-if="$store.state.currentlyReadingChildren.length"
       >
@@ -17,10 +19,11 @@
 
 <script>
 import SegmentViewComponent from '@/components/StoryReader/SegmentViewComponent.vue';
+import StoryChild from '@/components/StoryReader/StoryChild.vue';
 
 export default {
   name: 'ReaderPage',
-  components: {SegmentViewComponent},
+  components: {SegmentViewComponent, StoryChild},
   methods: {
   }
 };
