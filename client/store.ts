@@ -54,8 +54,10 @@ const store = new Vuex.Store({
       state.storySegments = res;
     },
     async refreshChildren(state, parent) {
-      const url = '/api/segment?parentId='+parent;
+      const url = `/api/segment/children?parentId=${parent}`;
       const res = await fetch(url).then(async r => r.json());
+      console.log(parent);
+      console.log(res);
       state.currentlyReadingChildren = res;
     },
     updateFreets(state, freets) {
@@ -64,6 +66,13 @@ const store = new Vuex.Store({
        * @param freets - Freets to store
        */
       state.freets = freets;
+    },
+    updateCurrentlyReading(state, currentlyReading) {
+      /**
+       * Update the stored freets to the provided freets.
+       * @param freets - Freets to store
+       */
+      state.currentlyReading = currentlyReading;
     },
     async refreshFreets(state) {
       /**

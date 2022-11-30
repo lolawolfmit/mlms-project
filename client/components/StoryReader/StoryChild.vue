@@ -5,38 +5,20 @@
   <article
     class="child"
   >
-    <header>
-      <h3 class="author">
-        {{ this.$store.currentlyReading.segmentTitle }}, the first chapter of {{ this.$store.currentlyReading.storyTitle }} by {{ this.$store.currentlyReading.author }} 
-         <button v-if="this.$store.state.following.includes(this.$store.currentlyReading.author)"
-        @click="unfollowAuthor">Unfollow</button>
-        <button v-else
-        @click="followAuthor">Follow</button>
-      </h3>
-    </header>
-    <p
-      class="content"
-    >
-      {{ this.$store.currentlyReading.content }}
-    </p>
-    <p class="info">
-      Posted at {{ this.$store.currentlyReading.datePublished }}
-    </p>
-    <section class="alerts">
-      <article
-        v-for="(status, alert, index) in alerts"
-        :key="index"
-        :class="status"
-      >
-        <p>{{ alert }}</p>
-      </article>
-    </section>
+    <h3 @click="readNext">{{child.segmentTitle}} by {{child.author}}</h3>
   </article>
 </template>
 
 <script>
 export default {
-  name: 'SegmentViewComponent',
+  name: 'StoryChild',
+  props: {
+    // Data from the stored freet
+    child: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       alerts: {} // Displays success/error messages encountered during freet modification
@@ -91,6 +73,11 @@ export default {
        */
       this.editing = false;
       this.draft = this.freet.content;
+    },
+    readNext() {
+      this.$store.commit('updateCurrentlyReading', this.child);
+      console.log(this.$store.currentlyReading);
+      this.$store.commit('refreshChildren', this.child._id);
     },
     deleteFreet() {
       /**

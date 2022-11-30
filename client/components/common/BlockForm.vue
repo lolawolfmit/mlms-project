@@ -61,6 +61,7 @@ export default {
       hasBody: false, // Whether or not form request has a body
       setUsername: false, // Whether or not stored username should be updated after form submission
       refreshFreets: false, // Whether or not stored freets should be updated after form submission
+      additionalBody: [],
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: null // Function to run after successful form submission
     };
@@ -76,6 +77,7 @@ export default {
         credentials: 'same-origin' // Sends express-session credentials with request
       };
       if (this.hasBody) {
+        this.fields = this.fields.concat(this.additionalBody);
         options.body = JSON.stringify(Object.fromEntries(
           this.fields.map(field => {
             const {id, value} = field;

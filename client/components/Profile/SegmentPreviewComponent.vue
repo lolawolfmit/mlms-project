@@ -67,7 +67,7 @@ export default {
       // set global variable
       // push storyreader page into router
       this.$store.currentlyReading = this.segment;
-      this.$store.commit('refreshChildren');
+      this.$store.commit('refreshChildren', this.segment._id);
       this.$router.push('/reader');
     },
 

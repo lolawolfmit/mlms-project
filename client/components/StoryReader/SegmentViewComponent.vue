@@ -12,7 +12,7 @@
         @click="followAuthor">Unfollow</button>
         <button v-else
         @click="followAuthor">Follow</button>
-        <button v-if="this.$store.state.likes.includes(segment._id)"
+        <button v-if="this.$store.state.likes.includes(this.$store.currentlyReading._id)"
         @click="likeStory">Unlike</button>
         <button v-else
         @click="likeStory">Like</button>
@@ -27,7 +27,6 @@
     <p class="info">
       Posted at {{ this.$store.currentlyReading.datePublished }}
     </p>
-    <button @click="fork">Fork</button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -85,7 +84,8 @@ export default {
       }
     },
     forkStory() {
-        this.$store.commit('updateForkingStory', this.segment._id);
+        this.$store.commit('updateForkingStory', this.$store.currentlyReading);
+        this.$router.push('/newforkedstory');
     },
     async likeStory() {
       // set global variable
