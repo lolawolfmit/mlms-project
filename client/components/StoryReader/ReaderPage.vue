@@ -2,7 +2,9 @@
 
 <template>
   <main>
-    <SegmentViewComponent />
+    <section v-if="$store.state.currentlyReading">
+      <SegmentViewComponent />
+    </section>
     <section
         v-if="$store.state.currentlyReadingChildren.length"
       >

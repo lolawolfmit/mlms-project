@@ -45,7 +45,7 @@ export default {
         const options = {
           method: params.method, headers: {'Content-Type': 'application/json'}
         };
-        const r = await fetch(`/api/users/follow/${this.$store.currentlyReading.author}`, options);
+        const r = await fetch(`/api/users/follow/${this.$store.state.currentlyReading.author}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -75,8 +75,10 @@ export default {
       this.draft = this.freet.content;
     },
     readNext() {
+      console.log("child id");
+      console.log(this.child._id);
       this.$store.commit('updateCurrentlyReading', this.child);
-      console.log(this.$store.currentlyReading);
+      console.log(this.$store.state.currentlyReading);
       this.$store.commit('refreshChildren', this.child._id);
     },
     deleteFreet() {

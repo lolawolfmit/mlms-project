@@ -72,7 +72,11 @@ const store = new Vuex.Store({
        * Update the stored freets to the provided freets.
        * @param freets - Freets to store
        */
+      console.log("currently reading id");
+      console.log(currentlyReading._id);
       state.currentlyReading = currentlyReading;
+      console.log("state");
+      console.log(state.currentlyReading._id);
     },
     async refreshFreets(state) {
       /**

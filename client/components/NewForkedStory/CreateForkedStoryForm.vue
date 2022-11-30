@@ -17,7 +17,7 @@ export default {
         {id: 'content', label: 'Content', value: ''}
       ],
       additionalBody: [
-        {id: 'parent', value: this.$store.currentlyReading._id}
+        {id: 'parent', value: this.$store.state.currentlyReading._id}
       ],
       title: 'Start Your Story',
       callback: () => {

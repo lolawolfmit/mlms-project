@@ -61,7 +61,7 @@ router.get(
   '/children/:parentId?',
   [
     userValidator.isUserLoggedIn,
-    segmentValidator.segmentExists,
+    // segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const children = await SegmentCollection.getChildren(req.query.parentId as string);
@@ -148,7 +148,7 @@ router.patch(
   '/like',
   [
     userValidator.isUserLoggedIn,
-    segmentValidator.segmentExists,
+    // segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
@@ -186,7 +186,7 @@ router.get(
   '/likes',
   [
     userValidator.isUserLoggedIn,
-    segmentValidator.segmentExists,
+    // segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const segmentId = req.body.segmentId;

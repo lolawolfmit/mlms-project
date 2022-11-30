@@ -7,12 +7,12 @@
   >
     <header>
       <h3 class="author">
-        {{ this.$store.currentlyReading.segmentTitle }}, the first chapter of {{ this.$store.currentlyReading.storyTitle }} by {{ this.$store.currentlyReading.author }} 
-         <button v-if="this.$store.state.following.includes(this.$store.currentlyReading.author)"
+        {{ this.$store.state.currentlyReading.segmentTitle }}, the first chapter of {{ this.$store.state.currentlyReading.storyTitle }} by {{ this.$store.state.currentlyReading.author }} 
+         <button v-if="this.$store.state.following.includes(this.$store.state.currentlyReading.author)"
         @click="followAuthor">Unfollow</button>
         <button v-else
         @click="followAuthor">Follow</button>
-        <button v-if="this.$store.state.likes.includes(this.$store.currentlyReading._id)"
+        <button v-if="this.$store.state.likes.includes(this.$store.state.currentlyReading._id)"
         @click="likeStory">Unlike</button>
         <button v-else
         @click="likeStory">Like</button>
@@ -22,10 +22,10 @@
     <p
       class="content"
     >
-      {{ this.$store.currentlyReading.content }}
+      {{ this.$store.state.currentlyReading.content }}
     </p>
     <p class="info">
-      Posted at {{ this.$store.currentlyReading.datePublished }}
+      Posted at {{ this.$store.state.currentlyReading.datePublished }}
     </p>
     <section class="alerts">
       <article
@@ -68,7 +68,7 @@ export default {
         const options = {
           method: params.method, headers: {'Content-Type': 'application/json'}
         };
-        const r = await fetch(`/api/users/follow/${this.$store.currentlyReading.author}`, options);
+        const r = await fetch(`/api/users/follow/${this.$store.state.currentlyReading.author}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -84,7 +84,7 @@ export default {
       }
     },
     forkStory() {
-        this.$store.commit('updateForkingStory', this.$store.currentlyReading);
+        this.$store.commit('updateForkingStory', this.$store.state.currentlyReading);
         this.$router.push('/newforkedstory');
     },
     async likeStory() {
