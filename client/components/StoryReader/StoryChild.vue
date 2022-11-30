@@ -3,38 +3,25 @@
 
 <template>
   <article
-    class="segment"
+    class="child"
   >
     <header>
       <h3 class="author">
-        {{ segment.segmentTitle}}, the first chapter of {{ segment.storyTitle }} by {{ segment.author }}
-        <button v-if="this.$store.state.following.includes(segment.author)"
-        @click="followAuthor">Unfollow</button>
+        {{ this.$store.currentlyReading.segmentTitle }}, the first chapter of {{ this.$store.currentlyReading.storyTitle }} by {{ this.$store.currentlyReading.author }} 
+         <button v-if="this.$store.state.following.includes(this.$store.currentlyReading.author)"
+        @click="unfollowAuthor">Unfollow</button>
         <button v-else
         @click="followAuthor">Follow</button>
-        <button v-if="this.$store.state.likes.includes(segment._id)"
-        @click="likeStory">Unlike</button>
-        <button v-else
-        @click="likeStory">Like</button>
-        <button @click="forkStory">Fork</button>
       </h3>
     </header>
     <p
       class="content"
-      v-if="segment.content.length > 20"
     >
-      {{ segment.content.slice(0, 20) }}...
-    </p>
-    <p
-      class="content"
-      v-else
-    >
-      {{ segment.content }}
+      {{ this.$store.currentlyReading.content }}
     </p>
     <p class="info">
-      Posted at {{ segment.datePublished }}
+      Posted at {{ this.$store.currentlyReading.datePublished }}
     </p>
-    <button @click="expandSegment">Read More</button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -49,37 +36,21 @@
 
 <script>
 export default {
-  name: 'SegmentPreviewComponent',
-  props: {
-    // Data from the stored segment
-    segment: {
-      type: Object,
-      required: true
-    }
-  },
+  name: 'SegmentViewComponent',
   data() {
     return {
       alerts: {} // Displays success/error messages encountered during freet modification
     };
   },
   methods: {
-    expandSegment() {
-      // set global variable
-      // push storyreader page into router
-      this.$store.currentlyReading = this.segment;
-      this.$store.commit('refreshChildren');
-      this.$router.push('/reader');
-    },
 
     async followAuthor() {
       // set global variable
       // push storyreader page into router
 
-      let message = this.$store.state.following.includes(this.segment.author) ? 'No longer following!' : 'Following!';
-
       const params = {
         method: 'PATCH',
-        message: message,
+        message: 'Following!',
         body: JSON.stringify({}),
         callback: () => {
           this.$set(this.alerts, params.message, 'success');
@@ -92,14 +63,14 @@ export default {
         const options = {
           method: params.method, headers: {'Content-Type': 'application/json'}
         };
-        const r = await fetch(`/api/users/follow/${this.segment.author}`, options);
+        const r = await fetch(`/api/users/follow/${this.$store.currentlyReading.author}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
         }
 
         this.editing = false;
-        this.$store.commit('refreshFollowing');
+        //this.$store.commit('refreshFollowing');
 
         params.callback();
       } catch (e) {
@@ -107,44 +78,33 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
-    forkStory() {
-        this.$store.commit('updateForkingStory', this.segment._id);
+    startEditing() {
+      /**
+       * Enables edit mode on this freet.
+       */
+      this.editing = true; // Keeps track of if a freet is being edited
+      this.draft = this.freet.content; // The content of our current "draft" while being edited
     },
-    async likeStory() {
-      // set global variable
-      // push storyreader page into router
-
-      let message = this.$store.state.likes.includes(this.segment._id) ? 'Unliked!' : 'Liked!';
-
+    stopEditing() {
+      /**
+       * Disables edit mode on this freet.
+       */
+      this.editing = false;
+      this.draft = this.freet.content;
+    },
+    deleteFreet() {
+      /**
+       * Deletes this freet.
+       */
       const params = {
-        method: 'PATCH',
-        message: message,
-        body: JSON.stringify({segmentId: this.segment._id}),
+        method: 'DELETE',
         callback: () => {
-          this.$set(this.alerts, params.message, 'success');
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+          this.$store.commit('alert', {
+            message: 'Successfully deleted freet!', status: 'success'
+          });
         }
       };
-
-      try {
-
-        const options = {
-          method: params.method, headers: {'Content-Type': 'application/json'}, body: params.body
-        };
-        const r = await fetch(`/api/segment/like`, options);
-        if (!r.ok) {
-          const res = await r.json();
-          throw new Error(res.error);
-        }
-
-        this.editing = false;
-        this.$store.commit('refreshLikes');
-
-        params.callback();
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
+      this.request(params);
     },
     submitEdit() {
       /**

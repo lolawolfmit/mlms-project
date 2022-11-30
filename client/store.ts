@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     likes: [],
     username: null, // Username of the logged in user
     currentlyReading: null, // id of the story segment currently being read (last one that was clicked)
+    currentlyReadingChildren: [], // children of the story segment currently being read
     storySegments: [],
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -52,6 +53,11 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.storySegments = res;
     },
+    async refreshChildren(state, parent) {
+      const url = '/api/segment?parentId='+parent;
+      const res = await fetch(url).then(async r => r.json());
+      state.currentlyReadingChildren = res;
+    },
     updateFreets(state, freets) {
       /**
        * Update the stored freets to the provided freets.
@@ -82,13 +88,13 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available freets.
        */
-      const url = `/api/users/likes/${state.username}`;
+      /*const url = `/api/segment/likes/${state.username}`;
       const res = await fetch(url).then(async r => r.json());
       state.following = [];
       for (let i = 0; i < res.length; ++i) {
         state.following.push(res[i]);
       }
-      console.log(state.following);
+      console.log(state.following);*/
     },
     async refreshFollowers(state) {
       /**
