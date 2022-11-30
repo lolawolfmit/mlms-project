@@ -3,7 +3,7 @@
 
 <template>
   <article
-    class="segment"
+    class="child"
   >
     <header>
       <h3 class="author">
@@ -22,7 +22,6 @@
     <p class="info">
       Posted at {{ this.$store.currentlyReading.datePublished }}
     </p>
-    <button @click="fork">Fork</button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"

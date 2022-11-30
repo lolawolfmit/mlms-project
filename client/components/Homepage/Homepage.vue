@@ -38,7 +38,7 @@
 import SegmentPreviewComponent from '@/components/Profile/SegmentPreviewComponent.vue';
 
 export default {
-  name: 'ProfilePage',
+  name: 'Homepage',
   components: {SegmentPreviewComponent},
   methods: {
     newStoryPage() {

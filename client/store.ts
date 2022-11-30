@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     followers: [], // All users that the user presently follows
     username: null, // Username of the logged in user
     currentlyReading: null, // id of the story segment currently being read (last one that was clicked)
+    currentlyReadingChildren: [], // children of the story segment currently being read
     storySegments: [],
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
@@ -49,6 +50,11 @@ const store = new Vuex.Store({
       const url = '/api/segment';
       const res = await fetch(url).then(async r => r.json());
       state.storySegments = res;
+    },
+    async refreshChildren(state, parent) {
+      const url = '/api/segment?parentId='+parent;
+      const res = await fetch(url).then(async r => r.json());
+      state.currentlyReadingChildren = res;
     },
     updateFreets(state, freets) {
       /**

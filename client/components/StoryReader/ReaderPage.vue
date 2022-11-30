@@ -3,6 +3,15 @@
 <template>
   <main>
     <SegmentViewComponent />
+    <section
+        v-if="$store.state.currentlyReadingChildren.length"
+      >
+        <StoryChild
+          v-for="child in $store.state.currentlyReadingChildren"
+          :key="child.id"
+          :child="child"
+        />
+    </section>
   </main>
 </template>
 
