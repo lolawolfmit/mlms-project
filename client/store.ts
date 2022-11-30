@@ -13,6 +13,8 @@ const store = new Vuex.Store({
     freets: [], // All freets created in the app
     following: [], // All users that the user presently follows
     followers: [], // All users that the user presently follows
+    forkingStory: null,
+    likes: [],
     username: null, // Username of the logged in user
     currentlyReading: null, // id of the story segment currently being read (last one that was clicked)
     currentlyReadingChildren: [], // children of the story segment currently being read
@@ -81,7 +83,18 @@ const store = new Vuex.Store({
       for (let i = 0; i < res.length; ++i) {
         state.following.push(res[i].username);
       }
-      console.log(state.following);
+    },
+    async refreshLikes(state) {
+      /**
+       * Request the server for the currently available freets.
+       */
+      /*const url = `/api/segment/likes/${state.username}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.following = [];
+      for (let i = 0; i < res.length; ++i) {
+        state.following.push(res[i]);
+      }
+      console.log(state.following);*/
     },
     async refreshFollowers(state) {
       /**
@@ -90,6 +103,12 @@ const store = new Vuex.Store({
       const url = `/api/users/followers/${state.username}`;
       const res = await fetch(url).then(async r => r.json());
       state.followers = res;
+    },
+    updateForkingStory(state, story) {
+      /**
+       * Request the server for the currently available freets.
+       */
+      state.forkingStory = story;
     }
   },
   // Store data across page refreshes, only discard on browser close

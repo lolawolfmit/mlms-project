@@ -48,6 +48,28 @@ router.get(
 );
 
 /**
+ * Get a segment's children
+ * 
+ * @name GET /api/segments
+ * 
+ * @return {SegmentResponse[]} - A list of all the children of the parent sorted by date published in descending order
+ * @throws {400} - If the parentId is not given
+ * @throws {404} - If the parent is not found
+ * @throws {404} - If the parent is not a segment
+ */
+router.get(
+  '/children?parentId=id',
+  [
+    userValidator.isUserLoggedIn
+  ],
+  async (req: Request, res: Response) => {
+    const children = await SegmentCollection.getChildren(req.params.parentId as string);
+    const response = children.map(util.constructSegmentResponse);
+    res.status(200).json(response);
+  }
+)
+
+/**
  * Get a user's homepage 
  * 
  * @name GET /api/segments/homepage?filter=keyword1,keyword2...
@@ -129,6 +151,7 @@ router.patch(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
     const segmentId = req.body.segmentId;
+    console.log(req.body);
     const segment = await SegmentModel.findById({ _id: segmentId });
     const likes = segment.likes;
     // if the user hasn't liked the segment yet, add the user to the likes array

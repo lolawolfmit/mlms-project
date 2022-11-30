@@ -9,9 +9,14 @@
       <h3 class="author">
         {{ this.$store.currentlyReading.segmentTitle }}, the first chapter of {{ this.$store.currentlyReading.storyTitle }} by {{ this.$store.currentlyReading.author }} 
          <button v-if="this.$store.state.following.includes(this.$store.currentlyReading.author)"
-        @click="unfollowAuthor">Unfollow</button>
+        @click="followAuthor">Unfollow</button>
         <button v-else
         @click="followAuthor">Follow</button>
+        <button v-if="this.$store.state.likes.includes(segment._id)"
+        @click="likeStory">Unlike</button>
+        <button v-else
+        @click="likeStory">Like</button>
+        <button @click="forkStory">Fork</button>
       </h3>
     </header>
     <p
@@ -72,6 +77,45 @@ export default {
 
         this.editing = false;
         //this.$store.commit('refreshFollowing');
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+    forkStory() {
+        this.$store.commit('updateForkingStory', this.segment._id);
+    },
+    async likeStory() {
+      // set global variable
+      // push storyreader page into router
+
+      let message = this.$store.state.likes.includes(this.segment._id) ? 'Unliked!' : 'Liked!';
+
+      const params = {
+        method: 'PATCH',
+        message: message,
+        body: JSON.stringify({segmentId: this.segment._id}),
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+
+      try {
+
+        const options = {
+          method: params.method, headers: {'Content-Type': 'application/json'}, body: params.body
+        };
+        const r = await fetch(`/api/segment/like`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.editing = false;
+        this.$store.commit('refreshLikes');
 
         params.callback();
       } catch (e) {
