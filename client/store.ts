@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     forkingStory: null,
     likes: [],
     username: null, // Username of the logged in user
+    userID: null, // ID of the logged in user
     currentlyReading: null, // id of the story segment currently being read (last one that was clicked)
     currentlyReadingChildren: [], // children of the story segment currently being read
     storySegments: [],
@@ -37,6 +38,13 @@ const store = new Vuex.Store({
        * @param username - new username to set
        */
       state.username = username;
+    },
+    setUserID(state, userID) {
+      /**
+       * Update the stored userID to the specified one.
+       * @param userID - new userID to set
+       */
+      state.userID = userID;
     },
     updateFilter(state, filter) {
       /**

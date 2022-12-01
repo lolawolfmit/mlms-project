@@ -12,11 +12,10 @@
         @click="followAuthor">Unfollow</button>
         <button v-else
         @click="followAuthor">Follow</button>
-        <button v-if="this.$store.state.likes.includes(segment._id)"
+        <button v-if="segment.likes.includes(this.$store.state.userID)"
         @click="likeStory">Unlike</button>
         <button v-else
         @click="likeStory">Like</button>
-        <button @click="forkStory">Fork</button>
       </h3>
     </header>
     <p
@@ -114,7 +113,7 @@ export default {
       // set global variable
       // push storyreader page into router
 
-      let message = this.$store.state.likes.includes(this.segment._id) ? 'Unliked!' : 'Liked!';
+      let message = this.segment.likes.includes(this.$store.state.userID) ? 'Unliked!' : 'Liked!';
 
       const params = {
         method: 'PATCH',
@@ -138,7 +137,7 @@ export default {
         }
 
         this.editing = false;
-        this.$store.commit('refreshLikes');
+        this.$store.commit('refreshSegments');
 
         params.callback();
       } catch (e) {

@@ -148,7 +148,6 @@ router.patch(
   '/like',
   [
     userValidator.isUserLoggedIn,
-    // segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
@@ -186,7 +185,6 @@ router.get(
   '/likes',
   [
     userValidator.isUserLoggedIn,
-    // segmentValidator.segmentExists,
   ],
   async (req: Request, res: Response) => {
     const segmentId = req.body.segmentId;

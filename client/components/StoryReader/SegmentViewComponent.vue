@@ -12,7 +12,7 @@
         @click="followAuthor">Unfollow</button>
         <button v-else
         @click="followAuthor">Follow</button>
-        <button v-if="this.$store.state.likes.includes(this.$store.state.currentlyReading._id)"
+        <button v-if="this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id).likes.includes(this.$store.state.userID)"
         @click="likeStory">Unlike</button>
         <button v-else
         @click="likeStory">Like</button>
@@ -91,12 +91,12 @@ export default {
       // set global variable
       // push storyreader page into router
 
-      let message = this.$store.state.likes.includes(this.segment._id) ? 'Unliked!' : 'Liked!';
+      let message = this.$store.state.currentlyReading.likes.includes(this.$store.state.userID) ? 'Unliked!' : 'Liked!';
 
       const params = {
         method: 'PATCH',
         message: message,
-        body: JSON.stringify({segmentId: this.segment._id}),
+        body: JSON.stringify({segmentId: this.$store.state.currentlyReading._id}),
         callback: () => {
           this.$set(this.alerts, params.message, 'success');
           setTimeout(() => this.$delete(this.alerts, params.message), 3000);
@@ -115,7 +115,9 @@ export default {
         }
 
         this.editing = false;
-        this.$store.commit('refreshLikes');
+        this.$store.commit('refreshSegments');
+        const targetSegment = this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id);
+        this.$store.commit('updateCurrentlyReading', targetSegment);
 
         params.callback();
       } catch (e) {
