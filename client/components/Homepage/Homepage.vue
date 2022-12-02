@@ -17,7 +17,7 @@
           <GetSegmentsForm
             ref="getSegmentsForm"
             value="author"
-            placeholder="🔍 Filter by author (optional)"
+            placeholder="🔍 Filter by keyword or author (optional)"
             button="🔄 Get segments"
           />
         </div>

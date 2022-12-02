@@ -20,6 +20,14 @@ export default {
         }
 
         this.$store.commit('updateFilter', this.value);
+        let matchingAuthorSegments = this.$store.state.storySegments.filter(story => story.author == this.value);
+        if (matchingAuthorSegments) {
+          for (let segment of matchingAuthorSegments) {
+            if (!res.includes(segment)) {
+              res.push(segment);
+            }
+          }
+        }
         this.$store.commit('updateHomepageSegments', res);
       } catch (e) {
         if (this.value === this.$store.state.filter) {
