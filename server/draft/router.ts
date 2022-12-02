@@ -10,7 +10,7 @@ const router = express.Router();
 
 
 /**
- * Get segments by a given author
+ * Get drafts by a given author
  * 
  * @name GET /api/drafts?authorId=id
  * 
@@ -118,7 +118,16 @@ router.patch(
 );
 
 
-//delete a draft, no publishing
+/**
+ * Delete a draft
+ *
+ * @name DELETE /api/drafts/:id
+ *
+ * @param {string} draftId - id of draft to delete
+ * @return {string} - A success message
+ * @throws {405} - user is trying to publish another person's draft
+ * @throws {403} - If the user is not logged in
+ */
 router.delete(
     '/:draftId?',
     [
@@ -133,7 +142,17 @@ router.delete(
     }
 );
 
-//publish a draft
+
+
+
+/** 
+ * Publish a draft so that it is a segment now
+ * 
+ * @name POST /api/drafts/:id
+ * 
+ * @throws {405} - user is trying to publish another person's draft
+ * @throws {403} - If the user is not logged in
+*/
 router.post(
     '/:draftId?',
     [
@@ -151,7 +170,5 @@ router.post(
 
 
 
-//delete draft
-//publish draft
-//edit draft
+
 export {router as draftRouter};
