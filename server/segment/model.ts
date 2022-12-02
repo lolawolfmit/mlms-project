@@ -18,7 +18,7 @@ export type Segment = {
 
 export type PopulatedSegment = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
-  authorId: User; // username of the author
+  authorId: User;
   datePublished: Date;
   storyTitle: string;
   segmentTitle: string;
