@@ -19,7 +19,7 @@ const store = new Vuex.Store({
     userID: null, // ID of the logged in user
     currentlyReading: null, // id of the story segment currently being read (last one that was clicked)
     currentlyReadingChildren: [], // children of the story segment currently being read
-    storySegments: [],
+    storySegments: [], // ALL STORY SEGMENTS ON APP, DO NOT DELETE THIS OR MODIFY HOW IT IS POPULATED
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {

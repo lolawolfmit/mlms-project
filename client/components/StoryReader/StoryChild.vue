@@ -152,7 +152,7 @@ export default {
 </script>
 
 <style scoped>
-.segment {
+.child {
     border: 1px solid #111;
     padding: 20px;
     position: relative;

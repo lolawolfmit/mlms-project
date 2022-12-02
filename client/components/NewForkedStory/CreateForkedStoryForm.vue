@@ -12,14 +12,14 @@ export default {
       method: 'POST',
       hasBody: true,
       fields: [
-        {id: 'storyTitle', label: 'Story Title', value: ''},
         {id: 'segmentTitle', label: 'Segment Title', value: ''},
         {id: 'content', label: 'Content', value: ''}
       ],
       additionalBody: [
-        {id: 'parent', value: this.$store.state.currentlyReading._id}
+        {id: 'parent', value: this.$store.state.currentlyReading._id},
+        {id: 'storyTitle', value: this.$store.state.currentlyReading.storyTitle}
       ],
-      title: 'Start Your Story',
+      title: 'Continue the Story',
       callback: () => {
         const message = 'Successfully created your story segment!';
         this.$store.commit('refreshSegments');

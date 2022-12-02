@@ -2,6 +2,9 @@
 
 <template>
   <main>
+    <section v-if="$store.state.currentlyReading.storyPart > 1">
+      <button @click="goToPrevious">Go to the previous segment in the tree</button>
+    </section>
     <section v-if="$store.state.currentlyReading">
       <SegmentViewComponent />
     </section>
@@ -25,6 +28,10 @@ export default {
   name: 'ReaderPage',
   components: {SegmentViewComponent, StoryChild},
   methods: {
+    goToPrevious() {
+      this.$store.commit('refreshChildren', this.$store.state.currentlyReading.parent);
+      this.$store.commit('updateCurrentlyReading', this.$store.state.storySegments.find(story => story._id == this.$store.state.currentlyReading.parent));
+    }
   }
 };
 </script>

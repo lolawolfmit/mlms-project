@@ -7,7 +7,7 @@
   >
     <header>
       <h3 class="author">
-        {{ this.$store.state.currentlyReading.segmentTitle }}, the first chapter of {{ this.$store.state.currentlyReading.storyTitle }} by {{ this.$store.state.currentlyReading.author }} 
+        {{ this.$store.state.currentlyReading.segmentTitle }}, part {{ this.$store.state.currentlyReading.storyPart }} of {{ this.$store.state.currentlyReading.storyTitle }} by {{ this.$store.state.currentlyReading.author }} 
          <button v-if="this.$store.state.following.includes(this.$store.state.currentlyReading.author)"
         @click="followAuthor">Unfollow</button>
         <button v-else
