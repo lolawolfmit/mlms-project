@@ -60,7 +60,7 @@ class SegmentCollection {
    * @returns {Promise<HydratedDocument<Segment>[]>} - The children of the parent
   */
   static async getChildren(parentId: Types.ObjectId | string): Promise<Array<HydratedDocument<Segment>>> {
-    return SegmentModel.find({ parent: parentId }).sort({ datePublished: -1 }).populate('parent');
+    return SegmentModel.find({ parent: parentId }).sort({ datePublished: -1 }).populate(['parent', 'authorId']);
   }
 
   /**
