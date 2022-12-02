@@ -5,7 +5,7 @@
   <main>
     <section>
       <header>
-        <h2>Begin your story</h2>
+        <h2>Continue the story</h2>
       </header>
       <CreateForkedStoryForm />
     </section>
