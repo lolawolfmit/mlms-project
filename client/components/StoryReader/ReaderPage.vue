@@ -2,6 +2,8 @@
 
 <template>
   <main>
+    <section v-if="$store.state.currentlyReading.parent">
+    </section>
     <section v-if="$store.state.currentlyReading">
       <SegmentViewComponent />
     </section>

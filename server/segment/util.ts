@@ -1,6 +1,7 @@
 import type {HydratedDocument} from 'mongoose';
 import moment from 'moment';
 import type {Segment, PopulatedSegment} from './model';
+import UserModel from '../user/model';
 import type {User} from '../user/model';
 
 type SegmentResponse = {
