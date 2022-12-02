@@ -13,11 +13,19 @@
           </h2>
         </div>
       </header>
+      <div class="right">
+          <GetSegmentsForm
+            ref="getSegmentsForm"
+            value="author"
+            placeholder="🔍 Filter by author (optional)"
+            button="🔄 Get segments"
+          />
+        </div>
       <section
-        v-if="$store.state.storySegments.length"
+        v-if="$store.state.homepageSegments.length"
       >
         <SegmentPreviewComponent
-          v-for="segment in $store.state.storySegments"
+          v-for="segment in $store.state.homepageSegments"
           :key="segment.id"
           :segment="segment"
         />
@@ -36,10 +44,14 @@
 
 <script>
 import SegmentPreviewComponent from '@/components/Profile/SegmentPreviewComponent.vue';
+import GetSegmentsForm from '@/components/Homepage/GetSegmentsForm.vue';
 
 export default {
   name: 'Homepage',
-  components: {SegmentPreviewComponent},
+  components: {SegmentPreviewComponent, GetSegmentsForm},
+  mounted() {
+    this.$refs.getSegmentsForm.submit();
+  },
   methods: {
     newStoryPage() {
       /**

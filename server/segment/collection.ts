@@ -71,8 +71,8 @@ class SegmentCollection {
    */
   static async getHomepage(userId: Types.ObjectId | string, filter: string): Promise<Array<HydratedDocument<Segment>>> {
     const user = await UserCollection.findOneByUserId(userId);
-    const following = user.following.push(user);
-    const segments = await SegmentModel.find({ authorId: { $in: following } }).sort({ datePublished: -1 }).populate('authorId');
+    user.following.push(user);
+    const segments = await SegmentModel.find({ authorId: { $in: user.following } }).sort({ datePublished: -1 }).populate('authorId');
     if (!filter) {
       return segments.slice(0, 20);
     }

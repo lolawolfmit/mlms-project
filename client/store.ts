@@ -20,6 +20,7 @@ const store = new Vuex.Store({
     currentlyReading: null, // id of the story segment currently being read (last one that was clicked)
     currentlyReadingChildren: [], // children of the story segment currently being read
     storySegments: [], // ALL STORY SEGMENTS ON APP, DO NOT DELETE THIS OR MODIFY HOW IT IS POPULATED
+    homepageSegments: [], // Story segments for displaying on the homepage
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   mutations: {
@@ -61,12 +62,25 @@ const store = new Vuex.Store({
       const res = await fetch(url).then(async r => r.json());
       state.storySegments = res;
     },
+    async refreshHomepageSegments(state) {
+      /**
+       * Request the server for the currently available segments
+       */
+      const url = state.filter ? `/api/segment/homepage?filter=${state.filter}` : '/api/segment/homepage';
+      const res = await fetch(url).then(async r => r.json());
+      state.homepageSegments = res;
+    },
     async refreshChildren(state, parent) {
       const url = `/api/segment/children?parentId=${parent}`;
       const res = await fetch(url).then(async r => r.json());
-      console.log(parent);
-      console.log(res);
       state.currentlyReadingChildren = res;
+    },
+    updateHomepageSegments(state, segments) {
+      /**
+       * Update the stored freets to the provided freets.
+       * @param freets - Freets to store
+       */
+      state.homepageSegments = segments;
     },
     updateFreets(state, freets) {
       /**

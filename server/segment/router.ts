@@ -85,7 +85,7 @@ router.get(
  */
 
 router.get(
-  '/homepage',
+  '/homepage/:filter?',
   [
     userValidator.isUserLoggedIn
   ],
@@ -94,7 +94,6 @@ router.get(
       next();
       return;
     }
-
     const homepage = await SegmentCollection.getHomepage(req.session.userId, "");
     const response = homepage.map(util.constructSegmentResponse);
     res.status(200).json(response);
