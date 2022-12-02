@@ -12,6 +12,7 @@ type SegmentResponse = {
   content: string;
   parent: string;
   likes: Array<String>;
+  storyPart: number;
 };
 
 /**
@@ -45,7 +46,8 @@ const constructSegmentResponse = (segment: HydratedDocument<Segment>): SegmentRe
     storyTitle: segment.storyTitle,
     segmentTitle: segment.segmentTitle,
     parent: segmentCopy.parent? segmentCopy.parent.toString() : "none",
-    likes: segmentCopy.likes
+    likes: segmentCopy.likes,
+    storyPart: segmentCopy.storyPart
   };
 };
 
