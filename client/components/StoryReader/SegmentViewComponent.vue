@@ -17,6 +17,7 @@
         <button v-else
         @click="likeStory">Like</button>
         <button @click="forkStory">Fork</button>
+        {{ this.$store.state.currentlyReading.likes.length }} likes
       </h3>
     </header>
     <p

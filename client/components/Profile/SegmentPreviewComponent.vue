@@ -16,6 +16,7 @@
         @click="likeStory">Unlike</button>
         <button v-else
         @click="likeStory">Like</button>
+        {{ segment.likes.length }} likes
       </h3>
     </header>
     <p
