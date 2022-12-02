@@ -77,9 +77,9 @@ export default {
         credentials: 'same-origin' // Sends express-session credentials with request
       };
       if (this.hasBody) {
-        this.fields = this.fields.concat(this.additionalBody);
+        let fieldsAndAdditionalBody = this.fields.concat(this.additionalBody);
         options.body = JSON.stringify(Object.fromEntries(
-          this.fields.map(field => {
+          fieldsAndAdditionalBody.map(field => {
             const {id, value} = field;
             field.value = '';
             return [id, value];
