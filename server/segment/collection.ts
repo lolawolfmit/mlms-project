@@ -20,7 +20,8 @@ class SegmentCollection {
       segmentTitle,
       content,
       parent,
-      likes: []
+      likes: [],
+      storyPart: parent == null ? 1 : (await this.getSegmentByID(parent)).storyPart + 1
     });
     await segment.save();
     return segment.populate('authorId');

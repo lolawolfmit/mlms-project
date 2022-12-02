@@ -13,6 +13,7 @@ export type Segment = {
   content: string;
   parent: Types.ObjectId;
   likes: Array<String>;
+  storyPart: number;
 };
 
 export type PopulatedSegment = {
@@ -24,6 +25,7 @@ export type PopulatedSegment = {
   content: string;
   parent: Types.ObjectId;
   likes: Array<String>;
+  storyPart: number;
 };
 
 
@@ -63,6 +65,11 @@ const SegmentSchema = new Schema<Segment>({
   // the usernames of users that liked the segment
   likes: {
     type: Array<String>(),
+    required: true
+  },
+  // The part of the story the segment is in
+  storyPart: {
+    type: Number,
     required: true
   }
 });
