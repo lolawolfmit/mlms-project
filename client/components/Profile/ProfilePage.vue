@@ -11,11 +11,21 @@
         <h3 v-if="$route.params.username != $store.state.username">{{ $store.state.profileFollowerCount }} followers, {{ $store.state.profileFollowingCount }} following</h3>
         <h3 v-else>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h3>
         <div v-if="$route.params.username != $store.state.username">
-          <button v-if="$store.state.following.includes($route.params.author)"
+          <button v-if="$store.state.following.includes($route.params.username)"
           @click="followAuthor">Unfollow</button>
           <button v-else
           @click="followAuthor">Follow</button>
         </div>
+
+        <section class="alerts">
+          <article
+            v-for="(status, alert, index) in alerts"
+            :key="index"
+            :class="status"
+          >
+            <p>{{ alert }}</p>
+          </article>
+        </section>
       </header>
       <button @click="newStoryPage">Create New Story</button>
     </section>
@@ -52,8 +62,13 @@ export default {
   name: 'ProfilePage',
   components: {SegmentPreviewComponent},
     mounted () {
-      console.log("Mounted!");
+      this.$store.commit('refreshFollowing');
       this.$store.commit('loadProfile', this.$route.params.username);
+    },
+    data() {
+      return {
+        alerts: {} // Displays success/error messages encountered during freet modification
+      };
     },
   methods: {
     async followAuthor() {
