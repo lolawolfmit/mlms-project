@@ -139,10 +139,8 @@ const store = new Vuex.Store({
        * Request the server for the currently available freets.
        */
       const url = `/api/users/followers/${state.username}`;
-      console.log("getting");
       const res = await fetch(url).then(async r => r.json());
       state.followers = res;
-      console.log("Got followers");
     },
     updateForkingStory(state, story) {
       /**
@@ -161,7 +159,6 @@ const store = new Vuex.Store({
       const url2 = `/api/users/following/${state.username}`;
       const res2 = await fetch(url2).then(async r => r.json());
       state.profileFollowingCount = res2.length;
-      console.log(state.profileUser);
     }
   },
   // Store data across page refreshes, only discard on browser close
