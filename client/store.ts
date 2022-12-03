@@ -13,7 +13,10 @@ const store = new Vuex.Store({
     freets: [], // All freets created in the app
     following: [], // All users that the user presently follows
     followers: [], // All users that the user presently follows
+    profileFollowerCount: 0,
+    profileFollowingCount: 0,
     forkingStory: null,
+    profileUser: null,
     likes: [],
     username: null, // Username of the logged in user
     userID: null, // ID of the logged in user
@@ -144,6 +147,19 @@ const store = new Vuex.Store({
        * Request the server for the currently available freets.
        */
       state.forkingStory = story;
+    },
+    async loadProfile(state, username) {
+
+      const url = `/api/users/followers/${username}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.profileFollowerCount = res.length;
+
+
+      const url2 = `/api/users/following/${state.username}`;
+      const res2 = await fetch(url2).then(async r => r.json());
+      state.profileFollowingCount = res2.length;
+      state.profileUser = username;
+      console.log(state.profileUser);
     }
   },
   // Store data across page refreshes, only discard on browser close

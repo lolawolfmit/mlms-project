@@ -16,7 +16,7 @@ const routes = [
   {path: '/', name: 'Homepage', component: Homepage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
-  {path: '/profile', name: 'Profile', component: ProfilePage},
+  {path: '/profile/:username', name: 'Profile', component: ProfilePage},
   {path: '/newstory', name: 'NewStory', component: NewStoryPage},
   {path: '/newforkedstory', name: 'NewForkedStory', component: NewForkedStoryPage},
   {path: '/reader', name: 'ReaderPage', component: ReaderPage},
