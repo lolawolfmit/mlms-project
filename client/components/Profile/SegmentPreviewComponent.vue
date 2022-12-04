@@ -103,6 +103,7 @@ export default {
 
         this.editing = false;
         this.$store.commit('refreshFollowing');
+        this.$store.commit('loadProfile', this.$store.state.profileUser);
 
         params.callback();
       } catch (e) {

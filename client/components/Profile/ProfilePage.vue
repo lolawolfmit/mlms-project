@@ -6,7 +6,7 @@
       <header>
         <h2 v-if="$route.params.username != $store.state.username">{{ $route.params.username }}'s page</h2>
         <h2 v-else>Welcome {{ $store.state.username }}</h2>
-        <h3>x publicity</h3>
+        <h3> {{ $store.state.profilePublicity }} publicity</h3>
         <h3>y stories, z contributions</h3>
         <h3 v-if="$route.params.username != $store.state.username">{{ $store.state.profileFollowerCount }} followers, {{ $store.state.profileFollowingCount }} following</h3>
         <h3 v-else>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h3>
@@ -64,6 +64,8 @@ export default {
     mounted () {
       this.$store.commit('refreshFollowing');
       this.$store.commit('loadProfile', this.$route.params.username);
+
+      this.$store.commit('refreshSegments', this.$route.params.username);
     },
     data() {
       return {
@@ -91,7 +93,6 @@ export default {
         const options = {
           method: params.method, headers: {'Content-Type': 'application/json'}
         };
-        console.log(this.$store.state.profileUser);
         const r = await fetch(`/api/users/follow/${this.$store.state.profileUser}`, options);
         if (!r.ok) {
           const res = await r.json();
@@ -100,8 +101,8 @@ export default {
 
         this.editing = false;
         this.$store.commit('refreshFollowing');
+        this.$store.commit('loadProfile', this.$route.params.username);
 
-        console.log("Done!");
         params.callback();
       } catch (e) {
         this.$set(this.alerts, e, 'error');
