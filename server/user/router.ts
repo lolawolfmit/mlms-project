@@ -282,6 +282,7 @@ router.get(
  * increment a user's publicity
  * 
  * @return - new publicity
+ * @throws {403} - If user is not logged in
  */
 router.patch(
   '/publicity/increment/:user?',
@@ -303,6 +304,9 @@ router.patch(
  * decrement a user's publicity
  * 
  * @return - new publicity
+ * 
+ * @throws {403} - If user is not logged in
+ * 
  */
 router.patch(
   '/publicity/decrement/:user?',

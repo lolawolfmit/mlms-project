@@ -1,5 +1,14 @@
+
+
 # Fritter Frontend
 Congrats, you've completed the Fritter backend! Now it's time to make an interface that your users will be able to interact with in A6: Fritter frontend. **Make sure to read this document fully** as well, as it contains a lot of A6-specific info!
+
+
+## Routes
+
+[See a list of all routes here](https://docs.google.com/document/d/1nfSkOqN-2Tlucga2rrWqMpv_goOduvshZkeQjvM4rrs/edit?usp=sharing)
+
+
 
 ## Starter Code
 
