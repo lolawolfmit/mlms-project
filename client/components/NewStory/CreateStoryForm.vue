@@ -23,7 +23,7 @@ export default {
       callback: () => {
         const message = 'Successfully created your story segment!';
         this.$store.commit('refreshSegments');
-        this.$router.push('/profile');
+        this.$router.push(`/profile/${this.$store.state.username}`);
         this.$set(this.alerts, message, 'success');
         setTimeout(() => this.$delete(this.alerts, message), 3000);
       }
