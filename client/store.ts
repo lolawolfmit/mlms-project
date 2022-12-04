@@ -62,17 +62,17 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available segments
        */
-      //if (!username) {
+      if (!username) {
         const url = '/api/segment';
         const res = await fetch(url).then(async r => r.json());
         state.storySegments = res;
-      //}
-      /*else {
+      }
+      else {
         const url = `/api/segment?author=${username}`;
         const res = await fetch(url).then(async r => r.json());
         state.storySegments = res;
 
-      }*/
+      }
     },
     async refreshHomepageSegments(state) {
       /**
