@@ -174,10 +174,13 @@ router.delete(
 /**
  * @name PATCH /api/users/follow/:followee
  * 
+ * follow another account (followee)
+ * 
  * @throws {403} if user is not logged in
  * 
  * @throws {405} if followee doesn't exist/was deleted or is the same as the logged in user
  * 
+ * @returns message status on whether followee is now followed by user
  */
 router.patch(
   '/follow/:followee?',
@@ -187,12 +190,7 @@ router.patch(
   ],
   async (req: Request, res: Response) => {
     const followee = await UserCollection.findOneByUsername(req.params.followee as string);
-    //console.log("followee");
-    //console.log(followee);
     const isFollowed = await UserCollection.isFollowing(req.session.userId as string, followee._id);
-    //console.log("isFollowed");
-    //console.log(isFollowed);
-    //case for unfollowing
     let messageStatus = '';
     if (isFollowed){
       await UserCollection.unfollow(req.session.userId as string, followee._id);
@@ -201,18 +199,10 @@ router.patch(
     else{
       await UserCollection.follow(req.session.userId as string, followee._id);
       messageStatus = 'followed';
-      //console.log("follow");
     }
 
-    //const following = await UserCollection.findFollowing(req.session.userId as string);
-    // console.log("following!");
-    // console.log(following);
-    //const response = following.map(util.constructUserResponse);
-    //console.log(response);
-    //console.log("response");
     res.status(200).json({
       message: messageStatus
-      //followingList: response
     });
   }
 );
@@ -267,7 +257,12 @@ router.get(
 );
 
 
-
+/**
+ *
+ * @name GET /api/users/publicity/:user
+ *
+ * @return - users' publicity
+ */
 router.get(
   '/publicity/:user?',
   [
@@ -280,7 +275,14 @@ router.get(
   }
 );
 
-
+/**
+ *
+ * @name PATCH /api/users/publicity/increment/:user
+ *
+ * increment a user's publicity
+ * 
+ * @return - new publicity
+ */
 router.patch(
   '/publicity/increment/:user?',
   [
@@ -294,7 +296,14 @@ router.patch(
   }
 );
 
-
+/**
+ *
+ * @name PATCH /api/users/publicity/decrement/:user
+ *
+ * decrement a user's publicity
+ * 
+ * @return - new publicity
+ */
 router.patch(
   '/publicity/decrement/:user?',
   [
