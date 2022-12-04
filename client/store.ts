@@ -68,6 +68,14 @@ const store = new Vuex.Store({
        */
       const url = state.filter ? `/api/segment/homepage?filter=${state.filter}` : '/api/segment/homepage';
       const res = await fetch(url).then(async r => r.json());
+      let authorSegments = state.storySegments.filter(story => story.author == state.filter);
+      if (authorSegments) {
+        for (let segment of authorSegments) {
+          if (!res.includes(segment)) {
+            res.push(segment);
+          }
+        }
+      }
       state.homepageSegments = res;
     },
     async refreshChildren(state, parent) {
