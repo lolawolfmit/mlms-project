@@ -41,7 +41,7 @@
         v-if="$store.state.storySegments.length"
       >
         <SegmentPreviewComponent
-          v-for="segment in $store.state.storySegments"
+          v-for="segment in $store.state.storySegments.filter(story => story.author == $route.params.username)"
           :key="segment.id"
           :segment="segment"
         />
