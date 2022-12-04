@@ -63,6 +63,7 @@ export default {
   components: {SegmentPreviewComponent},
     mounted () {
       this.$store.commit('refreshFollowing');
+      this.$store.commit('refreshFollowers');
       this.$store.commit('loadProfile', this.$route.params.username);
 
       this.$store.commit('refreshSegments', this.$route.params.username);
