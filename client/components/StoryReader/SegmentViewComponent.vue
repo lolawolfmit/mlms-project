@@ -76,7 +76,7 @@ export default {
         }
 
         this.editing = false;
-        //this.$store.commit('refreshFollowing');
+        this.$store.commit('refreshFollowing');
 
         params.callback();
       } catch (e) {

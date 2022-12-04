@@ -4,10 +4,28 @@
   <main>
     <section v-if="$store.state.username">
       <header>
-        <h2>Welcome {{ $store.state.username }}</h2>
-        <h3>x publicity</h3>
+        <h2 v-if="$route.params.username != $store.state.username">{{ $route.params.username }}'s page</h2>
+        <h2 v-else>Welcome {{ $store.state.username }}</h2>
+        <h3> {{ $store.state.profilePublicity }} publicity</h3>
         <h3>y stories, z contributions</h3>
-        <h3>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h3>
+        <h3 v-if="$route.params.username != $store.state.username">{{ $store.state.profileFollowerCount }} followers, {{ $store.state.profileFollowingCount }} following</h3>
+        <h3 v-else>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h3>
+        <div v-if="$route.params.username != $store.state.username">
+          <button v-if="$store.state.following.includes($route.params.username)"
+          @click="followAuthor">Unfollow</button>
+          <button v-else
+          @click="followAuthor">Follow</button>
+        </div>
+
+        <section class="alerts">
+          <article
+            v-for="(status, alert, index) in alerts"
+            :key="index"
+            :class="status"
+          >
+            <p>{{ alert }}</p>
+          </article>
+        </section>
       </header>
       <button @click="newStoryPage">Create New Story</button>
     </section>
@@ -43,7 +61,54 @@ import SegmentPreviewComponent from '@/components/Profile/SegmentPreviewComponen
 export default {
   name: 'ProfilePage',
   components: {SegmentPreviewComponent},
+    mounted () {
+      this.$store.commit('refreshFollowing');
+      this.$store.commit('loadProfile', this.$route.params.username);
+
+      this.$store.commit('refreshSegments', this.$route.params.username);
+    },
+    data() {
+      return {
+        alerts: {} // Displays success/error messages encountered during freet modification
+      };
+    },
   methods: {
+    async followAuthor() {
+      // set global variable
+      // push storyreader page into router
+      let message = this.$store.state.following.includes(this.$store.state.profileUser) ? 'No longer following!' : 'Following!';
+
+      const params = {
+        method: 'PATCH',
+        message: message,
+        body: JSON.stringify({}),
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+
+      try {
+
+        const options = {
+          method: params.method, headers: {'Content-Type': 'application/json'}
+        };
+        const r = await fetch(`/api/users/follow/${this.$store.state.profileUser}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.editing = false;
+        this.$store.commit('refreshFollowing');
+        this.$store.commit('loadProfile', this.$route.params.username);
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
     newStoryPage() {
       /**
        * Enables edit mode on this freet.

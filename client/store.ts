@@ -13,7 +13,11 @@ const store = new Vuex.Store({
     freets: [], // All freets created in the app
     following: [], // All users that the user presently follows
     followers: [], // All users that the user presently follows
+    profileFollowerCount: 0,
+    profileFollowingCount: 0,
+    profilePublicity: 0,
     forkingStory: null,
+    profileUser: null,
     likes: [],
     username: null, // Username of the logged in user
     userID: null, // ID of the logged in user
@@ -54,13 +58,21 @@ const store = new Vuex.Store({
        */
       state.filter = filter;
     },
-    async refreshSegments(state) {
+    async refreshSegments(state, username) {
       /**
        * Request the server for the currently available segments
        */
-      const url = '/api/segment';
-      const res = await fetch(url).then(async r => r.json());
-      state.storySegments = res;
+      if (!username) {
+        const url = '/api/segment';
+        const res = await fetch(url).then(async r => r.json());
+        state.storySegments = res;
+      }
+      else {
+        const url = `/api/segment?author=${username}`;
+        const res = await fetch(url).then(async r => r.json());
+        state.storySegments = res;
+
+      }
     },
     async refreshHomepageSegments(state) {
       /**
@@ -152,6 +164,26 @@ const store = new Vuex.Store({
        * Request the server for the currently available freets.
        */
       state.forkingStory = story;
+    },
+    async loadProfile(state, username) {
+      if (!username) {
+        return;
+      }
+
+      state.profileUser = username;
+      const url = `/api/users/followers/${username}`;
+      const res = await fetch(url).then(async r => r.json());
+      state.profileFollowerCount = res.length;
+
+
+      const url2 = `/api/users/following/${username}`;
+      const res2 = await fetch(url2).then(async r => r.json());
+      state.profileFollowingCount = res2.length;
+
+      const url3 = `/api/users/publicity/${username}`;
+      const res3 = await fetch(url3).then(async r => r.json());
+      //state.profileFollowingCount = res2.length;
+      state.profilePublicity = res3;
     }
   },
   // Store data across page refreshes, only discard on browser close
