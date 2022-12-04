@@ -16,6 +16,8 @@ const store = new Vuex.Store({
     profileFollowerCount: 0,
     profileFollowingCount: 0,
     profilePublicity: 0,
+    profileContributions: 0,
+    profileStoryCount: 0,
     forkingStory: null,
     profileUser: null,
     likes: [],
@@ -176,7 +178,22 @@ const store = new Vuex.Store({
       const res3 = await fetch(url3).then(async r => r.json());
       //state.profileFollowingCount = res2.length;
       state.profilePublicity = res3;
-    }
+
+
+      state.profileContributions = 0;
+      state.profileStoryCount = 0;
+      for (let segment in state.storySegments) {
+        let currentSegment = state.storySegments[segment];
+        if (currentSegment.author != username) {
+          continue;
+        }
+        state.profileContributions += 1;
+        if (currentSegment.storyPart == 1) {
+          state.profileStoryCount += 1;
+        }
+      }
+
+    },
   },
   // Store data across page refreshes, only discard on browser close
   plugins: [createPersistedState()]

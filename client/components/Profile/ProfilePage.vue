@@ -7,7 +7,7 @@
         <h2 v-if="$route.params.username != $store.state.username">{{ $route.params.username }}'s page</h2>
         <h2 v-else>Welcome {{ $store.state.username }}</h2>
         <h3> {{ $store.state.profilePublicity }} publicity</h3>
-        <h3>y stories, z contributions</h3>
+        <h3> {{ $store.state.profileStoryCount }}  stories, {{ $store.state.profileContributions }} contributions</h3>
         <h3 v-if="$route.params.username != $store.state.username">{{ $store.state.profileFollowerCount }} followers, {{ $store.state.profileFollowingCount }} following</h3>
         <h3 v-else>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h3>
         <div v-if="$route.params.username != $store.state.username">
