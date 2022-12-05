@@ -19,7 +19,7 @@ const router = express.Router();
 /**
  * Get segments by a given root
  * 
- * @name GET /api/segments?rootId=id
+ * @name GET /api/trees?rootId=id
  * 
  * @return {TreeResponse[]} - A list of all the segments by the author sorted by date published in descending order
  * @throws {400} - If the treeId is not given
