@@ -1,4 +1,4 @@
-<!-- Default page that also displays freets -->
+<!-- Default page that displays segments from the user's followers or any user they search -->
 
 <template>
   <main>
@@ -53,12 +53,6 @@ export default {
     this.$refs.getSegmentsForm.submit();
   },
   methods: {
-    newStoryPage() {
-      /**
-       * Enables edit mode on this freet.
-       */
-      this.$router.push({name: 'NewStory'});
-    }
   }
 };
 </script>

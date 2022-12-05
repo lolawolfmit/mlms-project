@@ -1,5 +1,6 @@
-<!-- Reusable component representing a single freet and its actions -->
-<!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
+<!-- Reusable component representing a single preview of a segment and its actions -->
+<!-- THIS COMPONENT IS DEPRECATED AND WILL BE REMOVED -->
+<!-- see /components/Profile/SegmentPreviewComponent instead -->
 
 <template>
   <article
@@ -59,16 +60,15 @@ export default {
   },
   methods: {
     expandSegment() {
-      // set global variable
-      // push storyreader page into router
+      /**
+       * Triggers expanding the segment preview into a larger reader page that allows for forking and also displays children (if applicable)
+       */
       this.$store.state.currentlyReading = this.segment;
       this.$store.commit('refreshChildren', this.segment._id);
       this.$router.push('/reader');
     },
 
     async followAuthor() {
-      // set global variable
-      // push storyreader page into router
 
       const params = {
         method: 'PATCH',

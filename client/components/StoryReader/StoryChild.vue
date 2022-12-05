@@ -1,11 +1,11 @@
-<!-- Reusable component representing a single freet and its actions -->
-<!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
+<!-- Reusable component representing a single child of a segment in a tree -->
 
 <template>
   <article
+    @click="readNext"
     class="child"
   >
-    <h3 @click="readNext">{{child.segmentTitle}} by {{child.author}}</h3>
+    <h3>{{child.segmentTitle}} by {{child.author}}</h3>
   </article>
 </template>
 
@@ -75,10 +75,10 @@ export default {
       this.draft = this.freet.content;
     },
     readNext() {
-      console.log("child id");
-      console.log(this.child._id);
+      /**
+       * Triggers navigating to the child segment and opening it in the expanded reader page.
+       */
       this.$store.commit('updateCurrentlyReading', this.child);
-      console.log(this.$store.state.currentlyReading);
       this.$store.commit('refreshChildren', this.child._id);
     },
     deleteFreet() {

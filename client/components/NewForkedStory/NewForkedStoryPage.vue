@@ -1,5 +1,4 @@
-<!-- Page for account settings and management -->
-<!-- User should be authenticated in order to see this page -->
+<!-- Page for creating a new forked story segment -->
 
 <template>
   <main>

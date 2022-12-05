@@ -1,5 +1,4 @@
-<!-- Reusable component representing a single freet and its actions -->
-<!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
+<!-- Reusable component representing a single expanded view of a segment and its actions (including fork) -->
 
 <template>
   <article
@@ -85,6 +84,9 @@ export default {
       }
     },
     forkStory() {
+        /**
+        * Triggers forking a story (will open up new segment creation page).
+        */
         this.$store.commit('updateForkingStory', this.$store.state.currentlyReading);
         this.$router.push('/newforkedstory');
     },

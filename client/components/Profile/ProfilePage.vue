@@ -1,4 +1,4 @@
-<!-- Default page that also displays freets -->
+<!-- A user's profile page that displays their stats as well as all story segments they have created -->
 
 <template>
   <main>
@@ -112,8 +112,8 @@ export default {
     },
     newStoryPage() {
       /**
-       * Enables edit mode on this freet.
-       */
+      * Triggers the Create New Story page where the user can make a new story.
+      */
       this.$router.push({name: 'NewStory'});
     }
   }

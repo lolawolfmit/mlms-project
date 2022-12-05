@@ -1,4 +1,4 @@
-<!-- Form for getting freets (all, from user) (inline style) -->
+<!-- Form for getting segments for the user's homepage (inline style) -->
 
 <script>
 import InlineForm from '@/components/common/InlineForm.vue';

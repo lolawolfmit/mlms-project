@@ -22,7 +22,6 @@ export default {
       this.$store.commit('setUsername', user ? user.username : null);
       this.$store.commit('setUserID', user ? user._id : null);
       this.$store.commit('refreshSegments');
-      // this.$store.commit('updateFilter', null);
       this.$store.commit('refreshHomepageSegments');
     });
 
