@@ -14,14 +14,14 @@ const router = express.Router();
  * 
  * @name GET /api/trees
  * 
- * @returns {SegmentResponse[]} - A list of all the segments sorted by date published in descending order
+ * @returns {TreeResponse[]} - A list of all the segments sorted by date published in descending order
 */
 /**
  * Get segments by a given author
  * 
  * @name GET /api/segments?rootId=id
  * 
- * @return {SegmentResponse[]} - A list of all the segments by the author sorted by date published in descending order
+ * @return {TreeResponse[]} - A list of all the segments by the author sorted by date published in descending order
  * @throws {400} - If the treeId is not given
  * @throws {404} - If the treeId is not found
  */
