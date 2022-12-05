@@ -17,7 +17,7 @@ const router = express.Router();
  * @returns {TreeResponse[]} - A list of all the segments sorted by date published in descending order
 */
 /**
- * Get segments by a given author
+ * Get segments by a given root
  * 
  * @name GET /api/segments?rootId=id
  * 
