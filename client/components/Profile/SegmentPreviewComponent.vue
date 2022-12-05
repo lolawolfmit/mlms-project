@@ -146,6 +146,7 @@ export default {
 
         this.editing = false;
         this.$store.commit('refreshSegments');
+        this.$store.commit('refreshHomepageSegments');
 
         params.callback();
       } catch (e) {

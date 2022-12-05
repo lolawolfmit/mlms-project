@@ -119,6 +119,7 @@ export default {
 
         this.editing = false;
         this.$store.commit('refreshSegments');
+        this.$store.commit('refreshHomepageSegments');
         const targetSegment = this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id);
         this.$store.commit('updateCurrentlyReading', targetSegment);
 
