@@ -1,3 +1,7 @@
+<style>
+  @import './styles/main.css';
+</style>
+
 <template>
   <div id="app">
     <header>

@@ -29,6 +29,11 @@ const store = new Vuex.Store({
     homepageSegments: [], // Story segments for displaying on the homepage
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
+  actions: {
+    loadProfile(context, username) {
+      context.commit('loadProfile', username);
+    }
+  },
   mutations: {
     alert(state, payload) {
       /**
@@ -108,10 +113,8 @@ const store = new Vuex.Store({
        * Update the stored freets to the provided freets.
        * @param freets - Freets to store
        */
-      console.log("currently reading id");
       console.log(currentlyReading._id);
       state.currentlyReading = currentlyReading;
-      console.log("state");
       console.log(state.currentlyReading._id);
     },
     async refreshFreets(state) {
@@ -166,7 +169,7 @@ const store = new Vuex.Store({
 
       state.profileUser = username;
       const url = `/api/users/followers/${username}`;
-      const res = await fetch(url).then(async r => r.json());
+      const res = await fetch(url).then(async r => r.json())
       state.profileFollowerCount = res.length;
 
 
@@ -176,7 +179,6 @@ const store = new Vuex.Store({
 
       const url3 = `/api/users/publicity/${username}`;
       const res3 = await fetch(url3).then(async r => r.json());
-      //state.profileFollowingCount = res2.length;
       state.profilePublicity = res3;
 
 

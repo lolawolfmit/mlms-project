@@ -27,12 +27,15 @@
           </article>
         </section>
       </header>
-      <button @click="newStoryPage">Create New Story</button>
+      <button v-if="$route.params.username == $store.state.username" @click="newStoryPage">Create New Story</button>
     </section>
     <section>
       <header>
         <div class="left">
-          <h2>
+          <h2 v-if="$route.params.username != $store.state.username">
+            {{ $route.params.username }}'s stories
+          </h2>
+          <h2 v-else>
             Your stories
           </h2>
         </div>
@@ -64,7 +67,7 @@ export default {
     mounted () {
       this.$store.commit('refreshFollowing');
       this.$store.commit('refreshFollowers');
-      this.$store.commit('loadProfile', this.$route.params.username);
+      this.$store.dispatch('loadProfile', this.$route.params.username);
 
       this.$store.commit('refreshSegments', this.$route.params.username);
     },
