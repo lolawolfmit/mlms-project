@@ -1,4 +1,4 @@
-<!-- Form for creating freets (block style) -->
+<!-- Form for creating a new story segment for a story that does not yet exist (block style) -->
 
 <script>
 import BlockForm from '@/components/common/BlockForm.vue';

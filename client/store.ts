@@ -9,8 +9,7 @@ Vue.use(Vuex);
  */
 const store = new Vuex.Store({
   state: {
-    filter: null, // Username to filter shown freets by (null = show all)
-    freets: [], // All freets created in the app
+    filter: null, // Username or keyword to filter shown segments by (null = show all)
     following: [], // All users that the user presently follows
     followers: [], // All users that the user presently follows
     profileFollowerCount: 0,
@@ -60,8 +59,8 @@ const store = new Vuex.Store({
     },
     updateFilter(state, filter) {
       /**
-       * Update the stored freets filter to the specified one.
-       * @param filter - Username of the user to fitler freets by
+       * Update the segments filter to the specified one.
+       * @param filter - Username or keyword to filter segments by
        */
       state.filter = filter;
     },
@@ -75,7 +74,7 @@ const store = new Vuex.Store({
     },
     async refreshHomepageSegments(state) {
       /**
-       * Request the server for the currently available segments
+       * Request the server for the currently available segments for a user's homepage (custom for each user)
        */
       const url = state.filter ? `/api/segment/homepage?filter=${state.filter}` : '/api/segment/homepage';
       const res = await fetch(url).then(async r => r.json());
@@ -96,38 +95,21 @@ const store = new Vuex.Store({
     },
     updateHomepageSegments(state, segments) {
       /**
-       * Update the stored freets to the provided freets.
-       * @param freets - Freets to store
+       * Update the stored homepage segments to the provided segments.
+       * @param segments - segments to store
        */
       state.homepageSegments = segments;
     },
-    updateFreets(state, freets) {
-      /**
-       * Update the stored freets to the provided freets.
-       * @param freets - Freets to store
-       */
-      state.freets = freets;
-    },
     updateCurrentlyReading(state, currentlyReading) {
       /**
-       * Update the stored freets to the provided freets.
-       * @param freets - Freets to store
+       * Update the story segment that is currently being read in expanded view
+       * @param currentlyReading - the story segment that is currently being read
        */
-      console.log(currentlyReading._id);
       state.currentlyReading = currentlyReading;
-      console.log(state.currentlyReading._id);
-    },
-    async refreshFreets(state) {
-      /**
-       * Request the server for the currently available freets.
-       */
-      const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
-      const res = await fetch(url).then(async r => r.json());
-      state.freets = res;
     },
     async refreshFollowing(state) {
       /**
-       * Request the server for the currently available freets.
+       * Request the server for the users the current user is following.
        */
       const url = `/api/users/following/${state.username}`;
       const res = await fetch(url).then(async r => r.json());
@@ -150,7 +132,7 @@ const store = new Vuex.Store({
     },
     async refreshFollowers(state) {
       /**
-       * Request the server for the currently available freets.
+       * Request the server for the users following the current user.
        */
       const url = `/api/users/followers/${state.username}`;
       const res = await fetch(url).then(async r => r.json());
@@ -158,11 +140,14 @@ const store = new Vuex.Store({
     },
     updateForkingStory(state, story) {
       /**
-       * Request the server for the currently available freets.
+       * Update forkingStory to the story that is currently being forked.
        */
       state.forkingStory = story;
     },
     async loadProfile(state, username) {
+      /**
+       * Request the server for all information necessary for loading the profile.
+       */
       if (!username) {
         return;
       }

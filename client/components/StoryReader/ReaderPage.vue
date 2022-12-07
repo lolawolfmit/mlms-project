@@ -1,4 +1,4 @@
-<!-- Default page that also displays freets -->
+<!-- Page that shows an expanded view of a story segment that the user has clicked and the children of that segment they can navigate to. -->
 
 <template>
   <main>
@@ -8,6 +8,8 @@
     <section v-if="$store.state.currentlyReading">
       <SegmentViewComponent />
     </section>
+    <h3 v-if="$store.state.currentlyReadingChildren.length">Read next...</h3>
+    <h3 v-else>There are no more stories in this story tree. Write one yourself by clicking "fork"!</h3>
     <section
         v-if="$store.state.currentlyReadingChildren.length"
       >
@@ -29,6 +31,9 @@ export default {
   components: {SegmentViewComponent, StoryChild},
   methods: {
     goToPrevious() {
+      /**
+       * Triggers going back a story in a story branch to the currentlyReading segment's parent (if applicable)
+       */
       this.$store.commit('refreshChildren', this.$store.state.currentlyReading.parent);
       this.$store.commit('updateCurrentlyReading', this.$store.state.storySegments.find(story => story._id == this.$store.state.currentlyReading.parent));
     }

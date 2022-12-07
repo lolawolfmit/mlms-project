@@ -262,6 +262,8 @@ router.get(
  * @name GET /api/users/publicity/:user
  *
  * @return - users' publicity
+ * 
+ * @throws {405} - user doesn’t exist/was deleted
  */
 router.get(
   '/publicity/:user?',
@@ -282,6 +284,8 @@ router.get(
  * increment a user's publicity
  * 
  * @return - new publicity
+ * @throws {403} - If user is not logged in
+ * @throws {405} - user doesn’t exist/was deleted
  */
 router.patch(
   '/publicity/increment/:user?',
@@ -303,6 +307,9 @@ router.patch(
  * decrement a user's publicity
  * 
  * @return - new publicity
+ * 
+ * @throws {403} - If user is not logged in
+ * @throws {405} - user doesn’t exist/was deleted
  */
 router.patch(
   '/publicity/decrement/:user?',

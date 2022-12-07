@@ -1,5 +1,4 @@
-<!-- Reusable component representing a single freet and its actions -->
-<!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
+<!-- Reusable component representing a single preview of a segment and its actions -->
 
 <template>
   <article
@@ -67,8 +66,9 @@ export default {
   },
   methods: {
     expandSegment() {
-      // set global variable
-      // push storyreader page into router
+      /**
+       * Triggers expanding the segment preview into a larger reader page that allows for forking and also displays children (if applicable)
+       */
       this.$store.state.currentlyReading = this.segment;
       this.$store.commit('refreshChildren', this.segment._id);
       this.$router.push('/reader');
@@ -112,6 +112,9 @@ export default {
       }
     },
     forkStory() {
+      /**
+       * Triggers forking a story.
+       */
         this.$store.commit('updateForkingStory', this.segment._id);
     },
     async likeStory() {
@@ -143,6 +146,7 @@ export default {
 
         this.editing = false;
         this.$store.commit('refreshSegments');
+        this.$store.commit('refreshHomepageSegments');
 
         params.callback();
       } catch (e) {
