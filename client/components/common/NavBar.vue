@@ -11,22 +11,22 @@
       </h1>
     </div>
     <div class="right">
-      <router-link to="/">
+      <router-link class="navbar-link" to="/">
         Home
       </router-link>
-      <router-link
+      <router-link class="navbar-link"
         v-if="$store.state.username"
         to="/account"
       >
         Account
       </router-link>
-      <router-link
+      <router-link class="navbar-link"
         v-if="$store.state.username"
         :to="'/profile/'+$store.state.username"
       >
         Profile
       </router-link>
-      <router-link
+      <router-link class="navbar-link invert-navbar-link"
         v-else
         to="/login"
       >
@@ -48,7 +48,7 @@
 <style scoped>
 nav {
     padding: 1vw 2vw;
-    background-color: #ccc;
+    background-color: #50C878;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,6 +58,7 @@ nav {
 .title {
     font-size: 32px;
     margin: 0 5px;
+    color: #3e363f;
 }
 
 img {
@@ -84,4 +85,17 @@ img {
 .alerts {
     width: 25%;
 }
+.navbar-link {
+  background-color: #ddd;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #3e363f;
+  border: 2px solid #3e363f;
+  border-radius: 12px;
+}
+.invert-navbar-link {
+  color: #ddd;
+  background-color: #3e363f;
+}
+
 </style>

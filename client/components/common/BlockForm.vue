@@ -11,7 +11,7 @@
         v-for="field in fields"
         :key="field.id"
       >
-        <label :for="field.id">{{ field.label }}:</label>
+        <label :for="field.id" v-if="field.label">{{ field.label }}:</label>
         <textarea
           v-if="field.id === 'content'"
           :name="field.id"
@@ -23,6 +23,7 @@
           :type="field.id === 'password' ? 'password' : 'text'"
           :name="field.id"
           :value="field.value"
+          :placeholder="field.placeholder"
           @input="field.value = $event.target.value"
         >
       </div>
@@ -30,18 +31,18 @@
     <article v-else>
       <p>{{ content }}</p>
     </article>
-    <button
+    <button class="form-button"
       type="submit"
     >
       {{ title }}
     </button>
-    <section class="alerts">
+    <section class="alerts form-alert-container">
       <article
         v-for="(status, alert, index) in alerts"
         :key="index"
         :class="status"
       >
-        <p>{{ alert }}</p>
+        <p class="form-alert">{{ alert }}</p>
       </article>
     </section>
   </form>
@@ -119,7 +120,6 @@ export default {
 
 <style scoped>
 form {
-  border: 1px solid #111;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;

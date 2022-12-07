@@ -37,7 +37,7 @@
       </article>
     </section>
     <section v-else>
-      <h2>Welcome to Story Tree! Sign in to continue.</h2>
+      <LoggedOutPitchComponent/>
     </section>
   </main>
 </template>
@@ -45,10 +45,11 @@
 <script>
 import SegmentPreviewComponent from '@/components/Profile/SegmentPreviewComponent.vue';
 import GetSegmentsForm from '@/components/Homepage/GetSegmentsForm.vue';
+import LoggedOutPitchComponent from '@/components/Homepage/LoggedOutPitchComponent.vue';
 
 export default {
   name: 'Homepage',
-  components: {SegmentPreviewComponent, GetSegmentsForm},
+  components: {SegmentPreviewComponent, GetSegmentsForm, LoggedOutPitchComponent},
   mounted() {
     this.$refs.getSegmentsForm.submit();
   },
