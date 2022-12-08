@@ -4,23 +4,24 @@
   <main>
     <section v-if="$store.state.username">
       <header>
-        <h2>Welcome {{ $store.state.username }}</h2>
+        <h2>Welcome, {{ $store.state.username }}</h2>
       </header>
       <header>
         <div class="left">
-          <h2>
+          <h3>
             Here are some stories you might like:
-          </h2>
+          </h3>
         </div>
-      </header>
       <div class="right">
           <GetSegmentsForm
             ref="getSegmentsForm"
             value="author"
             placeholder="🔍 Filter by keyword or author (optional)"
-            button="🔄 Get segments"
+            button="Search"
           />
         </div>
+
+      </header>
       <section
         v-if="$store.state.homepageSegments.length"
       >
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import SegmentPreviewComponent from '@/components/Profile/SegmentPreviewComponent.vue';
+import SegmentPreviewComponent from '@/components/common/SegmentPreviewComponent.vue';
 import GetSegmentsForm from '@/components/Homepage/GetSegmentsForm.vue';
 import LoggedOutPitchComponent from '@/components/Homepage/LoggedOutPitchComponent.vue';
 

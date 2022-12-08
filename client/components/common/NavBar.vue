@@ -5,10 +5,15 @@
 <template>
   <nav>
     <div class="left">
+     
+      <router-link class = "icon-link"
+        to="/"
+      >
       <img src="../../public/logo.svg">
       <h1 class="title">
         Story Tree
       </h1>
+      </router-link>
     </div>
     <div class="right">
       <router-link class="navbar-link" to="/">
@@ -97,5 +102,18 @@ img {
   color: #ddd;
   background-color: #3e363f;
 }
+.navbar-link:hover {
+  background-color: #0047AB;
+  color: #ddd;
+}
+.invert-navbar-link:hover {
+  background-color: #0047AB;
+  color: #ddd;
+}
+.icon-link {
+  display:flex;
+  text-decoration: none;
+}
+
 
 </style>

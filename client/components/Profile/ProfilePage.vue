@@ -5,16 +5,27 @@
     <section v-if="$store.state.username">
       <header>
         <h2 v-if="$route.params.username != $store.state.username">{{ $route.params.username }}'s page</h2>
-        <h2 v-else>Welcome {{ $store.state.username }}</h2>
-        <h3> {{ $store.state.profilePublicity }} publicity</h3>
-        <h3> {{ $store.state.profileStoryCount }}  stories, {{ $store.state.profileContributions }} contributions</h3>
-        <h3 v-if="$route.params.username != $store.state.username">{{ $store.state.profileFollowerCount }} followers, {{ $store.state.profileFollowingCount }} following</h3>
-        <h3 v-else>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h3>
+
+        <h2 v-else>Welcome, {{ $store.state.username }}</h2>
+        <div class = "follower-display">
+
+          <h4 v-if="$route.params.username != $store.state.username">{{ $store.state.profileFollowerCount }} followers, {{ $store.state.profileFollowingCount }} following</h4>
+      
+          <h4 v-else>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h4>
+
         <div v-if="$route.params.username != $store.state.username">
-          <button v-if="$store.state.following.includes($route.params.username)"
+          <button v-if="$store.state.following.includes($route.params.username)" class="follow-button"
           @click="followAuthor">Unfollow</button>
-          <button v-else
+          <button v-else class="follow-button"
           @click="followAuthor">Follow</button>
+        </div>
+        </div>
+        
+      </header>
+      <div class="stat-display">
+        <h3> {{ $store.state.profilePublicity }} publicity, {{ $store.state.profileStoryCount }}  stories, {{ $store.state.profileContributions }} contributions</h3>
+
+      <button v-if="$route.params.username == $store.state.username" @click="newStoryPage" class="create-story-button">Create New Story</button>
         </div>
 
         <section class="alerts">
@@ -26,8 +37,6 @@
             <p>{{ alert }}</p>
           </article>
         </section>
-      </header>
-      <button v-if="$route.params.username == $store.state.username" @click="newStoryPage">Create New Story</button>
     </section>
     <section>
       <header>
@@ -59,7 +68,7 @@
 </template>
 
 <script>
-import SegmentPreviewComponent from '@/components/Profile/SegmentPreviewComponent.vue';
+import SegmentPreviewComponent from '@/components/common/SegmentPreviewComponent.vue';
 
 export default {
   name: 'ProfilePage',
@@ -143,5 +152,45 @@ section .scrollbox {
   flex: 1 0 50vh;
   padding: 3%;
   overflow-y: scroll;
+}
+.stat-display > h3 {
+  padding: 0px;
+}
+.stat-display {
+  display: flex;
+    justify-content: space-between;
+}
+.follower-display {
+  display: flex;
+}
+.follow-button {
+    border: 2px solid #3e363f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 14px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+}
+.follow-button:hover {
+    background-color: #3e363f;
+    color: #ddd;
+}
+.create-story-button {
+    margin: 4px;
+    border: 2px solid #3e363f;
+    font-size: 24px;
+    border-radius: 8px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    width: 324px;
+    max-width: 100%;
+    cursor: pointer;
+    color: #3e363f;
+    background-color: #50C878;
+}
+
+.create-story-button:hover {
+    color: #ddd;
+    background-color: #3e363f;
 }
 </style>

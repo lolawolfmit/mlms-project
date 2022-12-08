@@ -10,6 +10,7 @@
     >
     <button
       type="submit"
+      class="inline-form-button"
     >
       {{ button }}
     </button>

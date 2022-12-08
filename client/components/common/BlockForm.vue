@@ -149,5 +149,7 @@ form h3 {
 textarea {
    font-family: inherit;
    font-size: inherit;
+   border: none;
+   border-radius: 4px;
 }
 </style>

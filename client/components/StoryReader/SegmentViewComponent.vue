@@ -5,18 +5,32 @@
     class="segment"
   >
     <header>
-      <h3 class="author">
-        {{ this.$store.state.currentlyReading.segmentTitle }}, part {{ this.$store.state.currentlyReading.storyPart }} of {{ this.$store.state.currentlyReading.storyTitle }} by {{ this.$store.state.currentlyReading.author }} 
+      <span class="author">
+      <div class = "header-flex">
+      <h2 >
+        {{ this.$store.state.currentlyReading.segmentTitle }}
+        </h2>
+        <h3>Part {{ this.$store.state.currentlyReading.storyPart }} of {{ this.$store.state.currentlyReading.storyTitle }}</h3>
+        </div>
+        <div class = "header-flex">
+        <h1>by <router-link class = "author-link" :to="'/profile/'+this.$store.state.currentlyReading.author">{{ this.$store.state.currentlyReading.author }} </router-link>
+
          <button v-if="this.$store.state.following.includes(this.$store.state.currentlyReading.author)"
-        @click="followAuthor">Unfollow</button>
+        @click="followAuthor" class = "follow-button">Unfollow</button>
         <button v-else
-        @click="followAuthor">Follow</button>
-        <button v-if="this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id).likes.includes(this.$store.state.userID)"
-        @click="likeStory">Unlike</button>
-        <button v-else
-        @click="likeStory">Like</button>
-        <button @click="forkStory">Fork</button>
+        @click="followAuthor" class = "follow-button">Follow</button></h3>
+        </h1>
+        <span>
+
+        <button class = "button-fork" @click="forkStory">Fork</button>
         {{ this.$store.state.currentlyReading.likes.length }} likes
+        <button class = "button-like" v-if="this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id).likes.includes(this.$store.state.userID)"
+        @click="likeStory">Unlike</button>
+        <button class = "button-like" v-else
+        @click="likeStory">Like</button>
+        </span>
+        </div>
+        </span>
       </h3>
     </header>
     <p
@@ -215,8 +229,80 @@ export default {
 
 <style scoped>
 .segment {
-    border: 1px solid #111;
     padding: 20px;
     position: relative;
+    border: none;
+    background-color: #eee;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    margin-top: 12px;
+}
+.follow-button {
+    border: 2px solid #3e363f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 14px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+    background-color: #ddd;
+}
+.follow-button:hover {
+    background-color: #3e363f;
+    color: #ddd;
+}
+.author-link {
+  text-decoration: none;
+  color: #0047AB;
+}
+.author {
+}
+h1 {
+  margin: 0px;
+  padding: 4px 0px;
+}
+h2 {
+  margin: 0px;
+  padding: 4px 0px;
+}
+h3 {
+  margin: 0px;
+  padding: 4px 0px;
+}
+.content {
+  font-family: Helvetica,sans-serif;
+}
+.button-like {
+    border: 2px solid #3e363f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 14px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+    background-color: #ddd;
+}
+.button-fork {
+    border: 2px solid #3e363f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 14px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+.button-like:hover {
+    background-color: #3e363f;
+    color: #ddd;
+}
+.button-fork:hover {
+    background-color: #3e363f;
+    color: #ddd;
+}
+.header-flex {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

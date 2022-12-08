@@ -162,8 +162,8 @@ export default {
 
 <style scoped>
 .segment {
-    border: 1px solid #111;
     padding: 20px;
     position: relative;
+    border: none;
 }
 </style>

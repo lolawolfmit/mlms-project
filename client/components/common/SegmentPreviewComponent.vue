@@ -1,31 +1,39 @@
 <!-- Reusable component representing a single preview of a segment and its actions -->
+<!-- THIS COMPONENT IS DEPRECATED AND WILL BE REMOVED -->
+<!-- see /components/Profile/SegmentPreviewComponent instead -->
 
 <template>
   <article
     class="segment"
   >
     <header>
-      <h3 class="author">
-        {{ segment.segmentTitle}}, part {{ segment.storyPart }} of {{ segment.storyTitle }} by
-        
-        
-        <router-link :to = "'/profile/'+segment.author"> {{ segment.author }} </router-link>
-        <button v-if="this.$store.state.following.includes(segment.author)"
-        @click="followAuthor">Unfollow</button>
-        <button v-else
+      <div class="left">
+      <h2 class="author">
+        {{ segment.segmentTitle}}
+      </h2>
+      </div>
+      <div class="right">
+      <h1>
+      by
+       <router-link :to = "'/profile/'+segment.author" class="profile-link">
+       {{ segment.author }}
+       </router-link>
+        <button class = "follow-button" v-if="this.$store.state.following.includes(segment.author)"
+        @click="unfollowAuthor">Unfollow</button>
+        <button class = "follow-button" v-else
         @click="followAuthor">Follow</button>
-        <button v-if="segment.likes.includes(this.$store.state.userID)"
-        @click="likeStory">Unlike</button>
-        <button v-else
-        @click="likeStory">Like</button>
-        {{ segment.likes.length }} likes
-      </h3>
+      </h1>
+      </div>
     </header>
+
+      <h1 class="author">
+        Chapter {{segment.storyPart}} of {{ segment.storyTitle }}
+      </h1>
     <p
       class="content"
-      v-if="segment.content.length > 20"
+      v-if="segment.content.length > 300"
     >
-      {{ segment.content.slice(0, 20) }}...
+      {{ segment.content.slice(0, 300) }}...
     </p>
     <p
       class="content"
@@ -36,7 +44,7 @@
     <p class="info">
       Posted at {{ segment.datePublished }}
     </p>
-    <button @click="expandSegment">Read More</button>
+    <button @click="expandSegment" class="readmore-button">Read More</button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -75,14 +83,10 @@ export default {
     },
 
     async followAuthor() {
-      // set global variable
-      // push storyreader page into router
-
-      let message = this.$store.state.following.includes(this.segment.author) ? 'No longer following!' : 'Following!';
 
       const params = {
         method: 'PATCH',
-        message: message,
+        message: 'Following!',
         body: JSON.stringify({}),
         callback: () => {
           this.$set(this.alerts, params.message, 'success');
@@ -103,7 +107,6 @@ export default {
 
         this.editing = false;
         this.$store.commit('refreshFollowing');
-        this.$store.commit('loadProfile', this.$store.state.profileUser);
 
         params.callback();
       } catch (e) {
@@ -111,48 +114,9 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
-    forkStory() {
-      /**
-       * Triggers forking a story.
-       */
-        this.$store.commit('updateForkingStory', this.segment._id);
-    },
-    async likeStory() {
+    unfollowAuthor() {
       // set global variable
       // push storyreader page into router
-
-      let message = this.segment.likes.includes(this.$store.state.userID) ? 'Unliked!' : 'Liked!';
-
-      const params = {
-        method: 'PATCH',
-        message: message,
-        body: JSON.stringify({segmentId: this.segment._id}),
-        callback: () => {
-          this.$set(this.alerts, params.message, 'success');
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
-        }
-      };
-
-      try {
-
-        const options = {
-          method: params.method, headers: {'Content-Type': 'application/json'}, body: params.body
-        };
-        const r = await fetch(`/api/segment/like`, options);
-        if (!r.ok) {
-          const res = await r.json();
-          throw new Error(res.error);
-        }
-
-        this.editing = false;
-        this.$store.commit('refreshSegments');
-        this.$store.commit('refreshHomepageSegments');
-
-        params.callback();
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
     },
     submitEdit() {
       /**
@@ -212,8 +176,56 @@ export default {
 
 <style scoped>
 .segment {
-    border: 1px solid #111;
     padding: 20px;
     position: relative;
+    border: none;
+    background-color: #eee;
+    border-radius: 15px;
+    margin-bottom: 12px;
+}
+h1 {
+  margin: 0px;
+}
+h2 {
+  margin: 0px;
+}
+
+header, header > * {
+    display: flex;
+    justify-content: space-between;
+}
+
+.follow-button {
+    border: 2px solid #3e363f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 14px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+}
+.follow-button:hover {
+    background-color: #3e363f;
+    color: #ddd;
+}
+
+.readmore-button {
+    border: none;
+    font-size: 20px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+    color: #0047AB;
+}
+.content {
+
+    font-family: Helvetica,sans-serif;
+}
+.info {
+
+    font-size: 14px;
+}
+.profile-link {
+  text-decoration: none;
+  color: #0047AB;
 }
 </style>

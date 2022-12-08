@@ -3,7 +3,7 @@
 <template>
   <main>
     <section v-if="$store.state.currentlyReading.storyPart > 1">
-      <button @click="goToPrevious">Go to the previous segment in the tree</button>
+      <button @click="goToPrevious" class = "previous-button">Previous</button>
     </section>
     <section v-if="$store.state.currentlyReading">
       <SegmentViewComponent />
@@ -55,6 +55,27 @@ header, header > * {
 
 button {
     margin-right: 10px;
+}
+.previous-button {
+    border: 2px solid #3e363f;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 24px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+    background-color: #ddd;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #3e363f;
+    border: 2px solid #3e363f;
+    border-radius: 12px;
+    width: 240px;
+    max-width: 100%;
+}
+.previous-button:hover {
+
+    background-color: #3e363f;
+    color: #ddd;
 }
 
 section .scrollbox {
