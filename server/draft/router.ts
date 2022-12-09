@@ -51,7 +51,7 @@ router.post(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
     const draft = await DraftCollection.addDraft(userId, req.body.content, req.body.storyTitle, req.body.segmentTitle, req.body.parent);
-
+    
     res.status(201).json({
       message: "Your draft has been created successfully.",
       draft: util.constructDraftResponse(draft)
