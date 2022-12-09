@@ -91,7 +91,7 @@ class DraftCollection {
 
   static async publishDraft(draftId: Types.ObjectId | string): Promise<HydratedDocument<Segment>>{
     const draft = await this.getDraftByID(draftId);
-    const segment = SegmentCollection.addSegment(draft.authorId, draft.content, draft.storyTitle, draft.segmentTitle, draft.parent);
+    const segment = await SegmentCollection.addSegment(draft.authorId, draft.content, draft.storyTitle, draft.segmentTitle, draft.parent);
 
     await this.deleteDraft(draftId);
 
