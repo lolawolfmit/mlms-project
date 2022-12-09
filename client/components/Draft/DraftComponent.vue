@@ -172,6 +172,9 @@ export default {
 
         this.editing = false;
         this.$store.commit('refreshDrafts');
+        if (params.method === 'POST') {
+          this.$router.push(`/profile/${this.$store.state.username}`);
+        }
 
         params.callback();
       } catch (e) {
