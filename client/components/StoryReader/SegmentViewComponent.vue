@@ -22,7 +22,6 @@
         </h1>
         <span>
 
-        <button class = "button-fork" @click="forkStory">Fork</button>
         {{ this.$store.state.currentlyReading.likes.length }} likes
         <button class = "button-like" v-if="this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id).likes.includes(this.$store.state.userID)"
         @click="likeStory">Unlike</button>
@@ -30,8 +29,12 @@
         @click="likeStory">Like</button>
         </span>
         </div>
+        <div class="header-flex">
+
+          <button class = "fork-button"
+          @click="forkStory">Fork this segment!</button>
+        </div>
         </span>
-      </h3>
     </header>
     <p
       class="content"
@@ -282,24 +285,26 @@ h3 {
     cursor: pointer;
     background-color: #ddd;
 }
-.button-fork {
-    border: 2px solid #3e363f;
-    padding: 8px 16px;
-    border-radius: 8px;
-    margin: 4px;
-    font-size: 14px;
-    font-family: Futura,Trebuchet MS,Arial,sans-serif;
-    cursor: pointer;
-    background-color: #ddd;
-}
-
 .button-like:hover {
     background-color: #3e363f;
     color: #ddd;
 }
-.button-fork:hover {
-    background-color: #3e363f;
+.fork-button {
+    margin: 0px;
+    padding: 4px;
+    border: 2px solid #3e363f;
+    font-size: 24px;
+    border-radius: 8px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    width: 324px;
+    max-width: 100%;
+    cursor: pointer;
+    color: #3e363f;
+    background-color: #50C878;
+}
+.fork-button:hover {
     color: #ddd;
+    background-color: #3e363f;
 }
 .header-flex {
   display: flex;

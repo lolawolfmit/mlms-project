@@ -153,8 +153,12 @@ export default {
 
 <style scoped>
 .child {
-    border: 1px solid #111;
+    border: none;
     padding: 20px;
     position: relative;
+    background-color: #eee;
+
+    border-radius: 15px;
+    margin-bottom: 12px;
 }
 </style>
