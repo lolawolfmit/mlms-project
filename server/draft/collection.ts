@@ -52,7 +52,7 @@ class DraftCollection {
    */
   static async getDraftsByAuthor(username: string): Promise<Array<HydratedDocument<Draft>>> {
     const author = await UserCollection.findOneByUsername(username);
-    return DraftModel.find({ authorId: author._id }).sort({ datePublished: -1 }).populate('authorId');
+    return DraftModel.find({ authorId: author._id }).sort({ lastModified: -1 }).populate('authorId');
   }
 
 
