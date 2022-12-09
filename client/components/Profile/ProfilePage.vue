@@ -26,6 +26,7 @@
         <h3> {{ $store.state.profilePublicity }} publicity, {{ $store.state.profileStoryCount }}  stories, {{ $store.state.profileContributions }} contributions</h3>
 
       <button v-if="$route.params.username == $store.state.username" @click="newStoryPage" class="create-story-button">Create New Story</button>
+      <button v-if="$route.params.username == $store.state.username" @click="draftsPage">My Drafts</button>
         </div>
 
         <section class="alerts">
@@ -127,6 +128,12 @@ export default {
       * Triggers the Create New Story page where the user can make a new story.
       */
       this.$router.push({name: 'NewStory'});
+    },
+    draftsPage() {
+      /**
+      * Triggers the Create New Story page where the user can make a new story.
+      */
+      this.$router.push({name: 'DraftsPage'});
     }
   }
 };

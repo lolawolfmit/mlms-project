@@ -25,7 +25,6 @@ class DraftCollection {
       storyPart: parent == null ? 1 : (await SegmentCollection.getSegmentByID(parent)).storyPart + 1
     });
     await draft.save();
-    console.log("finished");
     return draft.populate('authorId');
   }
 

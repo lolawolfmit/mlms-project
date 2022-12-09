@@ -26,6 +26,7 @@ const store = new Vuex.Store({
     currentlyReadingChildren: [], // children of the story segment currently being read
     storySegments: [], // ALL STORY SEGMENTS ON APP, DO NOT DELETE THIS OR MODIFY HOW IT IS POPULATED
     homepageSegments: [], // Story segments for displaying on the homepage
+    drafts: [], // drafts belonging to the user
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   actions: {
@@ -87,6 +88,14 @@ const store = new Vuex.Store({
         }
       }
       state.homepageSegments = res;
+    },
+    async refreshDrafts(state) {
+      /**
+       * Request the server for the currently available drafts by the logged in user
+       */
+       const url = `/api/drafts?author=${state.username}`;
+       const res = await fetch(url).then(async r => r.json());
+       state.drafts = res;
     },
     async refreshChildren(state, parent) {
       const url = `/api/segment/children?parentId=${parent}`;
