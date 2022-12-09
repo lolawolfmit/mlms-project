@@ -72,7 +72,7 @@ router.patch(
         draftValidator.validDraftModifier
     ],
     async (req: Request, res: Response) => {
-        const draft= await DraftCollection.editDraftContent(req.params.itemForSaleId, req.body.content);
+        const draft= await DraftCollection.editDraftContent(req.params.draftId, req.body.content);
         res.status(200).json({
             message: 'Your draft content was updated successfully.',
             draft: util.constructDraftResponse(draft)
