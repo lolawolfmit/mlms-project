@@ -59,7 +59,7 @@ button {
 .previous-button {
     border: 2px solid #3e363f;
     border-radius: 8px;
-    margin: 4px;
+    margin: 12px 4px 4px 4px;
     font-size: 24px;
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     cursor: pointer;

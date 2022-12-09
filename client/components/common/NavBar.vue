@@ -103,12 +103,12 @@ img {
   background-color: #3e363f;
 }
 .navbar-link:hover {
-  background-color: #0047AB;
-  color: #ddd;
+  background-color: #90EE90;
+  color: #3e363f;
 }
 .invert-navbar-link:hover {
-  background-color: #0047AB;
-  color: #ddd;
+  background-color: #90EE90;
+  color: #3e363f;
 }
 .icon-link {
   display:flex;

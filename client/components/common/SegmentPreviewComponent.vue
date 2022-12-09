@@ -18,8 +18,8 @@
        <router-link :to = "'/profile/'+segment.author" class="profile-link">
        {{ segment.author }}
        </router-link>
-        <button class = "follow-button" v-if="this.$store.state.following.includes(segment.author)"
-        @click="unfollowAuthor">Unfollow</button>
+        <button class = "follow-button unfollow-button" v-if="this.$store.state.following.includes(segment.author)"
+        @click="followAuthor">Unfollow</button>
         <button class = "follow-button" v-else
         @click="followAuthor">Follow</button>
       </h1>
@@ -177,10 +177,6 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
-    unfollowAuthor() {
-      // set global variable
-      // push storyreader page into router
-    },
     submitEdit() {
       /**
        * Updates freet to have the submitted draft content.
@@ -268,8 +264,12 @@ header, header > * {
     cursor: pointer;
 }
 .follow-button:hover {
-    background-color: #3e363f;
-    color: #ddd;
+    background-color: #50C878;
+    color: #3e363f;
+}
+.unfollow-button:hover {
+    background-color: #AA4A44;
+    color: #3e363f;
 }
 .button-like {
     border: 2px solid #3e363f;
@@ -302,11 +302,18 @@ header, header > * {
     background-color: #3e363f;
 }
 .readmore-button {
-    border: none;
+    margin: 0px;
+    padding: 8px;
+    border: 2px solid #3e363f;
+    border-radius: 8px;
     font-size: 20px;
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     cursor: pointer;
-    color: #0047AB;
+    color: #3e363f;
+}
+.readmore-button:hover {
+    color: #ddd;
+    background-color: #3e363f;
 }
 .like-containter {
   display:flex;
