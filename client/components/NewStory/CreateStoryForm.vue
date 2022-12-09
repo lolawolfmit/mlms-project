@@ -1,14 +1,15 @@
 <!-- Form for creating a new story segment for a story that does not yet exist (block style) -->
 
 <script>
-import BlockForm from '@/components/common/BlockForm.vue';
+import BlockFormTwoButtons from '@/components/common/BlockFormTwoButtons.vue';
 
 export default {
   name: 'CreateStoryForm',
-  mixins: [BlockForm],
+  mixins: [BlockFormTwoButtons],
   data() {
     return {
       url: '/api/segment',
+      otherUrl: '/api/drafts',
       method: 'POST',
       hasBody: true,
       fields: [
@@ -20,6 +21,7 @@ export default {
         {id: 'parent', value: null}
       ],
       title: 'Start Your Story',
+      otherTitle: 'Save as Draft',
       callback: () => {
         const message = 'Successfully created your story segment!';
         this.$store.commit('refreshSegments');
