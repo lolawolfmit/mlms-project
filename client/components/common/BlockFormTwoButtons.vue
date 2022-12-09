@@ -69,6 +69,8 @@ export default {
       setUsername: false, // Whether or not stored username should be updated after form submission
       refreshFreets: false, // Whether or not stored freets should be updated after form submission
       additionalBody: [],
+      redirectFirst: '',
+      redirectOther: '',
       alerts: {}, // Displays success/error messages encountered during form submission
       callback: null // Function to run after successful form submission
     };
@@ -111,6 +113,7 @@ export default {
         if (this.refreshFreets) {
           this.$store.commit('refreshFreets');
         }
+        this.$store.commit('updateNextRedirectForBlockFormTwoButtons', this.redirectFirst);
 
         if (this.callback) {
           this.callback();
@@ -157,6 +160,7 @@ export default {
         if (this.refreshFreets) {
           this.$store.commit('refreshFreets');
         }
+        this.$store.commit('updateNextRedirectForBlockFormTwoButtons', this.redirectOther);
 
         if (this.callback) {
           this.callback();

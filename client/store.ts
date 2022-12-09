@@ -27,6 +27,7 @@ const store = new Vuex.Store({
     storySegments: [], // ALL STORY SEGMENTS ON APP, DO NOT DELETE THIS OR MODIFY HOW IT IS POPULATED
     homepageSegments: [], // Story segments for displaying on the homepage
     drafts: [], // drafts belonging to the user
+    nextRedirectForBlockFormTwoButtons: '', // the next page that should be redirected to after using BlockFormTwoButtons, helper variable
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   actions: {
@@ -64,6 +65,13 @@ const store = new Vuex.Store({
        * @param filter - Username or keyword to filter segments by
        */
       state.filter = filter;
+    },
+    updateNextRedirectForBlockFormTwoButtons(state, nextRedirect) {
+      /**
+       * Update the segments filter to the specified one.
+       * @param filter - Username or keyword to filter segments by
+       */
+      state.nextRedirectForBlockFormTwoButtons = nextRedirect;
     },
     async refreshSegments(state) {
       /**
