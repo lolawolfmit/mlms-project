@@ -1,7 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { Types } from 'mongoose';
 import DraftCollection from './collection';
-import uSERCollection from '../user/collection';
 import UserCollection from '../user/collection';
 
 /**
@@ -24,7 +23,7 @@ const draftExists = async (req: Request, res: Response, next: NextFunction) => {
 const validDraftModifier = async (req: Request, res: Response, next: NextFunction) => {
   const draft = await DraftCollection.getDraftByID(req.params.draftId);
   const author = await UserCollection.findOneByUserId(draft.authorId._id);
-  const user = await UserCollection.findOneByUsername(req.session.userId);
+  const user = await UserCollection.findOneByUserId(req.session.userId);
   if (user.username !== author.username){
     res.status(405).json({ 
       error: {
@@ -33,6 +32,7 @@ const validDraftModifier = async (req: Request, res: Response, next: NextFunctio
     });
     return
   }
+  next();
 };
 
 

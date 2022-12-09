@@ -122,7 +122,6 @@ export default {
         setTimeout(() => this.$delete(this.alerts, error), 3000);
         return;
       }
-
       const params = {
         method: 'PATCH',
         message: 'Successfully edited draft!',
@@ -147,7 +146,6 @@ export default {
       if (params.body) {
         options.body = params.body;
       }
-
       try {
         const r = await fetch(`/api/drafts/${this.draftSegment._id}`, options);
         if (!r.ok) {
