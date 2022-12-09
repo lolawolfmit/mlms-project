@@ -53,6 +53,9 @@
           🗑️ Delete
         </button>
       </div>
+    <button @click="publishDraft">
+        Publish
+    </button>
     </header>
     <section class="alerts">
       <article
@@ -86,27 +89,41 @@ export default {
   methods: {
     startEditing() {
       /**
-       * Enables edit mode on this freet.
+       * Enables edit mode on this draft.
        */
       this.editing = true; // Keeps track of if a freet is being edited
       this.draft = this.draftSegment.content; // The content of our current "draft" while being edited
     },
     stopEditing() {
       /**
-       * Disables edit mode on this freet.
+       * Disables edit mode on this draft.
        */
       this.editing = false;
       this.draft = this.draftSegment.content;
     },
     deleteDraft() {
       /**
-       * Deletes this freet.
+       * Deletes this draft.
        */
       const params = {
         method: 'DELETE',
         callback: () => {
           this.$store.commit('alert', {
             message: 'Successfully deleted draft!', status: 'success'
+          });
+        }
+      };
+      this.request(params);
+    },
+    publishDraft() {
+      /**
+       * Publishes this draft.
+       */
+      const params = {
+        method: 'POST',
+        callback: () => {
+          this.$store.commit('alert', {
+            message: 'Successfully published draft!', status: 'success'
           });
         }
       };
