@@ -87,7 +87,7 @@ class DraftCollection {
 
 
   static async deleteDraft(draftId: Types.ObjectId | string): Promise<void>{
-    DraftModel.deleteOne({_id: draftId});
+    await DraftModel.deleteOne({_id: draftId});
   }
 
   static async publishDraft(draftId: Types.ObjectId | string): Promise<HydratedDocument<Segment>>{
