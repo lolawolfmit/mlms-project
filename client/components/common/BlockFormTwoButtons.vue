@@ -2,7 +2,7 @@
 <!-- This is just an example; feel free to define any reusable components you want! -->
 
 <template>
-  <form @submit.prevent="submit">
+  <form>
     <h3>{{ title }}</h3>
     <article
       v-if="fields.length"
@@ -32,12 +32,12 @@
       <p>{{ content }}</p>
     </article>
     <button class="form-button"
-      type="submit"
+      @click="submitFirst"
     >
       {{ title }}
     </button>
     <button class="form-button"
-      type="submitOther"
+      @click="submitOther"
     >
       {{ otherTitle }}
     </button>
@@ -74,7 +74,7 @@ export default {
     };
   },
   methods: {
-    async submit() {
+    async submitFirst() {
       /**
         * Submits a form with the specified options from data().
         */

@@ -25,15 +25,11 @@ type UserResponse = {
  * @returns {UserResponse} - The user object without the password
  */
 const constructUserResponse = (user: HydratedDocument<User>): UserResponse => {
-  console.log("user");
-  console.log(user);
   const userCopy: User = {
     ...user.toObject({
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  console.log("util");
-  console.log(user);
   delete userCopy.password;
   delete userCopy.deletedStatus;
   delete userCopy.following;

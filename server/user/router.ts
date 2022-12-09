@@ -225,7 +225,6 @@ router.get(
     const user = await UserCollection.findOneByUsername(req.params.user);
     const following = await UserCollection.findFollowing(user._id);
     const response = following.map(util.constructUserResponse);
-    console.log(response);
     res.status(200).json(response);
   }
 );
