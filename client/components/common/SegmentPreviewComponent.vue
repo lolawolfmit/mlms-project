@@ -25,10 +25,24 @@
       </h1>
       </div>
     </header>
-
+      <header>
       <h1 class="author">
         Chapter {{segment.storyPart}} of {{ segment.storyTitle }}
       </h1>
+
+    <div class = "like-container">
+      <h1>
+        {{segment.likes.length}} like(s)
+      <button class = "button-like" v-if="this.$store.state.storySegments.find(s => s._id === this.segment._id).likes.includes(this.$store.state.userID)"
+        @click="likeStory">Unlike</button>
+        <button class = "button-like" v-else
+        @click="likeStory">Like</button>
+      </h1>
+      
+      </div>
+
+      </header>
+      
     <p
       class="content"
       v-if="segment.content.length > 300"
@@ -41,10 +55,15 @@
     >
       {{ segment.content }}
     </p>
+
+    <button @click="expandSegment" class="readmore-button">Read More</button>
+    <br/>
+    <br/>
+      <button class = "fork-button"
+      @click="forkStory">Fork this segment!</button>
     <p class="info">
       Posted at {{ segment.datePublished }}
     </p>
-    <button @click="expandSegment" class="readmore-button">Read More</button>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -73,6 +92,50 @@ export default {
     };
   },
   methods: {
+    async likeStory() {
+      // set global variable
+      // push storyreader page into router
+
+      let message = this.segment.likes.includes(this.$store.state.userID) ? 'Unliked!' : 'Liked!';
+
+      const params = {
+        method: 'PATCH',
+        message: message,
+        body: JSON.stringify({segmentId: this.segment._id}),
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+
+      try {
+
+        const options = {
+          method: params.method, headers: {'Content-Type': 'application/json'}, body: params.body
+        };
+        const r = await fetch(`/api/segment/like`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+
+        this.editing = false;
+        this.$store.commit('refreshSegments');
+        this.$store.commit('refreshHomepageSegments');
+
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+    forkStory() {
+        /**
+        * Triggers forking a story (will open up new segment creation page).
+        */
+        this.$store.commit('updateForkingStory', this.segment);
+        this.$router.push('/newforkedstory');
+    },
     expandSegment() {
       /**
        * Triggers expanding the segment preview into a larger reader page that allows for forking and also displays children (if applicable)
@@ -208,13 +271,46 @@ header, header > * {
     background-color: #3e363f;
     color: #ddd;
 }
-
+.button-like {
+    border: 2px solid #3e363f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 14px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+}
+.button-like:hover {
+    background-color: #3e363f;
+    color: #ddd;
+}
+.fork-button {
+    margin: 0px;
+    padding: 4px;
+    border: 2px solid #3e363f;
+    font-size: 24px;
+    border-radius: 8px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    width: 324px;
+    max-width: 100%;
+    cursor: pointer;
+    color: #3e363f;
+    background-color: #50C878;
+}
+.fork-button:hover {
+    color: #ddd;
+    background-color: #3e363f;
+}
 .readmore-button {
     border: none;
     font-size: 20px;
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     cursor: pointer;
     color: #0047AB;
+}
+.like-containter {
+  display:flex;
+  justify-content: space-between;
 }
 .content {
 
