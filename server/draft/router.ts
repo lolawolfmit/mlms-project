@@ -20,7 +20,7 @@ const router = express.Router();
  */
 
 router.get(
-  '/',
+  '/:author?',
   [
     userValidator.isAuthorExists
   ],
@@ -51,7 +51,6 @@ router.post(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? "";
     const draft = await DraftCollection.addDraft(userId, req.body.content, req.body.storyTitle, req.body.segmentTitle, req.body.parent);
-    
     res.status(201).json({
       message: "Your draft has been created successfully.",
       draft: util.constructDraftResponse(draft)
@@ -73,7 +72,7 @@ router.patch(
         draftValidator.validDraftModifier
     ],
     async (req: Request, res: Response) => {
-        const draft= await DraftCollection.editDraftContent(req.params.itemForSaleId, req.body.content);
+        const draft= await DraftCollection.editDraftContent(req.params.draftId, req.body.content);
         res.status(200).json({
             message: 'Your draft content was updated successfully.',
             draft: util.constructDraftResponse(draft)

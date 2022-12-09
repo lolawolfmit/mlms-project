@@ -27,6 +27,7 @@ export default {
       this.$store.commit('setUserID', user ? user._id : null);
       this.$store.commit('refreshSegments');
       this.$store.commit('refreshHomepageSegments');
+      this.$store.commit('refreshDrafts');
     });
 
     // Clear alerts on page refresh

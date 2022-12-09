@@ -52,7 +52,7 @@ class DraftCollection {
    */
   static async getDraftsByAuthor(username: string): Promise<Array<HydratedDocument<Draft>>> {
     const author = await UserCollection.findOneByUsername(username);
-    return DraftModel.find({ authorId: author._id }).sort({ datePublished: -1 }).populate('authorId');
+    return DraftModel.find({ authorId: author._id }).sort({ lastModified: -1 }).populate('authorId');
   }
 
 
@@ -86,12 +86,12 @@ class DraftCollection {
 
 
   static async deleteDraft(draftId: Types.ObjectId | string): Promise<void>{
-    DraftModel.deleteOne({_id: draftId});
+    await DraftModel.deleteOne({_id: draftId});
   }
 
   static async publishDraft(draftId: Types.ObjectId | string): Promise<HydratedDocument<Segment>>{
     const draft = await this.getDraftByID(draftId);
-    const segment = SegmentCollection.addSegment(draft.authorId, draft.content, draft.storyTitle, draft.segmentTitle, draft.parent);
+    const segment = await SegmentCollection.addSegment(draft.authorId, draft.content, draft.storyTitle, draft.segmentTitle, draft.parent);
 
     await this.deleteDraft(draftId);
 

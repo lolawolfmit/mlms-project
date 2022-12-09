@@ -8,6 +8,7 @@ import NewStoryPage from './components/NewStory/NewStoryPage.vue';
 import NewForkedStoryPage from './components/NewForkedStory/NewForkedStoryPage.vue';
 import ReaderPage from './components/StoryReader/ReaderPage.vue';
 import Homepage from './components/Homepage/Homepage.vue';
+import DraftsPage from './components/Draft/DraftsPage.vue';
 import NotFound from './NotFound.vue';
 
 Vue.use(VueRouter);
@@ -20,6 +21,7 @@ const routes = [
   {path: '/newstory', name: 'NewStory', component: NewStoryPage},
   {path: '/newforkedstory', name: 'NewForkedStory', component: NewForkedStoryPage},
   {path: '/reader', name: 'ReaderPage', component: ReaderPage},
+  {path: '/drafts', name: 'DraftsPage', component: DraftsPage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 

@@ -26,6 +26,8 @@ const store = new Vuex.Store({
     currentlyReadingChildren: [], // children of the story segment currently being read
     storySegments: [], // ALL STORY SEGMENTS ON APP, DO NOT DELETE THIS OR MODIFY HOW IT IS POPULATED
     homepageSegments: [], // Story segments for displaying on the homepage
+    drafts: [], // drafts belonging to the user
+    nextRedirectForBlockFormTwoButtons: '', // the next page that should be redirected to after using BlockFormTwoButtons, helper variable
     alerts: {} // global success/error messages encountered during submissions to non-visible forms
   },
   actions: {
@@ -64,6 +66,13 @@ const store = new Vuex.Store({
        */
       state.filter = filter;
     },
+    updateNextRedirectForBlockFormTwoButtons(state, nextRedirect) {
+      /**
+       * Update the segments filter to the specified one.
+       * @param filter - Username or keyword to filter segments by
+       */
+      state.nextRedirectForBlockFormTwoButtons = nextRedirect;
+    },
     async refreshSegments(state) {
       /**
        * Request the server for the currently available segments
@@ -87,6 +96,14 @@ const store = new Vuex.Store({
         }
       }
       state.homepageSegments = res;
+    },
+    async refreshDrafts(state) {
+      /**
+       * Request the server for the currently available drafts by the logged in user
+       */
+       const url = `/api/drafts?author=${state.username}`;
+       const res = await fetch(url).then(async r => r.json());
+       state.drafts = res;
     },
     async refreshChildren(state, parent) {
       const url = `/api/segment/children?parentId=${parent}`;

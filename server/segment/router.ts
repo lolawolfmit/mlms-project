@@ -65,11 +65,7 @@ router.get(
   ],
   async (req: Request, res: Response) => {
     const children = await SegmentCollection.getChildren(req.query.parentId as string);
-    console.log("children");
-    console.log(children);
     const response = children.map(util.constructSegmentResponse);
-    console.log("response");
-    console.log(response);
     res.status(200).json(response);
   }
 )
