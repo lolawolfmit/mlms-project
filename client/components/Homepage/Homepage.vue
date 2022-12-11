@@ -8,7 +8,10 @@
       </header>
       <header>
         <div class="left">
-          <h3>
+          <h3 v-if="$store.state.homepageSegments.length <= 10">
+            You don't follow any authors yet. Below are some recommendations!
+          </h3>
+          <h3 v-else>
             Here are some stories you might like:
           </h3>
         </div>
@@ -26,7 +29,15 @@
         v-if="$store.state.homepageSegments.length"
       >
         <SegmentPreviewComponent
-          v-for="segment in $store.state.homepageSegments"
+          v-for="segment in $store.state.homepageSegments.slice(0, $store.state.homepageSegments.length - 10)"
+          :key="segment.id"
+          :segment="segment"
+        />
+        <h2>
+          Here are some of our recommendations for you to check out:
+        </h2>
+        <SegmentPreviewComponent
+          v-for="segment in $store.state.homepageSegments.slice($store.state.homepageSegments.length - 10)"
           :key="segment.id"
           :segment="segment"
         />

@@ -73,14 +73,20 @@ class SegmentCollection {
     const user = await UserCollection.findOneByUserId(userId);
     user.following.push(user);
     const segments = await SegmentModel.find({ authorId: { $in: user.following } }).sort({ datePublished: -1 }).populate('authorId');
+    const allRecommendations = await SegmentModel.find({ authorId: { $nin: user.following } }).sort({ datePublished: -1 }).populate('authorId');
+    // sort recommendations by number of likes (length of the likes array) in ascending order
+    allRecommendations.sort((a, b) => a.likes.length - b.likes.length);
+    // extract the first 5 and last 5 recommendations and put them into a new array
+    const recommendations = allRecommendations.slice(0, 5).concat(allRecommendations.slice(allRecommendations.length - 5, allRecommendations.length));
+
     if (!filter) {
-      return segments.slice(0, 20);
+      return segments.slice(0, 20).concat(recommendations);
     }
     else {
       const keywords = filter.split(",");
       const regexPattern = "^" + keywords.map(s => `(?=.*?\\b${s}\\b)`).join("") + "";
       const filtered_segments = segments.filter(segment => (segment.content + " " + segment.storyTitle + " " + segment.segmentTitle).match(regexPattern) !== null); 
-      return filtered_segments.slice(0, 20);
+      return filtered_segments.slice(0, 20).concat(recommendations);
     }
   }
 
