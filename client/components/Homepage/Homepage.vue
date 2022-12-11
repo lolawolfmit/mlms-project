@@ -3,12 +3,22 @@
 <template>
   <main>
     <section v-if="$store.state.username">
-      <header>
-        <h2>Welcome, {{ $store.state.username }}</h2>
-      </header>
+        <header>
+          <h2>Welcome, {{ $store.state.username }}</h2>
+        </header>
+        <input 
+          type="text"
+          v-model="username"
+          placeholder="👤 Search for a user"
+        />
+        <button
+          @click="searchUser"
+        >
+          Search
+        </button>
       <header>
         <div class="left">
-          <h3 v-if="$store.state.homepageSegments.length <= 10">
+          <h3 v-if="$store.state.following.length < 1 && $store.state.homepageSegments.length <= 10">
             You don't follow any authors yet. Below are some recommendations!
           </h3>
           <h3 v-else>
@@ -19,7 +29,7 @@
           <GetSegmentsForm
             ref="getSegmentsForm"
             value="author"
-            placeholder="🔍 Filter by keyword or author (optional)"
+            placeholder="🔍 Filter by keywords or author (optional)"
             button="Search"
           />
         </div>
@@ -66,7 +76,15 @@ export default {
     this.$refs.getSegmentsForm.submit();
   },
   methods: {
-  }
+    searchUser() {
+      this.$router.push(`/profile/` + this.username);
+    },
+  },
+  data() {
+    return {
+      username: '',
+    };
+  },
 };
 </script>
 

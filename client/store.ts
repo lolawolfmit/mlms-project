@@ -171,7 +171,7 @@ const store = new Vuex.Store({
 
       state.profileUser = username;
       const url = `/api/users/followers/${username}`;
-      const res = await fetch(url).then(async r => r.json())
+      const res = await fetch(url).then(async r => r.json());
       state.profileFollowerCount = res.length;
 
 
