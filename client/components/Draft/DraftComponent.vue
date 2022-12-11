@@ -6,16 +6,43 @@
     class="draftSegment"
   >
     <header>
-      <p
-        class="storyTitle"
-      >
-        Story Title: {{ draftSegment.storyTitle }}
-      </p>
-      <p
+
+      <div class = "header-split">
+        <h2 class="storyTitle">
+          {{ draftSegment.segmentTitle }}
+        </h2>
+        <div>
+
+          <button class = "button-side"
+            v-if="editing"
+            @click="submitEdit"
+          >
+            ✅ Save changes
+          </button>
+          <button class = "button-side"
+            v-if="editing"
+            @click="stopEditing"
+          >
+            🚫 Discard changes
+          </button>
+          <button class = "button-side"
+            v-if="!editing"
+            @click="startEditing"
+          >
+            ✏️ Edit
+          </button>
+          <button @click="deleteDraft" class = "button-side">
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+
+      <h1
         class="segmentTitle"
       >
-        Segment Title: {{ draftSegment.segmentTitle }}
-      </p>
+
+        Chapter {{draftSegment.storyPart}} of {{ draftSegment.storyTitle }}
+      </h1>
       <textarea
         v-if="editing"
         class="content"
@@ -31,29 +58,8 @@
       <div
         class="actions"
       >
-        <button
-          v-if="editing"
-          @click="submitEdit"
-        >
-          ✅ Save changes
-        </button>
-        <button
-          v-if="editing"
-          @click="stopEditing"
-        >
-          🚫 Discard changes
-        </button>
-        <button
-          v-if="!editing"
-          @click="startEditing"
-        >
-          ✏️ Edit
-        </button>
-        <button @click="deleteDraft">
-          🗑️ Delete
-        </button>
       </div>
-    <button @click="publishDraft">
+    <button @click="publishDraft" class = "form-button border-button">
         Publish
     </button>
     </header>
@@ -187,9 +193,50 @@ export default {
 </script>
 
 <style scoped>
+.button-side {
+    border: 2px solid #3e363f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 14px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+    background-color: #ddd;
+}
+.button-side:hover {
+    color: #ddd;
+    background-color: #3e363f;
+}
+.border-button {
+  border: 2px solid #3e363f;
+}
 .draftSegment {
-    border: 1px solid #111;
+    border: none;
     padding: 20px;
     position: relative;
+    background-color: #eee;
+    border-radius: 15px;
+}
+.header-split {
+  display: flex;
+  justify-content: space-between;
+}
+.content {
+  font-family: Helvetica,sans-serif;
+}
+
+h1 {
+  margin: 0px;
+  padding: 4px 0px;
+}
+h2 {
+  margin: 0px;
+  padding: 4px 0px;
+}
+textarea {
+   font-family: inherit;
+   font-size: inherit;
+   border: none;
+   border-radius: 4px;
 }
 </style>

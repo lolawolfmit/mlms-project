@@ -26,7 +26,12 @@
         <h3> {{ $store.state.profilePublicity }} publicity, {{ $store.state.profileStoryCount }}  stories, {{ $store.state.profileContributions }} contributions</h3>
 
       <button v-if="$route.params.username == $store.state.username" @click="newStoryPage" class="create-story-button">Create New Story</button>
-      <button v-if="$route.params.username == $store.state.username" @click="draftsPage">My Drafts</button>
+
+        </div>
+
+      <div class="stat-display">
+      <span/>
+        <button v-if="$route.params.username == $store.state.username" @click="draftsPage" class="drafts-button">My Drafts</button>
         </div>
 
         <section class="alerts">
@@ -199,5 +204,24 @@ section .scrollbox {
 .create-story-button:hover {
     color: #ddd;
     background-color: #3e363f;
+}
+
+.drafts-button {
+    margin: 4px;
+    border: 2px solid #3e363f;
+    font-size: 24px;
+    border-radius: 8px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    width: 324px;
+    max-width: 100%;
+    cursor: pointer;
+    color: #3e363f;
+    background-color: #ddd;
+}
+
+.drafts-button:hover {
+    color: #ddd;
+    background-color: #3e363f;
+
 }
 </style>
