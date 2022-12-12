@@ -6,16 +6,19 @@
         <header>
           <h2>Welcome, {{ $store.state.username }}</h2>
         </header>
+        <span>
         <input 
           type="text"
           v-model="username"
           placeholder="👤 Search for a user"
         />
-        <button
+        <button 
+        class="search-button"
           @click="searchUser"
         >
           Search
         </button>
+        </span
       <header>
         <div class="left">
           <h3 v-if="$store.state.following.length < 1 && $store.state.homepageSegments.length <= 10">
