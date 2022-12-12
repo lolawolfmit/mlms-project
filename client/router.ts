@@ -10,6 +10,7 @@ import ReaderPage from './components/StoryReader/ReaderPage.vue';
 import Homepage from './components/Homepage/Homepage.vue';
 import DraftsPage from './components/Draft/DraftsPage.vue';
 import NotFound from './NotFound.vue';
+import ProfileNotFound from './components/Profile/ProfileNotFound.vue';
 
 Vue.use(VueRouter);
 
@@ -22,7 +23,8 @@ const routes = [
   {path: '/newforkedstory', name: 'NewForkedStory', component: NewForkedStoryPage},
   {path: '/reader', name: 'ReaderPage', component: ReaderPage},
   {path: '/drafts', name: 'DraftsPage', component: DraftsPage},
-  {path: '*', name: 'Not Found', component: NotFound}
+  {path: '*', name: 'Not Found', component: NotFound},
+  {path: '/profilenotfound', name: 'ProfileNotFound', component: ProfileNotFound},
 ];
 
 const router = new VueRouter({routes});

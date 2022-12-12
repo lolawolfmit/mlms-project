@@ -80,7 +80,13 @@ export default {
   },
   methods: {
     searchUser() {
-      this.$router.push(`/profile/` + this.username);
+      this.$store.commit('loadProfile', this.username);
+      if (this.$store.state.profileFollowerCount) {
+        this.$router.push(`/profile/` + this.username);
+      }
+      else {
+        this.$router.push('/profilenotfound');
+      }
     },
   },
   data() {
