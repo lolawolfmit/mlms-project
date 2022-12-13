@@ -66,6 +66,13 @@ const store = new Vuex.Store({
        */
       state.filter = filter;
     },
+    updateProfileFollowerCount(state, count) {
+      /**
+       * Update the stored follower count to the specified one.
+       * @param count - new follower count to set
+       */
+      state.profileFollowerCount = count;
+    },
     updateNextRedirectForBlockFormTwoButtons(state, nextRedirect) {
       /**
        * Update the segments filter to the specified one.
@@ -168,7 +175,6 @@ const store = new Vuex.Store({
       if (!username) {
         return;
       }
-
       state.profileUser = username;
       const url = `/api/users/followers/${username}`;
       const res = await fetch(url).then(async r => r.json());

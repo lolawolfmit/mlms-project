@@ -79,14 +79,23 @@ export default {
     this.$refs.getSegmentsForm.submit();
   },
   methods: {
-    searchUser() {
-      this.$store.commit('loadProfile', this.username);
-      if (this.$store.state.profileFollowerCount) {
-        this.$router.push(`/profile/` + this.username);
+    async searchUser() {
+      fetch(`/api/users/followers/${this.username}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          this.$router.push(`/profile/` + this.username);
+        }
+        else if (response.status === 404) {
+          this.$router.push('/profilenotfound');
+        }
+      }).catch((error) => {
+        console.log(error);
       }
-      else {
-        this.$router.push('/profilenotfound');
-      }
+      );
     },
   },
   data() {
