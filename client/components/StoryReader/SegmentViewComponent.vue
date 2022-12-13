@@ -15,10 +15,13 @@
         <div class = "header-flex">
         <h1>by <router-link class = "author-link" :to="'/profile/'+this.$store.state.currentlyReading.author">{{ this.$store.state.currentlyReading.author }} </router-link>
 
+        <span v-if="this.$store.state.currentlyReading.author !== this.$store.state.username">
          <button v-if="this.$store.state.following.includes(this.$store.state.currentlyReading.author)"
         @click="followAuthor" class = "follow-button unfollow-button">Unfollow</button>
         <button v-else
-        @click="followAuthor" class = "follow-button">Follow</button></h3>
+        @click="followAuthor" class = "follow-button">Follow</button>
+        </span>
+        </h3>
         </h1>
         <span>
 

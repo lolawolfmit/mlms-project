@@ -22,10 +22,10 @@
       <header>
         <div class="left">
           <h3 v-if="$store.state.following.length < 1 && $store.state.homepageSegments.length <= 10">
-            You don't follow any authors yet. Below are some recommendations!
+            You don't follow any authors yet. Explore!
           </h3>
           <h3 v-else>
-            Here are some stories you might like:
+            Your feed:
           </h3>
         </div>
       <div class="right">

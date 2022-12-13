@@ -18,10 +18,12 @@
        <router-link :to = "'/profile/'+segment.author" class="profile-link">
        {{ segment.author }}
        </router-link>
+       <span v-if="segment.author !== this.$store.state.username">
         <button class = "follow-button unfollow-button" v-if="this.$store.state.following.includes(segment.author)"
         @click="followAuthor">Unfollow</button>
         <button class = "follow-button" v-else
         @click="followAuthor">Follow</button>
+      </span>
       </h1>
       </div>
     </header>
@@ -59,8 +61,6 @@
     <button @click="expandSegment" class="readmore-button">Read More</button>
     <br/>
     <br/>
-      <button class = "fork-button"
-      @click="forkStory">Fork this segment!</button>
     <p class="info">
       Posted at {{ segment.datePublished }}
     </p>
