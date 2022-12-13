@@ -6,9 +6,14 @@
     class="draftSegment"
   >
     <header>
-
       <div class = "header-split">
-        <h2 class="storyTitle">
+        <textarea
+          v-if="editing"
+          class="content"
+          :value="title"
+          @input="title = $event.target.value"
+        />
+        <h2 class="storyTitle" v-else>
           {{ draftSegment.segmentTitle }}
         </h2>
         <div>
@@ -36,9 +41,15 @@
           </button>
         </div>
       </div>
-
+      <h1 v-if="editing && draftSegment.storyPart == 1"> Chapter {{draftSegment.storyPart}} of
+      <textarea
+          class="content"
+          :value="titleOfStory"
+          @input="titleOfStory = $event.target.value"
+        /> </h1>
       <h1
         class="segmentTitle"
+        v-else
       >
 
         Chapter {{draftSegment.storyPart}} of {{ draftSegment.storyTitle }}
@@ -87,9 +98,11 @@ export default {
   },
   data() {
     return {
-      editing: false, // Whether or not this freet is in edit mode
-      draft: this.draftSegment.content, // Potentially-new content for this freet
-      alerts: {} // Displays success/error messages encountered during freet modification
+      editing: false, // Whether or not this draft is in edit mode
+      draft: this.draftSegment.content, // Potentially-new content for this draft segment
+      title: this.draftSegment.segmentTitle, // Potentially-new segment title for this draft segment
+      titleOfStory: this.draftSegment.storyTitle, // Potentially-new story title for this draft segment
+      alerts: {} // Displays success/error messages encountered during draft modification
     };
   },
   methods: {
@@ -99,6 +112,8 @@ export default {
        */
       this.editing = true; // Keeps track of if a freet is being edited
       this.draft = this.draftSegment.content; // The content of our current "draft" while being edited
+      this.title = this.draftSegment.segmentTitle;
+      this.titleOfStory = this.draftSegment.storyTitle;
     },
     stopEditing() {
       /**
@@ -106,6 +121,8 @@ export default {
        */
       this.editing = false;
       this.draft = this.draftSegment.content;
+      this.title = this.draftSegment.segmentTitle;
+      this.titleOfStory = this.draftSegment.storyTitle;
     },
     deleteDraft() {
       /**
@@ -148,7 +165,7 @@ export default {
       const params = {
         method: 'PATCH',
         message: 'Successfully edited draft!',
-        body: JSON.stringify({content: this.draft}),
+        body: JSON.stringify({content: this.draft, segmentTitle: this.title, storyTitle: this.titleOfStory}),
         callback: () => {
           this.$set(this.alerts, params.message, 'success');
           setTimeout(() => this.$delete(this.alerts, params.message), 3000);
