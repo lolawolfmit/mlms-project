@@ -53,7 +53,7 @@
 <style scoped>
 nav {
     padding: 1vw 2vw;
-    background-color: #50C878;
+    background-color: #84ABA9;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,21 +94,21 @@ img {
   background-color: #ddd;
   padding: 8px 16px;
   text-decoration: none;
-  color: #3e363f;
-  border: 2px solid #3e363f;
+  color: #05433F;
+  border: 2px solid #05433F;
   border-radius: 12px;
 }
 .invert-navbar-link {
   color: #ddd;
-  background-color: #3e363f;
+  background-color: #05433F;
 }
 .navbar-link:hover {
-  background-color: #90EE90;
-  color: #3e363f;
+  background-color: #D6E4D9;
+  color: #05433F;
 }
 .invert-navbar-link:hover {
-  background-color: #90EE90;
-  color: #3e363f;
+  background-color: #D6E4D9;
+  color: #05433F;
 }
 .icon-link {
   display:flex;

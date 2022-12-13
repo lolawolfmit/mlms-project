@@ -7,7 +7,7 @@
   >
     <header>
       <div class = "header-split">
-        <textarea
+        <input
           v-if="editing"
           class="content"
           :value="title"
@@ -252,7 +252,7 @@ h2 {
 }
 textarea {
    font-family: inherit;
-   font-size: inherit;
+   font-size: 14px;
    border: none;
    border-radius: 4px;
 }

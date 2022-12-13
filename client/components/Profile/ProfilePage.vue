@@ -14,7 +14,7 @@
           <h4 v-else>{{ $store.state.followers.length }} followers, {{ $store.state.following.length }} following</h4>
 
         <div v-if="$route.params.username != $store.state.username">
-          <button v-if="$store.state.following.includes($route.params.username)" class="follow-button"
+          <button v-if="$store.state.following.includes($route.params.username)" class="follow-button unfollow-button"
           @click="followAuthor">Unfollow</button>
           <button v-else class="follow-button"
           @click="followAuthor">Follow</button>
@@ -184,26 +184,39 @@ section .scrollbox {
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     cursor: pointer;
 }
+.follow-button {
+    border: 2px solid #3e363f;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 4px;
+    font-size: 14px;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
+    cursor: pointer;
+}
 .follow-button:hover {
-    background-color: #3e363f;
-    color: #ddd;
+    background-color: #D6E4D9;
+    color: #05433F;
+}
+.unfollow-button:hover {
+    background-color: #ffccbb;
+    color: #05433F;
 }
 .create-story-button {
     margin: 4px;
-    border: 2px solid #3e363f;
+    border: 2px solid #05433F;
     font-size: 24px;
     border-radius: 8px;
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     width: 324px;
     max-width: 100%;
     cursor: pointer;
-    color: #3e363f;
-    background-color: #50C878;
+    color: #05433F;
+    background-color: #84ABA9;
 }
 
 .create-story-button:hover {
     color: #ddd;
-    background-color: #3e363f;
+    background-color: #05433F;
 }
 
 .drafts-button {

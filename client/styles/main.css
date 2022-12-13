@@ -1,6 +1,6 @@
 :root {
     font-family: Futura,Trebuchet MS,Arial,sans-serif; 
-    color: #3e363f;
+    color: #05433F;
     background-color: #ddd;
 } 
 
@@ -17,9 +17,10 @@ form {
     width: 400px;
     max-width: 100%;
     cursor: pointer;
+    color: #05433F;
 }
 .form-button:hover {
-    background-color: #3e363f;
+    background-color: #05433F;
     color: #ddd;
 }
 
@@ -31,6 +32,7 @@ form {
     font-size: 18px;
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     cursor: pointer;
+    color: #05433F;
 }
 .search-button {
     border: 0px;
@@ -40,13 +42,14 @@ form {
     font-size: 18px;
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     cursor: pointer;
+    color: #05433F;
 }
 .inline-form-button:hover {
-    background-color: #3e363f;
+    background-color: #05433F;
     color: #ddd;
 }
 .search-button:hover {
-    background-color: #3e363f;
+    background-color: #05433F;
     color: #ddd;
 }
 

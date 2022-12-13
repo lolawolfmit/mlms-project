@@ -66,15 +66,15 @@ button {
     background-color: #ddd;
     padding: 8px 16px;
     text-decoration: none;
-    color: #3e363f;
-    border: 2px solid #3e363f;
+    color: #05433F;
+    border: 2px solid #05433F;
     border-radius: 12px;
     width: 240px;
     max-width: 100%;
 }
 .previous-button:hover {
 
-    background-color: #3e363f;
+    background-color: #05433F;
     color: #ddd;
 }
 

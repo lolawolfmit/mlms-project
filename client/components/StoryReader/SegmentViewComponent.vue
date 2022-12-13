@@ -16,7 +16,7 @@
         <h1>by <router-link class = "author-link" :to="'/profile/'+this.$store.state.currentlyReading.author">{{ this.$store.state.currentlyReading.author }} </router-link>
 
          <button v-if="this.$store.state.following.includes(this.$store.state.currentlyReading.author)"
-        @click="followAuthor" class = "follow-button">Unfollow</button>
+        @click="followAuthor" class = "follow-button unfollow-button">Unfollow</button>
         <button v-else
         @click="followAuthor" class = "follow-button">Follow</button></h3>
         </h1>
@@ -248,15 +248,18 @@ export default {
     font-size: 14px;
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     cursor: pointer;
-    background-color: #ddd;
 }
 .follow-button:hover {
-    background-color: #3e363f;
-    color: #ddd;
+    background-color: #D6E4D9;
+    color: #05433F;
+}
+.unfollow-button:hover {
+    background-color: #ffccbb;
+    color: #05433F;
 }
 .author-link {
   text-decoration: none;
-  color: #0047AB;
+  color: #84ABA9;
 }
 .author {
 }
@@ -276,7 +279,7 @@ h3 {
   font-family: Helvetica,sans-serif;
 }
 .button-like {
-    border: 2px solid #3e363f;
+    border: 2px solid #05433F;
     padding: 8px 16px;
     border-radius: 8px;
     margin: 4px;
@@ -286,7 +289,7 @@ h3 {
     background-color: #ddd;
 }
 .button-like:hover {
-    background-color: #3e363f;
+    background-color: #05433F;
     color: #ddd;
 }
 .fork-button {
@@ -299,12 +302,12 @@ h3 {
     width: 324px;
     max-width: 100%;
     cursor: pointer;
-    color: #3e363f;
-    background-color: #50C878;
+    color: #05433F;
+    background-color: #84ABA9;
 }
 .fork-button:hover {
     color: #ddd;
-    background-color: #3e363f;
+    background-color: #05433F;
 }
 .header-flex {
   display: flex;

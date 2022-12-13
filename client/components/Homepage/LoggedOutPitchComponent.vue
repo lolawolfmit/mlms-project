@@ -33,6 +33,6 @@ export default {
 
 .login-link {
   text-decoration: none;
-  color: #0047AB;
+  color: #84ABA9;
 }
 </style>

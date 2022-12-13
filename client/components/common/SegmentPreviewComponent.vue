@@ -264,15 +264,15 @@ header, header > * {
     cursor: pointer;
 }
 .follow-button:hover {
-    background-color: #50C878;
-    color: #3e363f;
+    background-color: #D6E4D9;
+    color: #05433F;
 }
 .unfollow-button:hover {
-    background-color: #AA4A44;
-    color: #3e363f;
+    background-color: #ffccbb;
+    color: #05433F;
 }
 .button-like {
-    border: 2px solid #3e363f;
+    border: 2px solid #05433F;
     padding: 8px 16px;
     border-radius: 8px;
     margin: 4px;
@@ -281,7 +281,7 @@ header, header > * {
     cursor: pointer;
 }
 .button-like:hover {
-    background-color: #3e363f;
+    background-color: #05433F;
     color: #ddd;
 }
 .fork-button {
@@ -294,26 +294,26 @@ header, header > * {
     width: 324px;
     max-width: 100%;
     cursor: pointer;
-    color: #3e363f;
-    background-color: #50C878;
+    color: #05433F;
+    background-color: #84ABA9;
 }
 .fork-button:hover {
     color: #ddd;
-    background-color: #3e363f;
+    background-color: #05433F;
 }
 .readmore-button {
     margin: 0px;
     padding: 8px;
-    border: 2px solid #3e363f;
+    border: 2px solid #05433F;
     border-radius: 8px;
     font-size: 20px;
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
     cursor: pointer;
-    color: #3e363f;
+    color: #05433F;
 }
 .readmore-button:hover {
     color: #ddd;
-    background-color: #3e363f;
+    background-color: #05433F;
 }
 .like-containter {
   display:flex;
@@ -329,6 +329,6 @@ header, header > * {
 }
 .profile-link {
   text-decoration: none;
-  color: #0047AB;
+  color: #84ABA9;
 }
 </style>
