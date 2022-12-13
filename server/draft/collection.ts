@@ -85,6 +85,18 @@ class DraftCollection {
   }
 
 
+  static async editDraft(draftId: Types.ObjectId | string, segmentTitle: string, storyTitle: string, content: string): Promise<HydratedDocument<Draft>>{
+    const draft = await this.getDraftByID(draftId);
+    draft.segmentTitle = segmentTitle;
+    draft.storyTitle = storyTitle;
+    draft.content = content;
+    draft.lastModified = new Date();
+
+    draft.save();
+    return draft;
+  }
+
+
   static async deleteDraft(draftId: Types.ObjectId | string): Promise<void>{
     await DraftModel.deleteOne({_id: draftId});
   }

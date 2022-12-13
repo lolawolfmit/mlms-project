@@ -61,18 +61,24 @@ router.post(
 
 
 //PATCH draft
+/**
+ * @name PATCH /api/drafts/:id
+ * 
+ * edit draft segmentTitle, content, and storyTitle
+ * @returns {SegmentResponse} - The newly edited segment
+ * @throws {400} - If the content is empty
+ * @throws {403} - If the user is not logged in
+ * 
+ */
 router.patch(
     '/:draftId?',
-    async (req: Request, res: Response, next: NextFunction) => {
-        if (req.body.segmentTitle || req.body.storyTitle) next('route');
-        else next();
-    },
     [
         userValidator.isUserLoggedIn,
         draftValidator.validDraftModifier
     ],
     async (req: Request, res: Response) => {
-        const draft= await DraftCollection.editDraftContent(req.params.draftId, req.body.content);
+        const draft= await DraftCollection.editDraft(req.params.draftId, req.body.segmentTitle, req.body.storyTitle, req.body.content);
+
         res.status(200).json({
             message: 'Your draft content was updated successfully.',
             draft: util.constructDraftResponse(draft)
@@ -81,40 +87,40 @@ router.patch(
 );
   
   
-router.patch(
-    '/:draftId?',
-    async (req: Request, res: Response, next: NextFunction) => {
-        if (req.body.segmentTitle) next('route');
-        else next();
-    },
-    [
-        userValidator.isUserLoggedIn,
-        draftValidator.validDraftModifier
-    ],
-    async (req: Request, res: Response, next: NextFunction) => {
-        const draft = await DraftCollection.editDraftStoryTitle(req.params.draftId, req.body.storyTitle);
-        res.status(200).json({
-            message: 'Your segment Title was updated successfully.',
-            draft: util.constructDraftResponse(draft)
-        });
-    }
-);
+// router.patch(
+//     '/:draftId?',
+//     async (req: Request, res: Response, next: NextFunction) => {
+//         if (req.body.segmentTitle) next('route');
+//         else next();
+//     },
+//     [
+//         userValidator.isUserLoggedIn,
+//         draftValidator.validDraftModifier
+//     ],
+//     async (req: Request, res: Response, next: NextFunction) => {
+//         const draft = await DraftCollection.editDraftStoryTitle(req.params.draftId, req.body.storyTitle);
+//         res.status(200).json({
+//             message: 'Your segment Title was updated successfully.',
+//             draft: util.constructDraftResponse(draft)
+//         });
+//     }
+// );
   
-//edit segmentTitle
-router.patch(
-    '/:draftId?',
-    [
-        userValidator.isUserLoggedIn,
-        draftValidator.validDraftModifier
-    ],
-    async (req: Request, res: Response, next: NextFunction) => {
-    const draft = await DraftCollection.editDraftSegmentTitle(req.params.draftId, req.body.segmentTitle);
-    res.status(200).json({
-        message: 'Your story title was updated successfully.',
-        draft: util.constructDraftResponse(draft)
-    });
-    }
-);
+// //edit segmentTitle
+// router.patch(
+//     '/:draftId?',
+//     [
+//         userValidator.isUserLoggedIn,
+//         draftValidator.validDraftModifier
+//     ],
+//     async (req: Request, res: Response, next: NextFunction) => {
+//     const draft = await DraftCollection.editDraftSegmentTitle(req.params.draftId, req.body.segmentTitle);
+//     res.status(200).json({
+//         message: 'Your story title was updated successfully.',
+//         draft: util.constructDraftResponse(draft)
+//     });
+//     }
+// );
 
 
 /**
