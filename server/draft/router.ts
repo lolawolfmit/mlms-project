@@ -86,42 +86,6 @@ router.patch(
     }
 );
   
-  
-// router.patch(
-//     '/:draftId?',
-//     async (req: Request, res: Response, next: NextFunction) => {
-//         if (req.body.segmentTitle) next('route');
-//         else next();
-//     },
-//     [
-//         userValidator.isUserLoggedIn,
-//         draftValidator.validDraftModifier
-//     ],
-//     async (req: Request, res: Response, next: NextFunction) => {
-//         const draft = await DraftCollection.editDraftStoryTitle(req.params.draftId, req.body.storyTitle);
-//         res.status(200).json({
-//             message: 'Your segment Title was updated successfully.',
-//             draft: util.constructDraftResponse(draft)
-//         });
-//     }
-// );
-  
-// //edit segmentTitle
-// router.patch(
-//     '/:draftId?',
-//     [
-//         userValidator.isUserLoggedIn,
-//         draftValidator.validDraftModifier
-//     ],
-//     async (req: Request, res: Response, next: NextFunction) => {
-//     const draft = await DraftCollection.editDraftSegmentTitle(req.params.draftId, req.body.segmentTitle);
-//     res.status(200).json({
-//         message: 'Your story title was updated successfully.',
-//         draft: util.constructDraftResponse(draft)
-//     });
-//     }
-// );
-
 
 /**
  * Delete a draft

@@ -20,6 +20,10 @@ const draftExists = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
+/**
+ * 
+ * check if req.session.userId is author of req.params.draftId
+ */
 const validDraftModifier = async (req: Request, res: Response, next: NextFunction) => {
   const draft = await DraftCollection.getDraftByID(req.params.draftId);
   const author = await UserCollection.findOneByUserId(draft.authorId._id);
