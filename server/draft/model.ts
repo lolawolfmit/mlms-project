@@ -45,17 +45,17 @@ const DraftSchema = new Schema<Draft>({
     type: String,
     required: true
   },
-  // The title of the segment
+  // The title of the draft
   segmentTitle: {
     type: String,
     required: true
   },
-  // The content of the story segment
+  // The content of the draft segment
   content: {
     type: String,
     required: true
   },
-  // The parent of the segment
+  // The parent of the draft
   parent: {
     type: Schema.Types.ObjectId,
     required: false
