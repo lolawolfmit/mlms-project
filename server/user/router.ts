@@ -276,6 +276,25 @@ router.get(
   }
 );
 
+
+/**
+ *
+ * @name GET /api/users/existence/:user
+ *
+ * @return - users' publicity
+ * 
+ * @throws {405} - user doesn’t exist/was deleted
+ */
+ router.get(
+  '/existence/:user?',
+  [
+    userValidator.isUserExists
+  ],
+  async (req: Request, res: Response) => {
+    res.status(200).json({message: "User Exists"});
+  }
+);
+
 /**
  *
  * @name PATCH /api/users/publicity/increment/:user
