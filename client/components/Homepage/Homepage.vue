@@ -19,6 +19,8 @@
         </button>
         </span>
         </header>
+        <div class="gray-box">
+        </div>
       <header>
         <div class="left">
           <h3 v-if="$store.state.following.length < 1 && $store.state.homepageSegments.length <= 10">
@@ -114,7 +116,12 @@ section {
 .search-button {
   margin: 4px;
 }
+.gray-box {
+  padding: 1%;
+}
+
 header, header > * {
+    padding: 1%;
     display: flex;
     justify-content: space-between;
     align-items: center;
