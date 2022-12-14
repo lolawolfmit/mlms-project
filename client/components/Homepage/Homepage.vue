@@ -9,7 +9,7 @@
         <input 
           type="text"
           v-model="username"
-          placeholder="👤 Search for a user"
+          placeholder="👤 Search for a user (case sensitive)"
         />
         <button 
         class="search-button"
@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     async searchUser() {
-      fetch(`/api/users/followers/${this.username}`, {
+      fetch(`/api/users/existence/${this.username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
