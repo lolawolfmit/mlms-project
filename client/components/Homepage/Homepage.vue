@@ -32,7 +32,7 @@
           <GetSegmentsForm
             ref="getSegmentsForm"
             value="author"
-            placeholder="🔍 Filter by keywords or author (optional)"
+            placeholder="🔍 Filter feed by keyword (optional)"
             button="Search"
           />
         </div>
