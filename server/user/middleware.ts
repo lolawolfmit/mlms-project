@@ -205,6 +205,30 @@ const isAuthorExists = async (req: Request, res: Response, next: NextFunction) =
   }
 
   next();
+
+};
+
+  const isUserExistsCaseSensitive = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.params.user) {
+      res.status(400).json({
+        error: 'Provided userId must be nonempty.'
+      });
+      return;
+    }
+  
+    const user = await UserCollection.findOneByUsername(req.params.user as string);
+    //console.log("made it right before if statement");
+    if (!user || user.deletedStatus || user.username !== req.params.user) {
+      //console.log("deteStatus");
+      //console.log(user.deletedStatus);
+      res.status(404).json({
+        error: `A user with username ${req.params.user as string} does not exist.`
+      });
+      return;
+    }
+  
+    next();
+
 };
 
 export {
@@ -217,5 +241,6 @@ export {
   isValidUsername,
   isValidPassword,
   isValidFollowee,
-  isUserExists
+  isUserExists,
+  isUserExistsCaseSensitive
 };
