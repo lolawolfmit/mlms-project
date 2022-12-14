@@ -288,7 +288,7 @@ router.get(
  router.get(
   '/existence/:user?',
   [
-    userValidator.isUserExists
+    userValidator.isUserExistsCaseSensitive
   ],
   async (req: Request, res: Response) => {
     res.status(200).json({message: "User Exists"});
