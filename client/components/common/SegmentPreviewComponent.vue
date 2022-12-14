@@ -1,5 +1,4 @@
 <!-- Reusable component representing a single preview of a segment and its actions -->
-<!-- THIS COMPONENT IS DEPRECATED AND WILL BE REMOVED -->
 <!-- see /components/Profile/SegmentPreviewComponent instead -->
 
 <template>
@@ -29,7 +28,7 @@
     </header>
       <header>
       <h1 class="author">
-        Chapter {{segment.storyPart}} of {{ segment.storyTitle }}
+        Part {{segment.storyPart}} of {{ segment.storyTitle }}
       </h1>
 
     <div class = "like-container">

@@ -41,7 +41,7 @@
           </button>
         </div>
       </div>
-      <h1 v-if="editing && draftSegment.storyPart == 1"> Chapter {{draftSegment.storyPart}} of
+      <h1 v-if="editing && draftSegment.storyPart == 1"> Part {{draftSegment.storyPart}} of
       <textarea
           class="content"
           :value="titleOfStory"
@@ -52,7 +52,7 @@
         v-else
       >
 
-        Chapter {{draftSegment.storyPart}} of {{ draftSegment.storyTitle }}
+        Part {{draftSegment.storyPart}} of {{ draftSegment.storyTitle }}
       </h1>
       <textarea
         v-if="editing"
