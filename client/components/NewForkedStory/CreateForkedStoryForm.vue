@@ -22,7 +22,7 @@ export default {
       ],
       title: 'Continue the Story',
       otherTitle: 'Save as Draft',
-      redirectFirst: '/', // if you click first button, it will push this to router after fetching
+      redirectFirst: `/profile/${this.$store.state.username}`, // if you click first button, it will push this to router after fetching
       redirectOther: '/drafts', // if you click second button, it will push this to router after fetching
       callback: () => {
         const message = 'Successfully created your story segment!';

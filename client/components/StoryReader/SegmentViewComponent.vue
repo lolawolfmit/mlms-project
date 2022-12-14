@@ -25,7 +25,7 @@
         </h1>
         <span>
 
-        {{ this.$store.state.currentlyReading.likes.length }} likes
+        {{ this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id).likes.length }} likes
         <button class = "button-like" v-if="this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id).likes.includes(this.$store.state.userID)"
         @click="likeStory">Unlike</button>
         <button class = "button-like" v-else
@@ -73,9 +73,11 @@ export default {
       // set global variable
       // push storyreader page into router
 
+      let message = this.$store.state.following.includes(this.$store.state.currentlyReading.author) ? 'No longer following!' : 'Following!';
+
       const params = {
         method: 'PATCH',
-        message: 'Following!',
+        message: message,
         body: JSON.stringify({}),
         callback: () => {
           this.$set(this.alerts, params.message, 'success');
@@ -115,7 +117,6 @@ export default {
       // push storyreader page into router
 
       let message = this.$store.state.currentlyReading.likes.includes(this.$store.state.userID) ? 'Unliked!' : 'Liked!';
-
       const params = {
         method: 'PATCH',
         message: message,
@@ -132,6 +133,7 @@ export default {
           method: params.method, headers: {'Content-Type': 'application/json'}, body: params.body
         };
         const r = await fetch(`/api/segment/like`, options);
+        console.log(r);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -139,8 +141,13 @@ export default {
 
         this.editing = false;
         this.$store.commit('refreshSegments');
+        console.log("hello");
+        console.log(this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id));
         this.$store.commit('refreshHomepageSegments');
+        console.log("hi");
+        console.log(this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id));
         const targetSegment = this.$store.state.storySegments.find(s => s._id === this.$store.state.currentlyReading._id);
+        console.log(targetSegment);
         this.$store.commit('updateCurrentlyReading', targetSegment);
 
         params.callback();

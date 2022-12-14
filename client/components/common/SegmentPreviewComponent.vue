@@ -92,12 +92,57 @@ export default {
     };
   },
   methods: {
+    expandSegment() {
+      /**
+       * Triggers expanding the segment preview into a larger reader page that allows for forking and also displays children (if applicable)
+       */
+      this.$store.state.currentlyReading = this.segment;
+      this.$store.commit('refreshChildren', this.segment._id);
+      this.$router.push('/reader');
+    },
+    async followAuthor() {
+      // set global variable
+      // push storyreader page into router
+      let message = this.$store.state.following.includes(this.segment.author) ? 'No longer following!' : 'Following!';
+      const params = {
+        method: 'PATCH',
+        message: message,
+        body: JSON.stringify({}),
+        callback: () => {
+          this.$set(this.alerts, params.message, 'success');
+          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+        }
+      };
+      try {
+        const options = {
+          method: params.method, headers: {'Content-Type': 'application/json'}
+        };
+        const r = await fetch(`/api/users/follow/${this.segment.author}`, options);
+        if (!r.ok) {
+          const res = await r.json();
+          throw new Error(res.error);
+        }
+        this.editing = false;
+        this.$store.commit('refreshFollowing');
+        this.$store.commit('refreshSegments');
+        this.$store.commit('refreshHomepageSegments');
+        this.$store.commit('loadProfile', this.$store.state.profileUser);
+        params.callback();
+      } catch (e) {
+        this.$set(this.alerts, e, 'error');
+        setTimeout(() => this.$delete(this.alerts, e), 3000);
+      }
+    },
+    forkStory() {
+      /**
+       * Triggers forking a story.
+       */
+        this.$store.commit('updateForkingStory', this.segment._id);
+    },
     async likeStory() {
       // set global variable
       // push storyreader page into router
-
       let message = this.segment.likes.includes(this.$store.state.userID) ? 'Unliked!' : 'Liked!';
-
       const params = {
         method: 'PATCH',
         message: message,
@@ -107,9 +152,7 @@ export default {
           setTimeout(() => this.$delete(this.alerts, params.message), 3000);
         }
       };
-
       try {
-
         const options = {
           method: params.method, headers: {'Content-Type': 'application/json'}, body: params.body
         };
@@ -118,59 +161,9 @@ export default {
           const res = await r.json();
           throw new Error(res.error);
         }
-
         this.editing = false;
         this.$store.commit('refreshSegments');
         this.$store.commit('refreshHomepageSegments');
-
-        params.callback();
-      } catch (e) {
-        this.$set(this.alerts, e, 'error');
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
-      }
-    },
-    forkStory() {
-        /**
-        * Triggers forking a story (will open up new segment creation page).
-        */
-        this.$store.commit('updateForkingStory', this.segment);
-        this.$router.push('/newforkedstory');
-    },
-    expandSegment() {
-      /**
-       * Triggers expanding the segment preview into a larger reader page that allows for forking and also displays children (if applicable)
-       */
-      this.$store.state.currentlyReading = this.segment;
-      this.$store.commit('refreshChildren', this.segment._id);
-      this.$router.push('/reader');
-    },
-
-    async followAuthor() {
-
-      const params = {
-        method: 'PATCH',
-        message: 'Following!',
-        body: JSON.stringify({}),
-        callback: () => {
-          this.$set(this.alerts, params.message, 'success');
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
-        }
-      };
-
-      try {
-
-        const options = {
-          method: params.method, headers: {'Content-Type': 'application/json'}
-        };
-        const r = await fetch(`/api/users/follow/${this.segment.author}`, options);
-        if (!r.ok) {
-          const res = await r.json();
-          throw new Error(res.error);
-        }
-
-        this.editing = false;
-        this.$store.commit('refreshFollowing');
-
         params.callback();
       } catch (e) {
         this.$set(this.alerts, e, 'error');
@@ -187,7 +180,6 @@ export default {
         setTimeout(() => this.$delete(this.alerts, error), 3000);
         return;
       }
-
       const params = {
         method: 'PATCH',
         message: 'Successfully edited freet!',
@@ -212,17 +204,14 @@ export default {
       if (params.body) {
         options.body = params.body;
       }
-
       try {
         const r = await fetch(`/api/freets/${this.freet._id}`, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
         }
-
         this.editing = false;
         this.$store.commit('refreshFreets');
-
         params.callback();
       } catch (e) {
         this.$set(this.alerts, e, 'error');
