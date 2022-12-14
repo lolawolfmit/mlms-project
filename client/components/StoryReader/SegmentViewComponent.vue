@@ -35,7 +35,7 @@
         <div class="header-flex">
 
           <button class = "fork-button"
-          @click="forkStory">Fork this segment!</button>
+          @click="forkStory">Branch off this part!</button>
         </div>
         </span>
     </header>
