@@ -5,7 +5,6 @@
     <section v-if="$store.state.username">
         <header>
           <h2>Welcome, {{ $store.state.username }}</h2>
-        </header>
         <span>
         <input 
           type="text"
@@ -18,7 +17,8 @@
         >
           Search
         </button>
-        </span
+        </span>
+        </header>
       <header>
         <div class="left">
           <h3 v-if="$store.state.following.length < 1 && $store.state.homepageSegments.length <= 10">
@@ -111,7 +111,9 @@ section {
   display: flex;
   flex-direction: column;
 }
-
+.search-button {
+  margin: 4px;
+}
 header, header > * {
     display: flex;
     justify-content: space-between;
